@@ -1,0 +1,68 @@
+
+x-tabbox, x-tabs, x-tab {
+	display: box;
+	display: -ms-box;
+	display: -moz-box;
+	display: -webkit-box;
+}
+
+x-tabbox, x-panels, x-panel {
+	box-orient: vertical;
+	-ms-box-orient: vertical;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+}
+
+x-tab {
+	cursor: default;
+}
+
+x-tab[selected="true"] {
+	text-decoration: underline;
+}
+
+x-tabbox x-panel {
+	display: none;
+}
+
+x-tabbox x-panel[selected="true"] {
+	display: box;
+	display: -ms-box;
+	display: -moz-box;
+	display: -webkit-box;
+}
+
+x-tabbox[tab-orient="left"], x-tabbox[tab-orient="right"] {
+	box-orient: horizontal;
+	-ms-box-orient: horizontal;
+	-moz-box-orient: horizontal;
+	-webkit-box-orient: horizontal;
+}
+
+x-tabbox[tab-orient="bottom"] {
+	box-direction: reverse;
+	-ms-box-direction: reverse;
+	-moz-box-direction: reverse;
+	-webkit-box-direction: reverse;
+}
+
+x-tabbox[tab-orient="left"] x-tabs,
+x-tabbox[tab-orient="right"] x-tabs,
+x-tabbox[tab-orient="left"] x-panels,
+x-tabbox[tab-orient="right"] x-panels {
+	box-flex: 1;
+	-ms-box-flex: 1;
+	-moz-box-flex: 1;
+	-webkit-box-flex: 1;
+	box-orient: vertical;
+	-ms-box-orient: vertical;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+}
+
+x-tabbox[tab-orient="right"] {
+	box-direction: reverse;
+	-ms-box-direction: reverse;
+	-moz-box-direction: reverse;
+	-webkit-box-direction: reverse;
+}

@@ -1,0 +1,30 @@
+
+x-accordion {
+	display: box;
+	display: -ms-box;
+	display: -moz-box;
+	display: -webkit-box;
+	box-orient: vertical;
+	-ms-box-orient: vertical;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+}
+
+x-toggler {
+	cursor: default;
+}
+
+x-toggler[selected="true"] {
+	text-decoration: underline;
+}
+
+x-accordion x-panel {
+	display: none;
+}
+
+x-toggler[selected="true"] + x-panel {
+	display: box;
+	display: -ms-box;
+	display: -moz-box;
+	display: -webkit-box;
+}
