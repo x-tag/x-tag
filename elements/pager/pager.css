@@ -19,4 +19,16 @@ x-pager .prev, x-pager .next{
 }
 x-pager[data-prevnext="true"] a.prev, x-pager[data-prevnext="true"] a.next{
 	display: inline;
-} 
+}
+x-pager[data-hidefirst="true"] a.first{
+	display:none;
+}
+x-pager[data-hidelast="true"] a.last{
+	display:none;
+}
+x-pager[data-hideprev="true"] a.prev{
+	display:none;
+}
+x-pager[data-hidenext="true"] a.next{
+	display:none;
+}

@@ -15,7 +15,7 @@ xtag.register('pager', {
 */
           setters:{
             'data-current-page': function(v){
-              console.log("page changed",v);
+              console.log("page changed",v, this);              
             }
           },
           onCreate: function(){
@@ -65,27 +65,11 @@ xtag.register('pager', {
                 var item = createPageItem(i, selected);
                 this.insertBefore(item, this.children[this.children.length-2]);                
             }
-
-            if(firstlast && current_page == 1){
-              this.children[0].style.display = "none";
-            }else{
-              //this.children[0].removeAttributeNode("style");
-            }
-            if(firstlast && current_page == pages){
-              this.children[this.children.length-1].style.display = "none";
-            }else{
-              //this.children[this.children.length-1].removeAttributeNode("style");
-            }
-            if(nextprevious && current_page == 1){
-              this.children[1].style.display = "none";
-            }else{
-              //this.children[1].removeAttributeNode("style");
-            }
-            if(nextprevious && current_page == pages){              
-              this.children[this.children.length-2].style.display = "none";
-            }else{
-              //this.children[this.children.length-2].removeAttributeNode("style");
-            }
+            
+            this.setAttribute('data-hidefirst', firstlast && current_page == 1);
+            this.setAttribute('data-hidelast', firstlast && current_page == pages);
+            this.setAttribute('data-hideprev', nextprevious && current_page == 1);
+            this.setAttribute('data-hidelast', nextprevious && current_page == pages);
 
           }
       });
