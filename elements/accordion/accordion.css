@@ -22,7 +22,7 @@ x-accordion x-panel {
 	display: none;
 }
 
-x-toggler[selected="true"] + x-panel {
+x-accordion x-toggler[selected="true"] + x-panel {
 	display: box;
 	display: -ms-box;
 	display: -moz-box;
