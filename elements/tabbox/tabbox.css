@@ -1,5 +1,5 @@
 
-x-tabbox, x-tabs, x-tab {
+x-tabbox, x-tabs, x-tab, x-panels {
 	display: box;
 	display: -ms-box;
 	display: -moz-box;
