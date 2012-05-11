@@ -6,11 +6,18 @@ x-tabbox, x-tabs, x-tab, x-panels {
 	display: -webkit-box;
 }
 
-x-tabbox, x-panels, x-panel {
+x-tabbox, x-panels, x-tabbox x-panel {
 	box-orient: vertical;
 	-ms-box-orient: vertical;
 	-moz-box-orient: vertical;
 	-webkit-box-orient: vertical;
+}
+
+x-tabs, x-tab, x-panels {
+	box-flex: 0;
+	-ms-box-flex: 0;
+	-moz-box-flex: 0;
+	-webkit-box-flex: 0;
 }
 
 x-tab {
