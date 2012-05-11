@@ -9,135 +9,23 @@
 		
 		<link rel="stylesheet" type="text/css" href="demo/css/reset.css" />
 		<link rel="stylesheet" type="text/css" href="demo/css/global.css"/>
+		<link rel="stylesheet" type="text/css" href="elements/tabbox/tabbox.css"/>
+		<link rel="stylesheet" type="text/css" href="elements/accordion/accordion.css"/>
 		<script type="text/javascript" src="x-tag.js"></script>
-		<script type="text/javascript">
-		
-			xtag.register('tabbox', {
-				onCreate: function(){
-					console.log('created', this);
-				},
-				onInsert: function(){
-					console.log('inserted', this);
-				},
-				events: {
-					'click:delegate(x-tab)': function(event){
-						this.xtag.selectTab();
-					},
-					'keydown:delegate(x-tab)': function(event){
-						switch(event.keyCode) {
-							case 13: this.xtag.selectTab(); break;
-							case 37: this.parentNode.xtag.previousTab(); break;
-							case 39: this.parentNode.xtag.nextTab(); break;
-						}
-					}
-				}
-			});
-			
-			xtag.register('tab', {
-				onCreate: function(){
-					console.log('created', this);
-					
-				},
-				onInsert: function(){
-					console.log('inserted', this);
-					xtag.query(this.parentNode, 'x-tab').forEach(function(tab, index){
-						tab.setAttribute('tabindex', index + 1);
-					});
-				},
-				methods: {
-					selectTab: function(){
-						this.focus();
-						var tab = this,
-							tabs = xtag.query(this.parentNode, 'x-tab'),
-							tabpanels = xtag.query(this.parentNode.nextElementSibling, 'x-panel'),
-							index = tabs.indexOf(this);
-						tabs.forEach(function(el){
-							el.setAttribute('selected', el == tab ? true : '');
-						});
-						tabpanels.forEach(function(el){
-							el.setAttribute('selected', el == tabpanels[index] ? true : '');
-						});
-					}
-				}
-			});
-			
-			xtag.register('tabs', {
-				onCreate: function(){
-					console.log('created', this);
-				},
-				onInsert: function(){
-					console.log('inserted', this);
-				},
-				methods: {
-					getSelectedIndex: function(){
-						var tabs = xtag.query(this, 'x-tab');
-						return tabs.indexOf(xtag.query(this, 'x-tab[selected="true"]')[0]);
-					},
-					getSelectedTab: function(){
-						return xtag.query(this, 'x-tab[selected="true"]')[0];
-					},
-					nextTab: function(){
-						var tab = this.xtag.getSelectedTab();
-						(tab.nextElementSibling || tab.parentNode.firstElementChild).xtag.selectTab();
-					},
-					previousTab: function(){
-						var tab = this.xtag.getSelectedTab();
-						(tab.previousElementSibling || tab.parentNode.lastElementChild).xtag.selectTab();
-					}
-				}
-			});
-			
-			xtag.register('accordion', {
-				events: {
-					'click:delegate(x-toggler)': function(event){
-						this.xtag.selectToggler();
-					}
-				},
-				methods: {
-					getSelectedIndex: function(){
-						var togglers = xtag.query(this, 'x-toggler');
-						return togglers.indexOf(xtag.query(this, 'x-toggler[selected="true"]')[0]);
-					},
-					getSelectedToggler: function(){
-						return xtag.query(this, 'x-toggler[selected="true"]')[0];
-					},
-					nextToggler: function(){
-						var togglers = xtag.query(this.parentNode, 'x-toggler');
-						(togglers[this.xtag.getSelectedIndex() + 1] || togglers[0]).xtag.selectToggler();
-					},
-					previousToggler: function(){
-						var togglers = xtag.query(this.parentNode, 'x-toggler');
-						(togglers[this.xtag.getSelectedIndex() - 1] || togglers[togglers.length - 1]).xtag.selectToggler();
-					}
-				}
-			});
-			
-			xtag.register('toggler', {
-				methods: {
-					selectToggler: function(){
-						var toggler = this;
-						xtag.query(this.parentNode, 'x-toggler').forEach(function(el){
-							el.setAttribute('selected', el == toggler ? true : null);
-						});
-					}
-				}
-			});
-			
-		</script>
+		<script type="text/javascript" src="elements/accordion/tabbox.js"></script>
+		<script type="text/javascript" src="elements/accordion/accordion.js"></script>
 	</head>
 
 <body>
 
 
 <header>
-	<h1>Mozilla Web Component PolyFills</h1>
+	<h1>X-Tag - Custom HTML elements for modern browsers</h1>
 
 	<nav id="component_nav">
 		<a href="#tabbox">Tabbox</a>
 	</nav>
 </header>
-
-<x-test>Foo!</x-test>
 
 <ul id="component_list">
 
