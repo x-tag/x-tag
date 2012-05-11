@@ -1,5 +1,5 @@
 
-x-accordion {
+x-accordion, x-accordion x-toggler  {
 	display: box;
 	display: -ms-box;
 	display: -moz-box;
@@ -10,11 +10,11 @@ x-accordion {
 	-webkit-box-orient: vertical;
 }
 
-x-toggler {
+x-accordion x-toggler {
 	cursor: default;
 }
 
-x-toggler[selected="true"] {
+x-accordion x-toggler[selected="true"] {
 	text-decoration: underline;
 }
 
