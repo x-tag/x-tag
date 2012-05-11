@@ -13,6 +13,11 @@ xtag.register('pager', {
   </div>
 
 */
+          setters:{
+            'data-current-page': function(v){
+              console.log("page changed",v);
+            }
+          },
           onCreate: function(){
 
           }, 
@@ -64,22 +69,22 @@ xtag.register('pager', {
             if(firstlast && current_page == 1){
               this.children[0].style.display = "none";
             }else{
-              this.children[0].removeAttributeNode("style");
+              //this.children[0].removeAttributeNode("style");
             }
             if(firstlast && current_page == pages){
               this.children[this.children.length-1].style.display = "none";
             }else{
-              this.children[this.children.length-1].removeAttributeNode("style");
+              //this.children[this.children.length-1].removeAttributeNode("style");
             }
             if(nextprevious && current_page == 1){
               this.children[1].style.display = "none";
             }else{
-              this.children[1].removeAttributeNode("style");
+              //this.children[1].removeAttributeNode("style");
             }
             if(nextprevious && current_page == pages){              
               this.children[this.children.length-2].style.display = "none";
             }else{
-              this.children[this.children.length-2].removeAttributeNode("style");
+              //this.children[this.children.length-2].removeAttributeNode("style");
             }
 
           }
