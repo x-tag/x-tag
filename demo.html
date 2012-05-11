@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8" />
+		
+		<title>X-Tag - Custom HTML elements for modern browsers</title>
+		<link href="demo/images/shortcut.png" rel="shortcut icon" type="image/x-icon" />
+		
+		<link rel="stylesheet" type="text/css" href="demo/css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="demo/css/global.css"/>
+		<link rel="stylesheet" type="text/css" href="elements/tabbox/tabbox.css"/>
+		<link rel="stylesheet" type="text/css" href="elements/accordion/accordion.css"/>
+		<script type="text/javascript" src="x-tag.js"></script>
+		<script type="text/javascript" src="elements/tabbox/tabbox.js"></script>
+		<script type="text/javascript" src="elements/accordion/accordion.js"></script>
+	</head>
+
+<body>
+
+
+<header>
+	<h1>X-Tag - Custom HTML elements for modern browsers</h1>
+
+	<nav id="component_nav">
+		<a href="#tabbox">Tabbox</a>
+	</nav>
+</header>
+
+<ul id="component_list">
+
+	<li id="tabbox">
+		
+		<h2 class="name">Tabbox</h2>
+		
+		<p class="description">
+			A container used to display a set of tabbed pages of elements.
+			A row of tabs is displayed at the top of tabbox which may be used to switch between each page.
+			The tabbox may contain a <code>tabs</code> element, a cointainer for <code>tab</code> elements, 
+			and a <code>tabpanels</code> element, which serves as a contianer for <code>tabpanel</code> elements.
+		</p>
+		
+		<nav class="actions">
+			<button data-action-type="style">Style</button>
+			<button data-action-type="tabPosition" data-action-value="top">Tabs on Top</button>
+			<button data-action-type="tabPosition" data-action-value="left">Tabs to Left</button>
+			<button data-action-type="tabPosition" data-action-value="right">Tabs to Right</button>
+			<button data-action-type="tabPosition" data-action-value="bottom">Tabs on Bottom</button>
+			<button data-action-type="addTab">Add Tab</button>
+			<button data-action-type="previousTab"><-- Select Previous Tab</button>
+			<button data-action-type="nextTab">Select Next Tab --></button>
+		</nav>
+		
+		<x-tabbox id="tabbox_demo">
+			<x-tabs>
+				<x-tab selected="true">Tab 1</x-tab>
+				<x-tab>Tab 2</x-tab>
+				<x-tab>Tab 3</x-tab>
+			</x-tabs>
+			
+			<x-panels>
+				<x-panel selected="true">
+					<p>
+						Tabboxes are great for showing users only the conent they need to see, while providing users an easy way to access additional content on-demand
+					</p>
+				</x-panel>
+				
+				<x-panel>
+					<p>
+						Examples of use-cases for tabboxes include: a set of step-wise directions, grouping like content elements together, or as a building block for a tabbed viewing interface in a mobile web app.
+					</p>
+				</x-panel>
+
+				<x-panel>
+					<p>
+						In short, tabboxes are pretty freaking cool, and when you pair them with CSS animations/transitions, you can do things with a few styles that used to take a ton of JavaScript and custom code.
+					</p>
+				</x-panel>
+			</x-panels>
+		</x-tabbox>
+		
+	</li>
+	
+	<li id="accordion">
+		
+		<h2 class="name">Accordion</h2>
+		
+		<p class="description">
+			An accordion is a collection of panels containing content seperated by toggler elements.
+		</p>
+		
+		<nav class="actions">
+			<button data-action-type="style">Style</button>
+			<button data-action-type="addSection">Add Section</button>
+			<button data-action-type="previousToggler"><-- Select Previous Section</button>
+			<button data-action-type="nextToggler">Select Next Section --></button>
+		</nav>
+		
+		<x-accordion id="accordion_demo">
+			<x-toggler selected="true">Toggler 1</x-toggler>
+			<x-panel selected="true">
+				<p>
+					Tabboxes are great for showing users only the conent they need to see, while providing users an easy way to access additional content on-demand
+				</p>
+			</x-panel>
+			
+			<x-toggler>Toggler 2</x-toggler>
+			<x-panel>
+				<p>
+					Examples of use-cases for tabboxes include: a set of step-wise directions, grouping like content elements together, or as a building block for a tabbed viewing interface in a mobile web app.
+				</p>
+			</x-panel>
+			
+			<x-toggler>Toggler 3</x-toggler>
+			<x-panel>
+				<p>
+					In short, tabboxes are pretty freaking cool, and when you pair them with CSS animations/transitions, you can do things with a few styles that used to take a ton of JavaScript and custom code.
+				</p>
+			</x-panel>
+		</x-accordion>
+		
+	</li>
+	
+</ul>
+</body>
+
+<script type="text/javascript">
+
+	document.addEventListener('click', function(e){
+		var action = e.target,
+			parent = action.parentNode;
+			
+		if (parent.classList && parent.classList.contains('actions')) {
+		
+			var tag = action.parentElement.parentElement.id,
+				demo = document.getElementById(tag + '_demo');
+				
+			switch(action.getAttribute('data-action-type')) {
+				case 'style':
+					action.textContent = demo.classList.contains('style') ? 'Style' : 'Unstyle';
+					demo.classList.toggle('style');
+					break;
+					
+				case 'addTab':
+						tab = document.createElement('x-tab'),
+						panel = document.createElement('x-panel'),
+						tabs = demo.firstElementChild;
+					
+					tab.textContent = 'Tab ' + (demo.firstElementChild.children.length + 1);
+					tabs.appendChild(tab);
+					
+					panel.innerHTML = 'This tabpanel was added dynamically, it shows when you click on the tab element above entitled "Tab ' + (demo.firstElementChild.children.length) + '"';
+					demo.lastElementChild.appendChild(panel);
+					
+					tab.xtag.selectTab();
+					break;
+				
+				case 'tabPosition':
+					demo.setAttribute('tab-orient', action.getAttribute('data-action-value'));
+					break;
+				
+				case 'previousTab':
+					demo.firstElementChild.xtag.previousTab();
+					break;
+					
+				case 'nextTab':
+					demo.firstElementChild.xtag.nextTab();
+					break;
+				
+				case 'addSection':
+						toggler = document.createElement('x-toggler'),
+						panel = document.createElement('x-panel'),
+						length = xtag.query(demo, 'x-toggler').length;
+						
+					toggler.textContent = 'Toggler ' + (length + 1);
+					demo.appendChild(toggler);
+					
+					panel.innerHTML = 'This panel was added dynamically, it shows when you click on the toggler element above entitled "Toggler ' + (length + 1) + '"';
+					demo.appendChild(panel);
+					
+					toggler.xtag.selectToggler();
+					break;
+				
+				case 'previousToggler':
+					demo.xtag.previousToggler();
+					break;
+					
+				case 'nextToggler':
+					demo.xtag.nextToggler();
+					break;
+					
+				case 'stackPile':
+					demo.setAttribute('stack-style', 'pile');
+					break;
+					
+				case 'stackDown':
+					demo.setAttribute('stack-direction', 'down');
+					break;
+					
+				case 'stackRight':
+					demo.setAttribute('stack-direction', 'right');
+					break;
+					
+				case 'stackLeft':
+					demo.setAttribute('stack-direction', 'left');
+					break;
+					
+				case 'stackUp':
+					demo.setAttribute('stack-direction', 'up');
+					break;
+			}
+			
+		}
+	});
+</script>
+
+</html>

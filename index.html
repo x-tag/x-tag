@@ -3,215 +3,186 @@
 
 	<head>
 		<meta charset="utf-8" />
-		
-		<title>X-Tag - Custom HTML elements for modern browsers</title>
+		<title>&lt;x-tag&gt; - a cross-browser web components library</title>
 		<link href="demo/images/shortcut.png" rel="shortcut icon" type="image/x-icon" />
-		
 		<link rel="stylesheet" type="text/css" href="demo/css/reset.css" />
+		<link href='http://fonts.googleapis.com/css?family=Days+One|Righteous' rel='stylesheet' type='text/css'>
+		<link rel="stylesheet" type="text/css" href="demo/highlight/styles/vs.css" />
 		<link rel="stylesheet" type="text/css" href="demo/css/global.css"/>
-		<link rel="stylesheet" type="text/css" href="elements/tabbox/tabbox.css"/>
-		<link rel="stylesheet" type="text/css" href="elements/accordion/accordion.css"/>
-		<script type="text/javascript" src="x-tag.js"></script>
-		<script type="text/javascript" src="elements/tabbox/tabbox.js"></script>
-		<script type="text/javascript" src="elements/accordion/accordion.js"></script>
+		
 	</head>
 
 <body>
 
-
 <header>
-	<h1>X-Tag - Custom HTML elements for modern browsers</h1>
-
-	<nav id="component_nav">
-		<a href="#tabbox">Tabbox</a>
+	<h1 id="logo">&lt;<span>x</span>&gt;</h1>
+	<nav>
+		<a href="#intro">Intro</a>
+		<a href="#demos">Tag Demos</a>
+		<a href="#docs">Docs</a>
 	</nav>
 </header>
 
-<ul id="component_list">
-
-	<li id="tabbox">
-		
-		<h2 class="name">Tabbox</h2>
-		
-		<p class="description">
-			A container used to display a set of tabbed pages of elements.
-			A row of tabs is displayed at the top of tabbox which may be used to switch between each page.
-			The tabbox may contain a <code>tabs</code> element, a cointainer for <code>tab</code> elements, 
-			and a <code>tabpanels</code> element, which serves as a contianer for <code>tabpanel</code> elements.
-		</p>
-		
-		<nav class="actions">
-			<button data-action-type="style">Style</button>
-			<button data-action-type="tabPosition" data-action-value="top">Tabs on Top</button>
-			<button data-action-type="tabPosition" data-action-value="left">Tabs to Left</button>
-			<button data-action-type="tabPosition" data-action-value="right">Tabs to Right</button>
-			<button data-action-type="tabPosition" data-action-value="bottom">Tabs on Bottom</button>
-			<button data-action-type="addTab">Add Tab</button>
-			<button data-action-type="previousTab"><-- Select Previous Tab</button>
-			<button data-action-type="nextTab">Select Next Tab --></button>
-		</nav>
-		
-		<x-tabbox id="tabbox_demo">
-			<x-tabs>
-				<x-tab selected="true">Tab 1</x-tab>
-				<x-tab>Tab 2</x-tab>
-				<x-tab>Tab 3</x-tab>
-			</x-tabs>
-			
-			<x-panels>
-				<x-panel selected="true">
-					<p>
-						Tabboxes are great for showing users only the conent they need to see, while providing users an easy way to access additional content on-demand
-					</p>
-				</x-panel>
-				
-				<x-panel>
-					<p>
-						Examples of use-cases for tabboxes include: a set of step-wise directions, grouping like content elements together, or as a building block for a tabbed viewing interface in a mobile web app.
-					</p>
-				</x-panel>
-
-				<x-panel>
-					<p>
-						In short, tabboxes are pretty freaking cool, and when you pair them with CSS animations/transitions, you can do things with a few styles that used to take a ton of JavaScript and custom code.
-					</p>
-				</x-panel>
-			</x-panels>
-		</x-tabbox>
-		
-	</li>
+<div class="max-width">
+	<h2 id="tag_line">Custom HTML elements for modern browsers.</h2>
 	
-	<li id="accordion">
-		
-		<h2 class="name">Accordion</h2>
-		
-		<p class="description">
-			An accordion is a collection of panels containing content seperated by toggler elements.
-		</p>
-		
-		<nav class="actions">
-			<button data-action-type="style">Style</button>
-			<button data-action-type="addSection">Add Section</button>
-			<button data-action-type="previousToggler"><-- Select Previous Section</button>
-			<button data-action-type="nextToggler">Select Next Section --></button>
-		</nav>
-		
-		<x-accordion id="accordion_demo">
-			<x-toggler selected="true">Toggler 1</x-toggler>
-			<x-panel selected="true">
-				<p>
-					Tabboxes are great for showing users only the conent they need to see, while providing users an easy way to access additional content on-demand
-				</p>
-			</x-panel>
+	<h3>
+		Intro
+		<span id="intro" class="anchor-id"></span>
+	</h3>
+	<dl>
+		<dt>What it Does</dt>
+		<dd>
+			<p>
+				When you need an advanced HTML element for your app - <i>like a tabbox, tree, 
+				special input, etc.</i> - you're probably familiar with this process:
+			</p>
 			
-			<x-toggler>Toggler 2</x-toggler>
-			<x-panel>
-				<p>
-					Examples of use-cases for tabboxes include: a set of step-wise directions, grouping like content elements together, or as a building block for a tabbed viewing interface in a mobile web app.
-				</p>
-			</x-panel>
+			<ol>
+				<li>find a plugin</li>
+				<li>add the plugin script include to your page</li>
+				<li>paste an element, or block of elements, into your markup</li>
+				<li>add a script block or external script include for your own code</li>
+				<li>write code to select elements on page load</li>
+				<li>instantiate a script to augment the existing vanilla markup</li>
+				<li>wash, rinse, repeat for every plugin you need</li>
+			</ol>
 			
-			<x-toggler>Toggler 3</x-toggler>
-			<x-panel>
-				<p>
-					In short, tabboxes are pretty freaking cool, and when you pair them with CSS animations/transitions, you can do things with a few styles that used to take a ton of JavaScript and custom code.
-				</p>
-			</x-panel>
-		</x-accordion>
+			<p>
+				But what if all you had to do was:
+			</p>
+			
+			<ol>
+				<li>Drop an HTML tag into the page</li>
+				<li><i>There is no step 2, it all Just Works&#8482;</i></li>
+			</ol>
+			
+			<p>
+				Welcome to <span class="font">x-tag</span> folks.
+			</p>
+		</dd>
 		
-	</li>
+		<dt>How it Works</dt>
+		<dd>
+			<p>
+				In order to allow for the recognition and parsing of custom HTML tags, <span class="font">x-tag</span> utilizes 
+				a special CSS event mechanism to listen for the creation/parsing of new custom elements (details <a href="http://www.backalleycoder.com/2012/04/25/i-want-a-damnodeinserted/">here</a>). 
+				This even is fired and processesed by x-tag regardless of whether the element is present 
+				in the source of the document or if you use <code>document.createElement</code> to generate 
+				it dynamically. When the node is initially created x-tag adds events and calls the onCreate 
+				function on the node, if you've registered them for that tag. You can also specify an action  
+				should be run each time a specific type of element is inserted into the DOM with onInsert. 
+				Here's an example with some comments for a bit more clarity:
+			</p>
+			
+<pre>
+<code>
+mozComponents.register('accordion', {
+	onCreate: function(){
+		// do something when the node is initially created
+	},
+	onInsert: function(){
+		// do something each time the node is inserted into the DOM
+	},
+	events: {
+		'click:delegate(ui-toggler)': function(event){
+			// activate the clicked toggler
+		}
+	},
+	methods: {
+		getSelectedIndex: function(){
+			// get the index of the selected toggler element
+		},
+		nextToggler: function(){
+			// activate next toggler element
+		},
+		previousToggler: function(){
+			// activate the previous toggler element
+		}
+	}
+});
+</code>
+</pre>
+
+		</dd>
+	</dl>
 	
-</ul>
+	<h3>
+		Tag Demos
+		<span id="demos" class="anchor-id"></span>
+	</h3>
+	<dl>
+		<dt>Tabbox</dt>
+		<dd>
+			<img src="" />
+			<p>
+				When you need an advanced, interactive element for your app, like a map, tree list, 
+				or spin wheel input, you usually need to find a plugin, write a block of HTML, and instantiate 
+				the plugin using elements you retrieve from the DOM in your own JS. 
+				Let's get real: that sucks. What if all you did was drop a 
+				custom tag in the page and it Just Worked&#8482;? Well folks, x-tag 
+				turns that "what if" into reality.
+			</p>
+		</dd>
+		
+		<dt>Accordion</dt>
+		<dd>
+			<img src="" />
+			<p>
+				When you need an advanced, interactive element for your app, like a map, tree list, 
+				or spin wheel input, you usually need to find a plugin, paste in a block of HTML 
+				in your source, and instantiate the plugin you chose using elements you retrieve 
+				from the DOM in a DOM ready function. Let's get real: that sucks. What if all you 
+				had to do was use an HTML tag and it all Just Worked&#8482;? Well folks, <span class="font">x-tag</span> 
+				turns that "what if" into reality.
+			</p>
+		</dd>
+		
+		<dt>Tabbox</dt>
+		<dd>
+			<img src="" />
+			<p>
+				When you need an advanced, interactive element for your app, like a map, tree list, 
+				or spin wheel input, you usually need to find a plugin, write a block of HTML, and instantiate 
+				the plugin using elements you retrieve from the DOM in your own JS. 
+				Let's get real: that sucks. What if all you did was drop a 
+				custom tag in the page and it Just Worked&#8482;? Well folks, <span class="font">x-tag</span> 
+				turns that "what if" into reality.
+			</p>
+		</dd>
+	</dl>
+	
+	<h3>
+		Docs
+		<span id="docs" class="anchor-id"></span>
+	</h3>
+	<dl>
+		<dt>What it Does</dt>
+		<dd>
+			<p>
+				When you need an advanced, interactive element for your app, like a map, tree list, 
+				or spin wheel input, you usually need to find a plugin, write a block of HTML, and instantiate 
+				the plugin using elements you retrieve from the DOM in your own JS. 
+				Let's get real: that sucks. What if all you did was drop a 
+				custom tag in the page and it Just Worked&#8482;? Well folks, x-tag 
+				turns that "what if" into reality.
+			</p>
+		</dd>
+	</dl>
+	
+</div>
+	
+<footer>
+
+</footer>
+
 </body>
 
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/mootools/1.4.5/mootools-yui-compressed.js"></script>
+<script type="text/javascript" src="demo/highlight/highlight.pack.js"></script>
 <script type="text/javascript">
-
-	document.addEventListener('click', function(e){
-		var action = e.target,
-			parent = action.parentNode;
-			
-		if (parent.classList && parent.classList.contains('actions')) {
-		
-			var tag = action.parentElement.parentElement.id,
-				demo = document.getElementById(tag + '_demo');
-				
-			switch(action.getAttribute('data-action-type')) {
-				case 'style':
-					action.textContent = demo.classList.contains('style') ? 'Style' : 'Unstyle';
-					demo.classList.toggle('style');
-					break;
-					
-				case 'addTab':
-						tab = document.createElement('x-tab'),
-						panel = document.createElement('x-panel'),
-						tabs = demo.firstElementChild;
-					
-					tab.textContent = 'Tab ' + (demo.firstElementChild.children.length + 1);
-					tabs.appendChild(tab);
-					
-					panel.innerHTML = 'This tabpanel was added dynamically, it shows when you click on the tab element above entitled "Tab ' + (demo.firstElementChild.children.length) + '"';
-					demo.lastElementChild.appendChild(panel);
-					
-					tab.xtag.selectTab();
-					break;
-				
-				case 'tabPosition':
-					demo.setAttribute('tab-orient', action.getAttribute('data-action-value'));
-					break;
-				
-				case 'previousTab':
-					demo.firstElementChild.xtag.previousTab();
-					break;
-					
-				case 'nextTab':
-					demo.firstElementChild.xtag.nextTab();
-					break;
-				
-				case 'addSection':
-						toggler = document.createElement('x-toggler'),
-						panel = document.createElement('x-panel'),
-						length = xtag.query(demo, 'x-toggler').length;
-						
-					toggler.textContent = 'Toggler ' + (length + 1);
-					demo.appendChild(toggler);
-					
-					panel.innerHTML = 'This panel was added dynamically, it shows when you click on the toggler element above entitled "Toggler ' + (length + 1) + '"';
-					demo.appendChild(panel);
-					
-					toggler.xtag.selectToggler();
-					break;
-				
-				case 'previousToggler':
-					demo.xtag.previousToggler();
-					break;
-					
-				case 'nextToggler':
-					demo.xtag.nextToggler();
-					break;
-					
-				case 'stackPile':
-					demo.setAttribute('stack-style', 'pile');
-					break;
-					
-				case 'stackDown':
-					demo.setAttribute('stack-direction', 'down');
-					break;
-					
-				case 'stackRight':
-					demo.setAttribute('stack-direction', 'right');
-					break;
-					
-				case 'stackLeft':
-					demo.setAttribute('stack-direction', 'left');
-					break;
-					
-				case 'stackUp':
-					demo.setAttribute('stack-direction', 'up');
-					break;
-			}
-			
-		}
-	});
+	hljs.tabReplace = '    ';
+	hljs.initHighlightingOnLoad();
 </script>
 
 </html>
