@@ -1,0 +1,34 @@
+x-pager{
+	display: block;
+}
+
+x-pager a{
+	margin: 0 4px;
+}
+x-pager a.selected{
+	font-weight: bold;
+}
+x-pager .first, x-pager .last{
+	display: none;
+}
+x-pager[data-firstlast="true"] a.first, x-pager[data-firstlast="true"] a.last{
+	display: inline;
+}
+x-pager .prev, x-pager .next{
+	display: none;
+}
+x-pager[data-prevnext="true"] a.prev, x-pager[data-prevnext="true"] a.next{
+	display: inline;
+}
+x-pager[data-hidefirst="true"] a.first{
+	display:none;
+}
+x-pager[data-hidelast="true"] a.last{
+	display:none;
+}
+x-pager[data-hideprev="true"] a.prev{
+	display:none;
+}
+x-pager[data-hidenext="true"] a.next{
+	display:none;
+}

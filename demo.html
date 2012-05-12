@@ -11,9 +11,11 @@
 		<link rel="stylesheet" type="text/css" href="demo/css/global.css"/>
 		<link rel="stylesheet" type="text/css" href="elements/tabbox/tabbox.css"/>
 		<link rel="stylesheet" type="text/css" href="elements/accordion/accordion.css"/>
+		<link rel="stylesheet" type="text/css" href="elements/pager/pager.css"/>
 		<script type="text/javascript" src="x-tag.js"></script>
 		<script type="text/javascript" src="elements/tabbox/tabbox.js"></script>
 		<script type="text/javascript" src="elements/accordion/accordion.js"></script>
+		<script type="text/javascript" src="elements/pager/pager.js"></script>
 	</head>
 
 <body>
@@ -120,6 +122,111 @@
 		</x-accordion>
 		
 	</li>
+
+	  <li id="pager">
+      <h2 class="name">Pager</h2>
+      <p class="description">
+        A pager element that allows you set properties and it will do the rest/  
+      </p>
+
+      <x-pager id="simple_pager1" 
+        data-pages="5" 
+        data-current-page="1">
+      </x-pager>
+
+      <x-pager id="simple_pager2" 
+        data-pages="75" 
+        data-current-page="24"
+        data-url="/articles?p={current-page}">
+      </x-pager>
+
+      <x-pager id="simple_pager3" 
+        data-pages="5" 
+        data-current-page="3">
+      </x-pager>
+
+      <x-pager id="simple_pager4" 
+        data-pages="5" 
+        data-current-page="4">
+      </x-pager>
+
+      <x-pager id="simple_pager5" 
+        data-pages="5" 
+        data-current-page="5">
+      </x-pager>
+
+      <x-pager id="simple_pager6" 
+        data-pages="15" 
+        data-current-page="5">
+      </x-pager>
+
+      <x-pager id="simple_pager7" 
+        data-pages="15" 
+        data-current-page="1"
+        data-firstlast="true"
+        data-url="/articles?p={current-page}">
+      </x-pager>
+
+      <x-pager id="np_pager1" 
+        data-pages="5" 
+        data-current-page="2" 
+        data-prevnext="true"
+        data-firstlast="true"
+        data-url="/articles?p={current-page}">
+      </x-pager>
+
+      <x-pager id="np_pager2" 
+        data-pages="125" 
+        data-current-page="75" 
+        data-prevnext="true"
+        data-firstlast="true"
+        data-url="/articles?p={current-page}">
+      </x-pager>
+
+      <x-pager id="np_url_pager1" 
+        data-pages="5" 
+        data-current-page="2" 
+        data-prevnext="true" 
+        data-url="/articles?p={current-page}">
+      </x-pager>
+
+      <x-pager id="url_pager1" 
+        data-pages="5" 
+        data-current-page="2" 
+        data-page-size="10" 
+        data-url="/articles?skip={current-offset}">
+      </x-pager>
+
+      <x-pager id="advanced_pager1" 
+        data-pages="500" 
+        data-current-page="50" 
+        data-page-size="10" 
+        data-url="/articles?skip={current-offset}"
+        data-prevnext="true"
+        data-page-padding="2">
+      </x-pager>
+
+      <x-pager id="advanced_pager2" 
+        data-pages="500" 
+        data-current-offset="220" 
+        data-page-size="10" 
+        data-url="/articles?skip={current-offset}"
+        data-prevnext="true"
+        data-page-padding="2">
+      </x-pager>
+
+      <x-pager id="advanced_pager2" 
+        data-pages="500" 
+        data-current-offset="220" 
+        data-page-size="10" 
+        data-url="/articles?skip={current-offset}"
+        data-prevnext="true"
+        data-firstlast="true"
+        data-page-padding="5">
+      </x-pager>
+
+
+  </li>
 	
 </ul>
 </body>
