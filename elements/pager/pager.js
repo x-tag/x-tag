@@ -15,7 +15,9 @@ xtag.register('pager', {
 */
           setters:{
             'data-current-page': function(v){
-              console.log("page changed",v, this);              
+              console.log("page changed",v, this);
+              this.setAttribute('data-current-page', v);
+              xtag.tags.pager.onInsert.call(this);
             }
           },
           onCreate: function(){
@@ -29,7 +31,7 @@ xtag.register('pager', {
               page_size = Number(this.getAttribute('data-page-size')),
               pages = Number(this.getAttribute('data-pages')),
               padding = Number(this.getAttribute('data-page-padding')||50),
-              nextprevious = !!this.getAttribute('data-nextprevious'),
+              prevnext = !!this.getAttribute('data-prevnext'),
               firstlast = !!this.getAttribute('data-firstlast');
 
             if (!current_page && current_offset && page_size){              
@@ -68,8 +70,8 @@ xtag.register('pager', {
             
             this.setAttribute('data-hidefirst', firstlast && current_page == 1);
             this.setAttribute('data-hidelast', firstlast && current_page == pages);
-            this.setAttribute('data-hideprev', nextprevious && current_page == 1);
-            this.setAttribute('data-hidelast', nextprevious && current_page == pages);
+            this.setAttribute('data-hideprev', prevnext && current_page == 1);
+            this.setAttribute('data-hidenext', prevnext && current_page == pages);
 
           }
       });

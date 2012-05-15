@@ -65,7 +65,7 @@
 				for (var z in options.methods) element.xtag[z] = options.methods[z].bind(element);
 				for (var z in options.getters) element.__defineGetter__(z, options.getters[z]);
 				for (var z in options.setters) element.__defineSetter__(z, options.setters[z]);
-				xtag.addEvents(element, options.events);
+				xtag.addEvents(element, options.events);				
 				options.onCreate.call(element);
 			}
 		},
