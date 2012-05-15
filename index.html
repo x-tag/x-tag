@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8" />
+		<title>X-Tag - a cross-browser web components library</title>
+		<link href="demo/images/shortcut.png" rel="shortcut icon" type="image/x-icon" />
+		<link rel="stylesheet" type="text/css" href="demo/css/reset.css" />
+		<link href='http://fonts.googleapis.com/css?family=Days+One|Righteous' rel='stylesheet' type='text/css'>
+		<link rel="stylesheet" type="text/css" href="demo/highlight/styles/vs.css" />
+		<link rel="stylesheet" type="text/css" href="demo/css/global.css"/>
+		
+	</head>
+
+<body>
+
+<header>
+	<h1 id="logo">&lt;<span>x</span>&gt;</h1>
+	<nav>
+		<a href="#intro">Intro</a>
+		<a href="#demos">Tag Demos</a>
+		<a href="#docs">Docs</a>
+	</nav>
+</header>
+
+<div class="max-width">
+	<h2 id="tag_line">Custom HTML elements for modern browsers.</h2>
+	
+	<h3>
+		Intro
+		<span id="intro" class="anchor-id"></span>
+	</h3>
+	<dl>
+		<dt>What it Does</dt>
+		<dd>
+			<p>
+				When you need an advanced HTML element for your app - <i>like a tabbox, tree, 
+				special input, etc.</i> - you're probably familiar with this process:
+			</p>
+			
+			<ol>
+				<li>find a plugin</li>
+				<li>add the plugin script include to your page</li>
+				<li>paste an element, or block of elements, into your markup</li>
+				<li>add a script block or external script include for your own code</li>
+				<li>write code to select elements on page load</li>
+				<li>instantiate a script to augment the existing vanilla markup</li>
+				<li>wash, rinse, repeat for every plugin you need</li>
+			</ol>
+			
+			<p>
+				But what if all you had to do was:
+			</p>
+			
+			<ol>
+				<li>Drop an HTML tag into the page</li>
+				<li><i>There is no step 2, it all Just Works&#8482;</i></li>
+			</ol>
+			
+			<p>
+				Welcome to <span class="font">X-Tag</span> folks.
+			</p>
+		</dd>
+		
+		<dt>How it Works</dt>
+		<dd>
+			<p>
+				In order to allow for the recognition and parsing of custom HTML tags, <span class="font">X-Tag</span> utilizes 
+				a special CSS event mechanism to listen for the creation/parsing of new custom elements (details <a href="http://www.backalleycoder.com/2012/04/25/i-want-a-damnodeinserted/">here</a>). 
+				This even is fired and processesed by x-tag regardless of whether the element is present 
+				in the source of the document or if you use <code>document.createElement</code> to generate 
+				it dynamically. When the node is initially created x-tag adds events and calls the onCreate 
+				function on the node, if you've registered them for that tag. You can also specify an action  
+				should be run each time a specific type of element is inserted into the DOM with onInsert. 
+				Here's an example with some comments for a bit more clarity:
+			</p>
+			
+<pre>
+<code>
+mozComponents.register('accordion', {
+	onCreate: function(){
+		// do something when the node is initially created
+	},
+	onInsert: function(){
+		// do something each time the node is inserted into the DOM
+	},
+	events: {
+		'click:delegate(ui-toggler)': function(event){
+			// activate the clicked toggler
+		}
+	},
+	methods: {
+		getSelectedIndex: function(){
+			// get the index of the selected toggler element
+		},
+		nextToggler: function(){
+			// activate next toggler element
+		},
+		previousToggler: function(){
+			// activate the previous toggler element
+		}
+	}
+});
+</code>
+</pre>
+
+		</dd>
+	</dl>
+	
+	<h3>
+		Tag Demos
+		<span id="demos" class="anchor-id"></span>
+	</h3>
+	<dl>
+		<dt>Tabbox</dt>
+		<dd>
+			<img src="" />
+			<p>
+				When you need an advanced, interactive element for your app, like a map, tree list, 
+				or spin wheel input, you usually need to find a plugin, write a block of HTML, and instantiate 
+				the plugin using elements you retrieve from the DOM in your own JS. 
+				Let's get real: that sucks. What if all you did was drop a 
+				custom tag in the page and it Just Worked&#8482;? Well folks, x-tag 
+				turns that "what if" into reality.
+			</p>
+		</dd>
+		
+		<dt>Accordion</dt>
+		<dd>
+			<img src="" />
+			<p>
+				When you need an advanced, interactive element for your app, like a map, tree list, 
+				or spin wheel input, you usually need to find a plugin, paste in a block of HTML 
+				in your source, and instantiate the plugin you chose using elements you retrieve 
+				from the DOM in a DOM ready function. Let's get real: that sucks. What if all you 
+				had to do was use an HTML tag and it all Just Worked&#8482;? Well folks, <span class="font">x-tag</span> 
+				turns that "what if" into reality.
+			</p>
+		</dd>
+		
+		<dt>Tabbox</dt>
+		<dd>
+			<img src="" />
+			<p>
+				When you need an advanced, interactive element for your app, like a map, tree list, 
+				or spin wheel input, you usually need to find a plugin, write a block of HTML, and instantiate 
+				the plugin using elements you retrieve from the DOM in your own JS. 
+				Let's get real: that sucks. What if all you did was drop a 
+				custom tag in the page and it Just Worked&#8482;? Well folks, <span class="font">x-tag</span> 
+				turns that "what if" into reality.
+			</p>
+		</dd>
+	</dl>
+	
+	<h3>
+		Docs
+		<span id="docs" class="anchor-id"></span>
+	</h3>
+	<dl>
+		<dt>What it Does</dt>
+		<dd>
+			<p>
+				When you need an advanced, interactive element for your app, like a map, tree list, 
+				or spin wheel input, you usually need to find a plugin, write a block of HTML, and instantiate 
+				the plugin using elements you retrieve from the DOM in your own JS. 
+				Let's get real: that sucks. What if all you did was drop a 
+				custom tag in the page and it Just Worked&#8482;? Well folks, x-tag 
+				turns that "what if" into reality.
+			</p>
+		</dd>
+	</dl>
+	
+</div>
+	
+<footer>
+
+</footer>
+
+</body>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/mootools/1.4.5/mootools-yui-compressed.js"></script>
+<script type="text/javascript" src="demo/highlight/highlight.pack.js"></script>
+<script type="text/javascript">
+	hljs.tabReplace = '    ';
+	hljs.initHighlightingOnLoad();
+</script>
+
+</html>

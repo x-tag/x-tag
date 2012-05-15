@@ -16,8 +16,10 @@
 		tagOptions: {
 			events: {},
 			methods: {},
+			getters: {}, 
+			setters: {},
 			onCreate: function(){},
-			onInsert: function(){}
+			onInsert: function(){}, 
 		},
 		eventPseudos: {
 			delegate: function(event, selector){
@@ -60,7 +62,9 @@
 			if (!element.xtag){
 				var options = xtag.getOptions(element);
 				element.xtag = {};
-				for (z in options.methods) element.xtag[z] = options.methods[z].bind(element);
+				for (var z in options.methods) element.xtag[z] = options.methods[z].bind(element);
+				for (var z in options.getters) element.__defineGetter__(z, options.getters[z]);
+				for (var z in options.setters) element.__defineSetter__(z, options.setters[z]);
 				xtag.addEvents(element, options.events);
 				options.onCreate.call(element);
 			}
@@ -73,7 +77,7 @@
 		},
 		register: function(tag, options){
 			styles.sheet.insertRule(xtag.prefix + '-' + tag + '{' + rules.animation + '}', 0);
-			['events', 'methods'].forEach(function(type){
+			['events', 'methods', 'getters', 'setters'].forEach(function(type){
 				options[type] = options[type] || {};
 				var defaults = xtag.tagOptions[type];
 				for (z in defaults) options[type][z] = options[type][z] || defaults[z];
