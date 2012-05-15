@@ -41,14 +41,32 @@ h3 {
 p {
 	margin: 0 0 10px;
 }
+
+code {
+	padding: 0 2px 1px;
+	border: 1px solid;
+	border-color: #dfdfdf #dadada #d0d0d0;
+	font-size: 80%;
+	border-radius: 3px;
+	-ms-border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+}
+
 pre code {
 	padding: 0 1em 1em;
 	background: #fafafa;
 	border: 1px solid #eee;
 }
 
-code {
-	font-size: 11px;
+p code {
+	position: relative;
+    top: -1px;
+	margin: 0 2px;
+	background: linear-gradient(top, #fafafa, #efefef);
+	background: -ms-linear-gradient(top, #fafafa, #efefef);
+	background: -moz-linear-gradient(top, #fafafa, #efefef);
+	background: -webkit-linear-gradient(top, #fafafa, #efefef);
 }
 
 header {

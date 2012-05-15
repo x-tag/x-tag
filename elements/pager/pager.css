@@ -5,7 +5,7 @@ x-pager{
 x-pager a{
 	margin: 0 4px;
 }
-x-pager a.selected{
+x-pager a[selected="true"]{
 	font-weight: bold;
 }
 x-pager .first, x-pager .last{
