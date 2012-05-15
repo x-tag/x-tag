@@ -42,10 +42,15 @@ nav.actions button {
 		width: 300px;
 		text-shadow: 0 1px 0 #fff;
 	}
-	
-	#tabbox_demo.style[tab-orient="bottom"] x-tabs {
-		margin-top: -1px;
+
+	#tabbox_demo.style x-tabs {
+		position: relative;
+		z-index: 1;
 	}
+	
+		#tabbox_demo.style[tab-orient="bottom"] x-tabs {
+			margin-top: -1px;
+		}
 
 	#tabbox_demo.style x-tab {
 		padding: 0 4px 1px;
