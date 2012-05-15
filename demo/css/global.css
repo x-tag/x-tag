@@ -5,8 +5,6 @@ body
 	font-family: Segoe UI, Trebuchet MS, Helvetica, Arial;
 	font-size: 14px;
 	background: url(../images/spatter.jpg);
-	min-height: 2000px;
-	
 }
 
 h1, h2, h3, h4 , dt, .font {
@@ -67,7 +65,7 @@ header {
 	-moz-box-shadow: 0 1px 4px -2px #000;
 	-webkit-box-shadow: 0 1px 4px -2px #000;
 	opacity: 0.95;
-	z-index: 1;
+	z-index: 2;
 }
 
 .anchor-id {
@@ -134,12 +132,12 @@ div.max-width > dl {
 
 div.max-width > dl dt {
 	font-size: 120%;
-	background: linear-gradient(top, #f5f5f5, #e9e9e9);
-	background: -ms-linear-gradient(top, #f5f5f5, #e9e9e9);
-	background: -moz-linear-gradient(top, #f5f5f5, #e9e9e9);
-	background: -webkit-linear-gradient(top, #f5f5f5, #e9e9e9);
+	background: linear-gradient(top, #F3F3F3, #E6E6E6);
+	background: -ms-linear-gradient(top, #F3F3F3, #E6E6E6);
+	background: -moz-linear-gradient(top, #F3F3F3, #E6E6E6);
+	background: -webkit-linear-gradient(top, #F3F3F3, #E6E6E6);
 	border: 1px solid;
-	border-color: #ececec #e3e3e3 #d6d6d6;
+	border-color: #E6E6E6 #dadada #d0d0d0;
 	margin-bottom: 8px;
 	padding: 2px 6px;
 	text-shadow: 0 1px 0 #fff;

@@ -56,7 +56,7 @@
 			}, false);
 		},
 		addEvents: function(element, events){
-			for (z in events) xtag.addEvent(element, z, events[z]);
+			for (var z in events) xtag.addEvent(element, z, events[z]);
 		},
 		extendElement: function(element){
 			if (!element.xtag){
@@ -80,7 +80,7 @@
 			['events', 'methods', 'getters', 'setters'].forEach(function(type){
 				options[type] = options[type] || {};
 				var defaults = xtag.tagOptions[type];
-				for (z in defaults) options[type][z] = options[type][z] || defaults[z];
+				for (var z in defaults) options[type][z] = options[type][z] || defaults[z];
 			});
 			options.onCreate =  options.onCreate || function(){};
 			options.onInsert =  options.onInsert || function(){};

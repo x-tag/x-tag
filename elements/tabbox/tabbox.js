@@ -1,11 +1,5 @@
 
 xtag.register('tabbox', {
-	onCreate: function(){
-		console.log('created', this);
-	},
-	onInsert: function(){
-		console.log('inserted', this);
-	},
 	events: {
 		'click:delegate(x-tab)': function(event){
 			this.xtag.selectTab();
@@ -21,12 +15,7 @@ xtag.register('tabbox', {
 });
 
 xtag.register('tab', {
-	onCreate: function(){
-		console.log('created', this);
-		
-	},
 	onInsert: function(){
-		console.log('inserted', this);
 		xtag.query(this.parentNode, 'x-tab').forEach(function(tab, index){
 			tab.setAttribute('tabindex', index + 1);
 		});
@@ -34,27 +23,19 @@ xtag.register('tab', {
 	methods: {
 		selectTab: function(){
 			this.focus();
-			var tab = this,
-				tabs = xtag.query(this.parentNode, 'x-tab'),
-				tabpanels = xtag.query(this.parentNode.nextElementSibling, 'x-panel'),
+			var tabs = xtag.query(this.parentNode, 'x-tab'),
 				index = tabs.indexOf(this);
 			tabs.forEach(function(el){
-				el.setAttribute('selected', el == tab ? true : '');
-			});
-			tabpanels.forEach(function(el){
-				el.setAttribute('selected', el == tabpanels[index] ? true : '');
+				el.setAttribute('selected', el == this ? true : '');
+			}, this);
+			xtag.query(this.parentNode.nextElementSibling, 'x-panel').forEach(function(el, i, array){
+				el.setAttribute('selected', el == array[index] ? true : '');
 			});
 		}
 	}
 });
 
 xtag.register('tabs', {
-	onCreate: function(){
-		console.log('created', this);
-	},
-	onInsert: function(){
-		console.log('inserted', this);
-	},
 	methods: {
 		getSelectedIndex: function(){
 			var tabs = xtag.query(this, 'x-tab');

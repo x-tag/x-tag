@@ -40,9 +40,13 @@ var {
 	font-weight:normal;
 }
 
-li
+ul li
 {
-	list-style:none;
+	list-style: none;
+}
+
+ol {
+	padding: 0 0 0 20px;
 }
 
 caption, th
@@ -53,7 +57,7 @@ caption, th
 h1, h2, h3, h4, h5, h6
 {
 	font-size:100%;
-	font-weight:bold;
+	font-weight:normal;
 }
 
 q:before,
