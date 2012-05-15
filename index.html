@@ -66,7 +66,7 @@
 		<dd>
 			<p>
 				In order to allow for the recognition and parsing of custom HTML tags, <span class="font">X-Tag</span> utilizes 
-				a special CSS event mechanism to listen for the creation/parsing of new custom elements (details <a href="http://www.backalleycoder.com/2012/04/25/i-want-a-damnodeinserted/">here</a>). 
+				a special CSS event mechanism to listen for the creation/parsing of new custom elements (details <a target="_blank" href="http://www.backalleycoder.com/2012/04/25/i-want-a-damnodeinserted/">here</a>). 
 				This even is fired and processesed by x-tag regardless of whether the element is present 
 				in the source of the document or if you use <code>document.createElement</code> to generate 
 				it dynamically. When the node is initially created x-tag adds events and calls the onCreate 
@@ -85,7 +85,7 @@ mozComponents.register('accordion', {
 		// do something each time the node is inserted into the DOM
 	},
 	events: {
-		'click:delegate(ui-toggler)': function(event){
+		'click:delegate(x-toggler)': function(event){
 			// activate the clicked toggler
 		}
 	},
