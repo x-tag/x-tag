@@ -31,6 +31,10 @@ nav.actions button {
 	cursor: pointer;
 }
 
+#tags {
+	position: relative;
+	z-index: 1;
+}
 
 /* TABBOX DEMO */
 
@@ -38,15 +42,10 @@ nav.actions button {
 		width: 300px;
 		text-shadow: 0 1px 0 #fff;
 	}
-
-	#tabbox_demo.style x-tabs {
-		position: relative;
-		z-index: 1;
-	}
 	
-		#tabbox_demo.style[tab-orient="bottom"] x-tabs {
-			margin-top: -1px;
-		}
+	#tabbox_demo.style[tab-orient="bottom"] x-tabs {
+		margin-top: -1px;
+	}
 
 	#tabbox_demo.style x-tab {
 		padding: 0 4px 1px;
@@ -148,13 +147,14 @@ nav.actions button {
 
 	#accordion_demo.style {
 		width: 300px;
+		text-shadow: 0 1px 0 #fff;
 	}
 	
 	#accordion_demo.style x-toggler {
 		margin-top: 4px;
 		padding: 0 4px 2px;
 		border: 1px solid;
-		border-color: #cacaca #b0b0b0 #bbb;
+		border-color: #cacaca #afafaf #a0a0a0;
 		background: linear-gradient(top, #fafafa, #dadada);
 		background: -ms-linear-gradient(top, #fafafa, #dadada);
 		background: -moz-linear-gradient(top, #fafafa, #dadada);
@@ -169,31 +169,18 @@ nav.actions button {
 	
 	#accordion_demo.style x-toggler[selected="true"] {
 		color: #000;
-		background: linear-gradient(top, #E7EDF6, #CFDBEC);
-		background: -ms-linear-gradient(top, #E7EDF6, #CFDBEC);
-		background: -moz-linear-gradient(top, #E7EDF6, #CFDBEC);
-		background: -webkit-linear-gradient(top, #E7EDF6, #CFDBEC);
+		background: linear-gradient(top, #EEF2F8, #CFDBEC);
+		background: -ms-linear-gradient(top, #EEF2F8, #CFDBEC);
+		background: -moz-linear-gradient(top, #EEF2F8, #CFDBEC);
+		background: -webkit-linear-gradient(top, #EEF2F8, #CFDBEC);
 		text-decoration: none;
 		cursor: default;
 	}
 
-/* SLIDEBOX DEMO */
+/* MAP DEMO */
 
-	#accordion_demo.style {
+	#map_demo {
+		height: 300px;
 		width: 300px;
-	}
-	
-	
-/* STACK DEMO */
-
-	#stack_demo.style > img {
-		padding: 6px;
-		background: #fff;
-		border: 1px solid;
-		border-color: #888 #777 #666;
-		box-shadow: 0 1px 10px -6px #000;
-		-ms-box-shadow: 0 1px 10px -6px #000;
-		-moz-box-shadow: 0 1px 10px -6px #000;
-		-webkit-box-shadow: 0 1px 10px -6px #000;
 	}
 	
