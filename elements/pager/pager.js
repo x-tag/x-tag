@@ -6,7 +6,7 @@ var getAttributes = function(elem){
     current_offset: Number(elem.getAttribute('data-current-offset')),
     page_size: Number(elem.getAttribute('data-page-size')),
     pages: Number(elem.getAttribute('data-pages')),
-    padding: Number(elem.getAttribute('data-page-padding')||50),
+    padding: Number(elem.getAttribute('data-page-padding')||-1),
     prevnext: !!elem.getAttribute('data-prevnext'),
     firstlast: !!elem.getAttribute('data-firstlast')
   };
@@ -82,9 +82,19 @@ xtag.register('pager', {
               "'>previous</a><a class='next' href='"+getUrl(data.current_page+1)+
               "'>next</a><a class='last' href='"+getUrl(data.pages)+"'>last</a>";
 
-            for (var i = Math.max(data.current_page-data.padding,1); 
-                  i <= Math.min(data.current_page+data.padding, data.pages);
-                  i++){               
+            data.padding = data.padding == -1 ? data.pages : data.padding;
+            var startIdx = data.current_page-data.padding < 1 ? 
+              1 : 
+                data.current_page + data.padding > data.pages ? 
+                  data.pages - (data.padding*2) : 
+                    data.current_page-data.padding;
+
+            var endIdx = data.current_page+data.padding > data.pages ? 
+              data.pages : 
+                data.current_page-data.padding < 1 ? (data.padding * 2) + 1: 
+                  data.current_page+data.padding;
+            
+            for (var i = startIdx; i <= endIdx; i++){
                 var item = createPageItem(i, data.current_page == i);
                 this.insertBefore(item, this.children[this.children.length-2]);                
             }
