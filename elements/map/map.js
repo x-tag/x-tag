@@ -13,16 +13,22 @@
 	
 	xtag.register('map', {
 		onCreate: function(){
-			this.xtag.map = new L.Map(this, {
-				zoom: 13
-			});
+			this.xtag.map = new L.Map(this);
 			this.xtag.setTileLayer();
-			if (this.getAttribute('data-geolocate')) this.xtag.map.locateAndSetView(this.getAttribute('data-zoom') || 10);
-			else this.xtag.map.setView(new L.LatLng(51.505, -0.09), 13);
+			var zoom = this.getAttribute('data-zoom') || 13;
+			if (this.getAttribute('data-location') == 'auto') this.xtag.map.locateAndSetView(zoom);
+			else this.xtag.map.setView(new L.LatLng(37.3880, -122.0829), zoom);
+		},
+		setters: {
+			'data-tile-set': function(value){
+				this.setAttribute('data-tile-set', value);
+				this.xtag.setTileLayer();
+			}
 		},
 		events: {},
 		methods: {
 			setTileLayer: function(){
+				console.log('setTileLayer');
 				this.xtag.map.addLayer(new L.TileLayer('http://{s}.tile.cloudmade.com/' + this.getAttribute('data-key') + '/' + (this.getAttribute('data-tile-set') || 997) + '/256/{z}/{x}/{y}.png', this.getAttribute('data-tile-options') || {}));
 			}
 		}
