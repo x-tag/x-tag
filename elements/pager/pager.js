@@ -1,22 +1,29 @@
 (function(){
 
-var getAttributes = function(elem){
-	return { 
-		current_page: Number(elem.getAttribute('data-current-page')),
-		current_offset: Number(elem.getAttribute('data-current-offset')),
-		page_size: Number(elem.getAttribute('data-page-size')),
-		pages: Number(elem.getAttribute('data-pages')),
-		padding: Number(elem.getAttribute('data-page-padding')||-1),
-		prevnext: !!elem.getAttribute('data-prevnext'),
-		firstlast: !!elem.getAttribute('data-firstlast')
+var getNavPositions = function(data){
+		return { 'first': 1, 'prev': data.current_page - 1, 'next': data.current_page + 1, 'last': data.pages };
+	},
+	getAttributes = function(elem){
+		return { 
+			current_page: Number(elem.getAttribute('data-current-page')),
+			current_offset: Number(elem.getAttribute('data-current-offset')),
+			page_size: Number(elem.getAttribute('data-page-size')),
+			pages: Number(elem.getAttribute('data-pages')),
+			padding: Number(elem.getAttribute('data-page-padding')||-1),
+			prevnext: !!elem.getAttribute('data-prevnext'),
+			firstlast: !!elem.getAttribute('data-firstlast')
+		}
 	};
-}
 
 
 xtag.register('pager', {
+	template: '<a data-pager-element="first">first</a>' +
+				'<a data-pager-element="prev">previous</a>' +
+				'<a data-pager-element="next">next</a>' +
+				'<a data-pager-element="last">last</a>',
 	setters:{
-		'data-current-page': function(v){
-			this.setAttribute('data-current-page', v);
+		'data-current-page': function(value){
+			this.setAttribute('data-current-page', value);
 			xtag.tags.pager.onInsert.call(this);
 		}
 	},
@@ -29,9 +36,9 @@ xtag.register('pager', {
 				data.current_page = data.current_offset / data.page_size;
 			}
 
-			var values = { 'prev': data.current_page - 1, 'next': data.current_page + 1, 'first': 1, 'last': data.pages };
-			for (var z in values){
-				if (this.classList.contains(z)) var isNum = data.current_page = values[z];
+			var pos = getNavPositions(data);
+			for (var z in pos){
+				if (this.dataset.pagerElement == z) var isNum = data.current_page = pos[z];
 			}				
 			if (!isNum) data.current_page = Number(this.innerHTML) ;
             
@@ -43,7 +50,7 @@ xtag.register('pager', {
 	}, 
 	onInsert: function(){           
 		var self = this,
-		data = getAttributes(this);
+			data = getAttributes(this);
 
 		if (!data.current_page && data.current_offset && data.page_size){              
 			data.current_page = data.current_offset / data.page_size;
@@ -53,20 +60,20 @@ xtag.register('pager', {
 			var url = self.getAttribute('data-url');
 			return (!url) ? '#' : url.replace('{current-page}', itr_page).replace('{current-offset}', data.page_size * itr_page);
 		}
-
+		
 		var createPageItem = function(page, selected, txt){
 				var elem = document.createElement('a');  
 				elem.setAttribute('href', getUrl(page));
 				elem.innerHTML = txt || page;
-			if (selected) elem.setAttribute('selected',true);
+			if (selected) elem.setAttribute('selected', true);
 			return elem;
 		}
-
-		this.innerHTML = "<a class='first' href='"+getUrl(1)+
-			"'>first</a><a class='prev' href='"+getUrl(data.current_page-1)+
-			"'>previous</a><a class='next' href='"+getUrl(data.current_page+1)+
-			"'>next</a><a class='last' href='"+getUrl(data.pages)+"'>last</a>";
-
+		
+		var pos = getNavPositions(data);
+		xtag.query(this, '[data-pager-element]').forEach(function(element){
+			element.href = getUrl(pos[element.dataset.pagerElement]);
+		});
+		
 		data.padding = data.padding == -1 ? data.pages : data.padding;
 		var startIdx = data.current_page-data.padding < 1 ? 
 			1 : 
@@ -84,14 +91,10 @@ xtag.register('pager', {
 			this.insertBefore(item, this.children[this.children.length-2]);                
 		}
 
-		this.setAttribute('data-hidefirst', 
-		data.firstlast && data.current_page == 1);
-		this.setAttribute('data-hidelast', 
-		data.firstlast && data.current_page == data.pages);
-		this.setAttribute('data-hideprev', 
-		data.prevnext && data.current_page == 1);
-		this.setAttribute('data-hidenext', 
-		data.prevnext && data.current_page == data.pages);
+		this.setAttribute('data-hidefirst', data.firstlast && data.current_page == 1);
+		this.setAttribute('data-hidelast', data.firstlast && data.current_page == data.pages);
+		this.setAttribute('data-hideprev', data.prevnext && data.current_page == 1);
+		this.setAttribute('data-hidenext', data.prevnext && data.current_page == data.pages);
 
 	}
 });

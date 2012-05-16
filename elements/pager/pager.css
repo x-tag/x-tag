@@ -8,27 +8,27 @@ x-pager a{
 x-pager a[selected="true"]{
 	font-weight: bold;
 }
-x-pager .first, x-pager .last{
+x-pager [data-pager-element="first"], x-pager [data-pager-element="last"]{
 	display: none;
 }
-x-pager[data-firstlast="true"] a.first, x-pager[data-firstlast="true"] a.last{
+x-pager[data-firstlast="true"] a[data-pager-element="first"], x-pager[data-firstlast="true"] a[data-pager-element="last"]{
 	display: inline;
 }
-x-pager .prev, x-pager .next{
+x-pager a[data-pager-element="prev"], x-pager a[data-pager-element="next"]{
 	display: none;
 }
-x-pager[data-prevnext="true"] a.prev, x-pager[data-prevnext="true"] a.next{
+x-pager[data-prevnext="true"] a[data-pager-element="prev"], x-pager[data-prevnext="true"] a[data-pager-element="next"]{
 	display: inline;
 }
-x-pager[data-hidefirst="true"] a.first{
+x-pager[data-hidefirst="true"] a[data-pager-element="first"]{
 	display:none;
 }
-x-pager[data-hidelast="true"] a.last{
+x-pager[data-hidelast="true"] a[data-pager-element="last"]{
 	display:none;
 }
-x-pager[data-hideprev="true"] a.prev{
+x-pager[data-hideprev="true"] a[data-pager-element="prev"]{
 	display:none;
 }
-x-pager[data-hidenext="true"] a.next{
+x-pager[data-hidenext="true"] a[data-pager-element="next"]{
 	display:none;
 }

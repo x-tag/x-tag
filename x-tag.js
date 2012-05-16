@@ -18,6 +18,7 @@
 			methods: {},
 			getters: {}, 
 			setters: {},
+			template: '',
 			onCreate: function(){},
 			onInsert: function(){}, 
 		},
@@ -65,7 +66,8 @@
 				for (var z in options.methods) element.xtag[z] = options.methods[z].bind(element);
 				for (var z in options.getters) element.__defineGetter__(z, options.getters[z]);
 				for (var z in options.setters) element.__defineSetter__(z, options.setters[z]);
-				xtag.addEvents(element, options.events);				
+				xtag.addEvents(element, options.events);
+				if (options.template) element.innerHTML = options.template;
 				options.onCreate.call(element);
 			}
 		},
