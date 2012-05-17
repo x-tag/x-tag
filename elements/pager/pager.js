@@ -18,7 +18,7 @@ var getNavPositions = function(data){
 
 xtag.register('pager', {
 	template: '<a data-pager-element="first">first</a>' +
-				'<a data-pager-element="prev">previous</a>' +
+				'<a data-pager-element="prev">previous</a>' +			
 				'<a data-pager-element="next">next</a>' +
 				'<a data-pager-element="last">last</a>',
 	setters:{
@@ -50,7 +50,8 @@ xtag.register('pager', {
 	}, 
 	onInsert: function(){           
 		var self = this,
-			data = getAttributes(this);
+			data = getAttributes(this),
+			populated = this.children.length > 4;
 
 		if (!data.current_page && data.current_offset && data.page_size){              
 			data.current_page = data.current_offset / data.page_size;
@@ -83,12 +84,21 @@ xtag.register('pager', {
 
 		var endIdx = data.current_page+data.padding > data.pages ? 
 			data.pages : 
-				data.current_page-data.padding < 1 ? (data.padding * 2) + 1: 
+				data.current_page-data.padding < 1 ? 
+				(data.padding * 2) + 1 :
 				data.current_page+data.padding;
 
+
 		for (var i = startIdx; i <= endIdx; i++){
-			var item = createPageItem(i, data.current_page == i);
-			this.insertBefore(item, this.children[this.children.length-2]);                
+			if(populated){
+				var page = this.children[i+2-startIdx];
+				page.setAttribute('href', getUrl(i));
+				page.setAttribute('selected', data.current_page == i);
+				page.innerHTML = i;
+			}else{
+				var item = createPageItem(i, data.current_page == i);
+				this.insertBefore(item, this.children[this.children.length-2]);
+			}
 		}
 
 		this.setAttribute('data-hidefirst', data.firstlast && data.current_page == 1);
