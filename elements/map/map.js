@@ -2,7 +2,7 @@
 (function(){
 	
 	/*
-		***This is the copyright block for the following CloudMade/Leaflet JS library***
+		***This is the copyright block for the inclusion of the CloudMade/Leaflet JS mapping library***
 		
 		Copyright (c) 2010-2012, CloudMade, Vladimir Agafonkin
 		Leaflet is a modern open-source JavaScript library for interactive maps.
@@ -15,9 +15,10 @@
 		onCreate: function(){
 			this.xtag.map = new L.Map(this);
 			this.xtag.setTileLayer();
-			var zoom = this.getAttribute('data-zoom') || 13;
-			if (this.getAttribute('data-location') == 'auto') this.xtag.map.locateAndSetView(zoom);
-			else this.xtag.map.setView(new L.LatLng(37.3880, -122.0829), zoom);
+			var zoom = this.getAttribute('data-zoom') || 13,
+				location = (this.getAttribute('data-location') || '').replace(' ', '').split(',');
+			if (location == 'auto') this.xtag.map.locateAndSetView(zoom);
+			else this.xtag.map.setView(location[0] ? new L.LatLng(location[0] * 1, location[1] * 1) : new L.LatLng(37.3880, -122.0829), zoom);
 		},
 		setters: {
 			'data-tile-set': function(value){
@@ -28,7 +29,6 @@
 		events: {},
 		methods: {
 			setTileLayer: function(){
-				console.log('setTileLayer');
 				this.xtag.map.addLayer(new L.TileLayer('http://{s}.tile.cloudmade.com/' + this.getAttribute('data-key') + '/' + (this.getAttribute('data-tile-set') || 997) + '/256/{z}/{x}/{y}.png', this.getAttribute('data-tile-options') || {}));
 			}
 		}

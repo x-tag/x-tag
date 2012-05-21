@@ -15,12 +15,14 @@
 		<link rel="stylesheet" type="text/css" href="demo/css/demo.css"/>
 		<link rel="stylesheet" type="text/css" href="elements/tabbox/tabbox.css"/>
 		<link rel="stylesheet" type="text/css" href="elements/accordion/accordion.css"/>
+		<link rel="stylesheet" type="text/css" href="elements/slidebox/slidebox.css"/>
 		<link rel="stylesheet" type="text/css" href="elements/pager/pager.css"/>
 		<link rel="stylesheet" type="text/css" href="elements/map/map.css"/>
 		
 		<script type="text/javascript" src="x-tag.js"></script>
 		<script type="text/javascript" src="elements/tabbox/tabbox.js"></script>
 		<script type="text/javascript" src="elements/accordion/accordion.js"></script>
+		<script type="text/javascript" src="elements/slidebox/slidebox.js"></script>
 		<script type="text/javascript" src="elements/pager/pager.js"></script>
 		<script type="text/javascript" src="elements/map/map.js"></script>
 	</head>
@@ -31,7 +33,7 @@
 <header>
 	<h1 id="logo">&lt;<span>x</span>&gt;</h1>
 	<nav>
-		<a href="#tabbox">Tabbox</a>
+		<a href="#menu"><div>&#9552;</div><br /><div>&#9552;</div></a>
 	</nav>
 </header>
 
@@ -89,6 +91,41 @@
 					</x-panel>
 				</x-panels>
 			</x-tabbox>
+		</dd>
+		
+		<dt>Slidebox</dt>
+		<dd id="slidebox">
+			<p class="description">
+				A container used to display a set of tabbed pages of elements.
+				A row of tabs is displayed at the top of tabbox which may be used to switch between each page.
+				The tabbox may contain a <code>tabs</code> element, a cointainer for <code>tab</code> elements, 
+				and a <code>tabpanels</code> element, which serves as a contianer for <code>tabpanel</code> elements.
+			</p>
+			
+			<nav class="actions">
+				<button data-action-type="style">Untyle</button>
+				<button data-action-type="slidePrevious"><-- Previous Slide</button>
+				<button data-action-type="slideNext">Next Slide --></button>
+				<button data-action-type="slide-top" data-action-value="top">Tabs on Top</button>
+				<button data-action-type="slide-left" data-action-value="left">Tabs to Left</button>
+				<button data-action-type="slide-right" data-action-value="right">Tabs to Right</button>
+				<button data-action-type="slide-bottom" data-action-value="bottom">Tabs on Bottom</button>
+				<button data-action-type="addSlide">Add Slide</button>
+			</nav>
+			
+			<x-slidebox id="slidebox_demo" class="style" data-flip-axis="y">
+				<x-panel>
+					<img src="http://stwot.motortrend.com/files/2011/10/Chevrolet-Camaro-1LE-concept-front-three-quarter-623x389.jpg" />
+				</x-panel>
+				
+				<x-panel>
+					<img src="http://image.motortrend.com/f/33634076+w569+h356+ar1/2012-Chevrolet-Camaro-ZL1-front-view-in-motion.jpg" />
+				</x-panel>
+
+				<x-panel>
+					<img src="http://stwot.motortrend.com/files/2012/02/2012-Chevrolet-Camaro-Z28-45th-Anniversary-Edition-front-three-quarter1-623x389.jpg" />
+				</x-panel>
+			</x-slidebox>
 		</dd>
 		
 		<dt>Accordion</dt>
@@ -242,24 +279,12 @@
 					demo.xtag.nextToggler();
 					break;
 					
-				case 'stackPile':
-					demo.setAttribute('stack-style', 'pile');
+				case 'slideNext':
+					demo.xtag.slideNext();
 					break;
 					
-				case 'stackDown':
-					demo.setAttribute('stack-direction', 'down');
-					break;
-					
-				case 'stackRight':
-					demo.setAttribute('stack-direction', 'right');
-					break;
-					
-				case 'stackLeft':
-					demo.setAttribute('stack-direction', 'left');
-					break;
-					
-				case 'stackUp':
-					demo.setAttribute('stack-direction', 'up');
+				case 'slidePrevious':
+					demo.xtag.slidePrevious();
 					break;
 			}
 			

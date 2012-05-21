@@ -127,6 +127,18 @@ nav.actions button {
 		margin-top: 0px;
 	}
 
+/* SLIDEBOX DEMO */
+
+	#slidebox_demo {
+		height: 300px;
+		width: 300px;
+	}
+	
+	#slidebox_demo img {
+		width: 100%;
+		height: auto;
+	}
+	
 /* ACCORDION DEMO */
 
 	#accordion_demo.style {
