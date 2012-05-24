@@ -8,7 +8,7 @@
 		prefix.css = prefix.js ? '-' + prefix.js.toLowerCase() + '-' : prefix.js;
 		prefix.properties = '{' + 
 			prefix.css + 'animation-duration: 0.0001s;' +
-			prefix.css + 'animation-name: nodeInserted;' + 
+			prefix.css + 'animation-name: nodeInserted !important;' + 
 		'}';
 		
 	var styles = document.createElement('style');
@@ -143,16 +143,11 @@
 				request.open(options.method , options.url, true);
 				request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 				request.onreadystatechange = function(){
+					element.setAttribute('data-readystate', request.readyState);
 					if (request.readyState == 4){
-						xtag.fireEvent('dataready', element, { data: request.responseText });
-						if (element.parser){
-							var content = xtag.toArray(element.parser.call(element, request.responseText)),
-								type = typeof content[0] == 'string';
-							if (content[0]) content.forEach(function(el){
-								type ? element.innerHTML = el : element.appendChild(el);
-							});
-						}
-						else element.xtag.data = request.responseText;
+						element.setAttribute('data-requeststatus', request.status);
+						xtag.fireEvent('dataready', element, { request: request });
+						if (element.xtag.parser) element.xtag.parser.call(element, request);
 					}
 				}
 			request.send();
@@ -163,7 +158,16 @@
 			var setSrc = options.setters.src || function(){},
 				setSelected = options.setters.selected || function(){},
 				onInsert = options.onInsert || function(){};
-				
+			
+			options.getters.parser = function(fn){
+				return this.xtag.parser;
+			};
+			
+			options.setters.parser = function(fn){
+				this.xtag.parser = fn;
+				if (this.xtag.request.readyState == 4) fn.call(this, this.xtag.request);
+			};
+			
 			options.setters.src = function(src){
 				setSrc.call(this, src);
 				if (src && this.getAttribute('selected')) xtag.request(this, { url: src, method: 'GET' });
@@ -215,6 +219,4 @@
 		document.addEventListener(event, nodeInserted, false);
 	});
 	
-	// document.addEventListener('dataready', console.log, false);
-
 })();
