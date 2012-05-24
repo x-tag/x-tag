@@ -17,7 +17,7 @@ var getNavPositions = function(data){
 
 
 xtag.register('pager', {
-	template: '<a data-pager-element="first">first</a>' +
+	content: '<a data-pager-element="first">first</a>' +
 				'<a data-pager-element="prev">previous</a>' +			
 				'<a data-pager-element="next">next</a>' +
 				'<a data-pager-element="last">last</a>',

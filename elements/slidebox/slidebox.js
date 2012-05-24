@@ -3,7 +3,7 @@
 	
 	var transitionend = function(e){
 			if (e.target.parentNode == this) {
-				e.target.removeAttribute('data-current-slide', true);
+				e.target.removeAttribute('data-current-slide');
 				e.target.setAttribute('data-previous-slide', true);
 			}
 		},
@@ -17,7 +17,7 @@
 				sideMap = { previous: ['left', 'up'], next: ['right', 'down'] };
 				
 			this.setAttribute('data-slide-direction', sideMap[side][(!axis || axis == 'x') ? 0 : 1]);
-			previous.removeAttribute('data-current-slide', true);
+			previous.removeAttribute('data-current-slide');
 			previous.setAttribute('data-previous-slide', true);
 			next.setAttribute('data-current-slide', true);
 		}

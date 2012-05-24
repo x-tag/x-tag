@@ -2,10 +2,7 @@
 (function(){
 	
 	xtag.register('panel', {
-		onCreate: function(){
-			
-		},
-		setters: {},
+		bindRequest: true,
 		events: {},
 		methods: {}
 	});

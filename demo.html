@@ -13,6 +13,7 @@
 		<link rel="stylesheet" type="text/css" href="demo/highlight/styles/vs.css" />
 		<link rel="stylesheet" type="text/css" href="demo/css/global.css"/>
 		<link rel="stylesheet" type="text/css" href="demo/css/demo.css"/>
+		<link rel="stylesheet" type="text/css" href="elements/panel/panel.css"/>
 		<link rel="stylesheet" type="text/css" href="elements/tabbox/tabbox.css"/>
 		<link rel="stylesheet" type="text/css" href="elements/accordion/accordion.css"/>
 		<link rel="stylesheet" type="text/css" href="elements/slidebox/slidebox.css"/>
@@ -20,6 +21,7 @@
 		<link rel="stylesheet" type="text/css" href="elements/map/map.css"/>
 		
 		<script type="text/javascript" src="x-tag.js"></script>
+		<script type="text/javascript" src="elements/panel/panel.js"></script>
 		<script type="text/javascript" src="elements/tabbox/tabbox.js"></script>
 		<script type="text/javascript" src="elements/accordion/accordion.js"></script>
 		<script type="text/javascript" src="elements/slidebox/slidebox.js"></script>
@@ -44,6 +46,19 @@
 		<span id="structural" class="anchor-id"></span>
 	</h3>
 	<dl>
+		<dt>Panel</dt>
+		<dd id="panel">
+			<p class="description">
+				A panel is a block element that has the ability to load data asycronously when a <code>src</code> attribute is set (same-origin policy restricted)
+			</p>
+			
+			<nav class="actions">
+				<button data-action-type="select">Select Panel (retrieves data)</button>
+			</nav>
+			
+			<x-panel id="panel_demo" src="demo/html/panel-content.html"></x-panel>
+		</dd>
+		
 		<dt>Tabbox</dt>
 		<dd id="tabbox">
 			<p class="description">
@@ -184,7 +199,7 @@
 		Navigation Elements
 		<span id="navigation" class="anchor-id"></span>
 	</h3>
-	<dl id="accordion">
+	<dl>
 		<dt>Pager</dt>
 		<dd>
 			<p class="description">
@@ -226,6 +241,10 @@
 				demo = document.getElementById(tag + '_demo');
 				
 			switch(action.getAttribute('data-action-type')) {
+				case 'select':
+					demo.selected = true;
+					break;
+					
 				case 'style':
 					action.textContent = demo.classList.contains('style') ? 'Style' : 'Unstyle';
 					demo.classList.toggle('style');

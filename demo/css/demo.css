@@ -15,6 +15,13 @@ nav.actions button {
 	z-index: 1;
 }
 
+#panel_demo {
+	height: 200px;
+	width: 200px;
+	background: #f3f3f3;
+	border: 1px solid #ddd;
+}
+
 /* TABBOX DEMO */
 
 	#tabbox_demo.style {
