@@ -179,7 +179,8 @@
 			
 			options.onInsert = function(){
 				onInsert.call(this);
-				this.src = this.getAttribute('src');
+				var src = this.getAttribute('src');
+				if (src) this.src = src;
 			}
 		},
 		
