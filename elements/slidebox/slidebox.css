@@ -19,6 +19,18 @@ x-slidebox[data-flip-axis="y"]  > * {
 	overflow-y: hidden;
 }
 
+x-slidebox x-panel {
+    display: none;
+}
+
+x-slidebox x-panel:first-of-type {
+    display: block;
+}
+
+x-slidebox x-panel[data-current-slide="true"] {
+    display: block;
+}
+
 x-slidebox  > * {
 	display: block;
 	position: absolute;
