@@ -46,11 +46,11 @@ xtag.register('tabs', {
 		},
 		nextTab: function(){
 			var tab = this.xtag.getSelectedTab();
-			(tab.nextElementSibling || tab.parentNode.firstElementChild).xtag.selectTab();
+			(tab.nextElementSibling || this.firstElementChild).xtag.selectTab();
 		},
 		previousTab: function(){
 			var tab = this.xtag.getSelectedTab();
-			(tab.previousElementSibling || tab.parentNode.lastElementChild).xtag.selectTab();
+			(tab.previousElementSibling || this.lastElementChild).xtag.selectTab();
 		}
 	}
 });

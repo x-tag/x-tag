@@ -15,6 +15,13 @@ nav.actions button {
 	z-index: 1;
 }
 
+#panel_demo {
+	height: 200px;
+	width: 200px;
+	background: #f3f3f3;
+	border: 1px solid #ddd;
+}
+
 /* TABBOX DEMO */
 
 	#tabbox_demo.style {
@@ -127,6 +134,18 @@ nav.actions button {
 		margin-top: 0px;
 	}
 
+/* SLIDEBOX DEMO */
+
+	#slidebox_demo {
+		height: 300px;
+		width: 300px;
+	}
+	
+	#slidebox_demo img {
+		width: 100%;
+		height: auto;
+	}
+	
 /* ACCORDION DEMO */
 
 	#accordion_demo.style {

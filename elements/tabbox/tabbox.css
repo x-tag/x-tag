@@ -1,5 +1,5 @@
 
-x-tabbox, x-tabs, x-tab, x-panels {
+x-tabbox, x-tabs, x-tab {
 	display: box;
 	display: -ms-box;
 	display: -moz-box;
@@ -32,11 +32,8 @@ x-tabbox x-panel {
 	display: none;
 }
 
-x-tabbox x-panel[selected="true"] {
-	display: box;
-	display: -ms-box;
-	display: -moz-box;
-	display: -webkit-box;
+x-tabbox x-panels, x-tabbox x-panel[selected="true"] {
+	display: block;
 }
 
 x-tabbox[tab-orient="left"], x-tabbox[tab-orient="right"] {

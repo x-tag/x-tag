@@ -26,7 +26,7 @@ h3 {
 	margin-bottom: 10px;
 	padding: 4px 9px;
 	font-size: 135%;
-	color: #eee;
+	color: #fff;
 	text-decoration: none;
 	background: url("../images/header-bk.png");
 	border-radius: 5px;
@@ -115,18 +115,29 @@ header {
 
 header nav {
 	float: right;
-	margin: 13px 20px 0 0;
+	margin: 16px 20px 0 0;
 }
 
 header nav a {
+	display: block;
 	margin-left: 18px;
 	color: #fff;
+	font-size: 23px;
 	font-weight: bold;
 	text-decoration: none;
+	line-height: 0;
 }
 
 header nav a:first-child {
-	margin-left: 0px;
+	margin-left: 0;
+}
+
+header nav a div {
+    position: relative;
+}
+
+header nav a div:last-child {
+    top: 8px;
 }
 
 .max-width {

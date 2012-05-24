@@ -2,7 +2,7 @@
 (function(){
 	
 	/*
-		***This is the copyright block for the following CloudMade/Leaflet JS library***
+		***This is the copyright block for the inclusion of the CloudMade/Leaflet JS mapping library***
 		
 		Copyright (c) 2010-2012, CloudMade, Vladimir Agafonkin
 		Leaflet is a modern open-source JavaScript library for interactive maps.
@@ -13,12 +13,18 @@
 	
 	xtag.register('map', {
 		onCreate: function(){
-			this.xtag.map = new L.Map(this, {
-				zoom: 13
-			});
+			this.xtag.map = new L.Map(this);
 			this.xtag.setTileLayer();
-			if (this.getAttribute('data-geolocate')) this.xtag.map.locateAndSetView(this.getAttribute('data-zoom') || 10);
-			else this.xtag.map.setView(new L.LatLng(51.505, -0.09), 13);
+			var zoom = this.getAttribute('data-zoom') || 13,
+				location = (this.getAttribute('data-location') || '').replace(' ', '').split(',');
+			if (location == 'auto') this.xtag.map.locateAndSetView(zoom);
+			else this.xtag.map.setView(location[0] ? new L.LatLng(location[0] * 1, location[1] * 1) : new L.LatLng(37.3880, -122.0829), zoom);
+		},
+		setters: {
+			'data-tile-set': function(value){
+				this.setAttribute('data-tile-set', value);
+				this.xtag.setTileLayer();
+			}
 		},
 		events: {},
 		methods: {
