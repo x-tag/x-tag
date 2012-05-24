@@ -15,12 +15,24 @@ nav.actions button {
 	z-index: 1;
 }
 
+/* PANEL DEMO */
+
 #panel_demo {
 	height: 200px;
-	width: 200px;
+	width: 300px;
 	background: #f3f3f3;
 	border: 1px solid #ddd;
+	transition: 1s;
+	-o-transition: 1s;
+	-ms-transition: 1s;
+	-moz-transition: 1s;
+	-webkit-transition: 1s;
 }
+
+#panel_demo[data-readystate="4"] {
+	background-color: #58F48C;
+}
+
 
 /* TABBOX DEMO */
 
