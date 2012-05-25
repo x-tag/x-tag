@@ -33,7 +33,7 @@
 	xtag = {
 		namespace: 'x',
 		tags: {},
-		sheet: styles.sheet,
+		callbacks: {},
 		tagOptions: {
 			content: '',
 			events: {},
@@ -43,6 +43,8 @@
 			onCreate: function(){},
 			onInsert: function(){}
 		},
+		sheet: styles.sheet,
+		anchor: document.createElement('a'),
 		eventMap: {
 			animationstart: ['animationstart', 'oAnimationStart', 'MSAnimationStart', 'webkitAnimationStart']
 		},
@@ -140,25 +142,53 @@
 		},
 		
 		request: function(element, options){
-			var request = new XMLHttpRequest();
+			var request = { readyState: 0 };
+			xtag.anchor.href = options.url;
+			if (xtag.anchor.hostname == window.location.hostname) {
+				request = new XMLHttpRequest();
 				request.open(options.method , options.url, true);
 				request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 				request.onreadystatechange = function(){
 					element.setAttribute('data-readystate', request.readyState);
-					if (request.readyState == 4){
-						element.setAttribute('data-requeststatus', request.status);
-						xtag.fireEvent('dataready', element, { request: request });
-						if (element.xtag.parser) element.xtag.parser.call(element, request);
-					}
+					if (request.readyState == 4) xtag.requestCallback(element, request);
 				}
-			request.send();
+				request.send();
+			}
+			else {
+				console.log('USE JSONP FOR REQUEST');
+				element.setAttribute('data-readystate', 0);
+				var script = document.createElement('script'),
+					callbackID = new Date().getTime(),
+					url = options.url + 
+						(~options.url.indexOf('?') ? '&' : '?') + 
+						(element.getAttribute('data-callback') || 'callback') + 
+						'=xtags.callbacks.' + callbackID;
+						
+				xtag.callbacks[callbackID] = function(data){
+					xtag.requestCallback(element, { status: 200, responseText: data });
+				}
+				
+				script.type = 'text/javascript';
+				script.onload = function(){
+					element.setAttribute('data-readystate', request.readyState = 4);
+				}
+			}
 			element.xtag.request = request;
 		},
 		
+		requestCallback: function(element, request){
+			element.setAttribute('data-requeststatus', request.status);
+			xtag.fireEvent('dataready', element, { request: request });
+			if (element.xtag.parser) element.xtag.parser.call(element, request);
+		},
+		
 		bindRequest: function(element, options){
-			var setSrc = options.setters.src || function(){},
-				setSelected = options.setters.selected || function(){},
-				onInsert = options.onInsert || function(){};
+			var onInsert = options.onInsert || function(){};
+			options.onInsert = function(){
+				onInsert.call(this);
+				var src = this.getAttribute('src');
+				if (src) this.src = src;
+			};
 			
 			options.getters.parser = function(fn){
 				return this.xtag.parser;
@@ -168,26 +198,6 @@
 				this.xtag.parser = fn;
 				if (this.xtag.request.readyState == 4) fn.call(this, this.xtag.request);
 			};
-			
-			options.setters.src = function(src){
-				console.log(src);
-				setSrc.call(this, src);
-				if (src && this.getAttribute('selected')) xtag.request(this, { url: src, method: 'GET' });
-				this.setAttribute('src', src);
-			};
-			
-			options.setters.selected = function(value){
-				setSelected.call(this, value);
-				var src = this.getAttribute('src');
-				if (src) xtag.request(this, { url: src, method: 'GET' });
-				this.setAttribute('selected', value);
-			};
-			
-			options.onInsert = function(){
-				onInsert.call(this);
-				var src = this.getAttribute('src');
-				if (src) this.src = src;
-			}
 		},
 		
 		query: function(element, selector){

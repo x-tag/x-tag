@@ -55,7 +55,8 @@
 			</p>
 			
 			<nav class="actions">
-				<button data-action-type="select">Select Panel (retrieves data)</button>
+				<button data-action-type="select">Select Panel (loads <code>src</code>)</button>
+				<button data-action-type="switchSrc">Switch <code>src</code></button>
 			</nav>
 			
 			<x-panel id="panel_demo" src="demo/html/panel-content.html"></x-panel>
@@ -265,6 +266,11 @@
 			switch(action.getAttribute('data-action-type')) {
 				case 'select':
 					demo.selected = true;
+					break;
+					
+				case 'switchSrc':
+					var src = demo.getAttribute('src');
+					demo.src = src.replace.apply(src, ~src.indexOf('2.html') ? ['2.html', '.html'] : ['.html', '2.html']);
 					break;
 					
 				case 'style':

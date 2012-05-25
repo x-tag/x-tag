@@ -69,6 +69,12 @@ p code {
 	background: -webkit-linear-gradient(top, #fafafa, #efefef);
 }
 
+button code {
+	position: relative;
+    top: -1px;
+	background: #fff;
+}
+
 header {
 	position: fixed;
 	top: 0;
