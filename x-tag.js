@@ -55,7 +55,8 @@
 		},
 		
 		addEvent: function(element, type, fn){
-			element.addEventListener(type.split(':')[0], function(event){
+			var name = type.split(':')[0];
+			element.addEventListener(name, function(event){
 				var target = element;
 				if (type.match(':')) {
 					type.replace(/:(\w*)\(([^\)]*)\)/g, function(match, pseudo, value){
@@ -64,10 +65,10 @@
 							target = returned === false ? false : returned || element;
 						}
 					});
-					if (target) fn.call(target, event);
+					if (target) fn.call(target, event, element);
 				}
-				else fn.call(target, event);
-			}, false);
+				else fn.call(target, event, element);
+			}, !!~['focus', 'blur'].indexOf(name));
 		},
 		
 		addEvents: function(element, events){
@@ -169,6 +170,7 @@
 			};
 			
 			options.setters.src = function(src){
+				console.log(src);
 				setSrc.call(this, src);
 				if (src && this.getAttribute('selected')) xtag.request(this, { url: src, method: 'GET' });
 				this.setAttribute('src', src);

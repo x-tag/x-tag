@@ -75,7 +75,7 @@
 			
 <pre>
 <code>
-mozComponents.register('accordion', {
+xtag.register('accordion', {
 	onCreate: function(){
 		// do something when the node is initially created
 	},
@@ -87,10 +87,17 @@ mozComponents.register('accordion', {
 			// activate the clicked toggler
 		}
 	},
+	getters: {
+		'togglers': function(){
+			return xtag.query(this, 'x-toggler').filter(function(toggler){
+				return toggler.parentNode == this;
+			}, this);
+		}
+	},
+	setters: {
+		// Add DOM object setters
+	},
 	methods: {
-		getSelectedIndex: function(){
-			// get the index of the selected toggler element
-		},
 		nextToggler: function(){
 			// activate next toggler element
 		},
@@ -101,52 +108,6 @@ mozComponents.register('accordion', {
 });
 </code>
 </pre>
-
-		</dd>
-	</dl>
-	
-	<h3>
-		Tag Demos
-		<span id="demos" class="anchor-id"></span>
-	</h3>
-	<dl>
-		<dt>Tabbox</dt>
-		<dd>
-			<img src="" />
-			<p>
-				When you need an advanced, interactive element for your app, like a map, tree list, 
-				or spin wheel input, you usually need to find a plugin, write a block of HTML, and instantiate 
-				the plugin using elements you retrieve from the DOM in your own JS. 
-				Let's get real: that sucks. What if all you did was drop a 
-				custom tag in the page and it Just Worked&#8482;? Well folks, x-tag 
-				turns that "what if" into reality.
-			</p>
-		</dd>
-		
-		<dt>Accordion</dt>
-		<dd>
-			<img src="" />
-			<p>
-				When you need an advanced, interactive element for your app, like a map, tree list, 
-				or spin wheel input, you usually need to find a plugin, paste in a block of HTML 
-				in your source, and instantiate the plugin you chose using elements you retrieve 
-				from the DOM in a DOM ready function. Let's get real: that sucks. What if all you 
-				had to do was use an HTML tag and it all Just Worked&#8482;? Well folks, <span class="font">x-tag</span> 
-				turns that "what if" into reality.
-			</p>
-		</dd>
-		
-		<dt>Tabbox</dt>
-		<dd>
-			<img src="" />
-			<p>
-				When you need an advanced, interactive element for your app, like a map, tree list, 
-				or spin wheel input, you usually need to find a plugin, write a block of HTML, and instantiate 
-				the plugin using elements you retrieve from the DOM in your own JS. 
-				Let's get real: that sucks. What if all you did was drop a 
-				custom tag in the page and it Just Worked&#8482;? Well folks, <span class="font">x-tag</span> 
-				turns that "what if" into reality.
-			</p>
 		</dd>
 	</dl>
 	
@@ -155,15 +116,35 @@ mozComponents.register('accordion', {
 		<span id="docs" class="anchor-id"></span>
 	</h3>
 	<dl>
-		<dt>What it Does</dt>
+		<dt>Custom Tag Registration</dt>
 		<dd>
+			<h4><code>content</code></h4>
 			<p>
-				When you need an advanced, interactive element for your app, like a map, tree list, 
-				or spin wheel input, you usually need to find a plugin, write a block of HTML, and instantiate 
-				the plugin using elements you retrieve from the DOM in your own JS. 
-				Let's get real: that sucks. What if all you did was drop a 
-				custom tag in the page and it Just Worked&#8482;? Well folks, x-tag 
-				turns that "what if" into reality.
+				The content property on the tag registration object allows you to declare 
+				default innerHTML for your component, similar to Shadow DOM elements in highlighted 
+				in the W3 Web Components draft.
+			</p>
+			
+			<h4><code>onCreate</code></h4>
+			<p>
+				Whenever a tag is recognized and parsed on load or generated using 
+				<code>document.createElement</code>, an onCreate function is called 
+				allowing you to modify the element before any other code is applied to it.
+			</p>
+			
+			<h4><code>onInsert</code></h4>
+			<p>
+				The onInsert method is called everytime a given component's DOM element
+				is added to the DOM. This allows you to do things like check the state or 
+				structure of the surrounding DOM tree or window scope and modify your 
+				component accordingly.
+			</p>
+			
+			<h4><code>events</code></h4>
+			<p>
+				The events property allows you to bind events to the component at the time of creation
+				pseudo events like delegation are supported, additional pseudos can be added to 
+				the <code>pseudoEvents</code> object on the global <code>xtag</code> variable.
 			</p>
 		</dd>
 	</dl>

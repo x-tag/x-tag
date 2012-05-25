@@ -17,16 +17,18 @@
 		<link rel="stylesheet" type="text/css" href="elements/tabbox/tabbox.css"/>
 		<link rel="stylesheet" type="text/css" href="elements/accordion/accordion.css"/>
 		<link rel="stylesheet" type="text/css" href="elements/slidebox/slidebox.css"/>
-		<link rel="stylesheet" type="text/css" href="elements/pager/pager.css"/>
 		<link rel="stylesheet" type="text/css" href="elements/map/map.css"/>
+		<link rel="stylesheet" type="text/css" href="elements/autocompleter/autocompleter.css"/>
+		<link rel="stylesheet" type="text/css" href="elements/pager/pager.css"/>
 		
 		<script type="text/javascript" src="x-tag.js"></script>
 		<script type="text/javascript" src="elements/panel/panel.js"></script>
 		<script type="text/javascript" src="elements/tabbox/tabbox.js"></script>
 		<script type="text/javascript" src="elements/accordion/accordion.js"></script>
 		<script type="text/javascript" src="elements/slidebox/slidebox.js"></script>
-		<script type="text/javascript" src="elements/pager/pager.js"></script>
 		<script type="text/javascript" src="elements/map/map.js"></script>
+		<script type="text/javascript" src="elements/autocompleter/autocompleter.js"></script>
+		<script type="text/javascript" src="elements/pager/pager.js"></script>
 	</head>
 
 
@@ -191,7 +193,27 @@
 	<dl>
 		<dt>Map</dt>
 		<dd>
+			<p class="description">
+				The map element automatically loads a Leaflet/OpenStreet map centered 
+				on either the user's location, a set of  lat/long coordinates provided via attribute, 
+				or an internal default (Montain View, CA - had to pick somewhere!)
+			</p>
 			<x-map id="map_demo" data-key="39d2b66f0d5d49dbb52a5b7ad87aea9b"></x-map>
+		</dd>
+	</dl>
+	
+	<h3>
+		Input Elements
+		<span id="input" class="anchor-id"></span>
+	</h3>
+	<dl>
+		<dt>Autocompleter</dt>
+		<dd>
+			<p class="description">
+				An autocompleter input provides automated hints and completion of textual value based on keyboard input.
+			</p>
+			
+			<x-autocompleter id="autocompleter_demo" data-padding="5" data-url="http://i.wxbug.net/REST/Direct/GetLocationSearch.ashx?ci={query}&co=US&api_key=yekwnt5vn3pgk5245d5d2vks"></x-autocompleter>
 		</dd>
 	</dl>
 	
