@@ -38,6 +38,7 @@
 		anchor: document.createElement('a'),
 		tagOptions: {
 			content: '',
+			mixins: [],
 			events: {},
 			methods: {},
 			getters: {}, 
@@ -66,20 +67,25 @@
 				}
 			}
 		},
-		requestDefaults: {
-			getters: {
-				'dataready:retain()': function(fn){
-					return this.xtag.dataready;
-				}
-			},
-			setters: {
-				src: function(src){
-					if (src) xtag.request(this, { url: src, method: 'GET' });
-					this.setAttribute('src', src);
+		mixins: {
+			request: {
+				onInsert: function(){
+					this.src = this.getAttribute('src');
 				},
-				'dataready:retain()': function(fn){
-					this.xtag.dataready = fn;
-					if (this.xtag.request && this.xtag.request.readyState == 4) fn.call(this, this.xtag.request);
+				getters: {
+					'dataready:retain()': function(fn){
+						return this.xtag.dataready;
+					}
+				},
+				setters: {
+					src: function(src){
+						if (src) xtag.request(this, { url: src, method: 'GET' });
+						this.setAttribute('src', src);
+					},
+					'dataready:retain()': function(fn){
+						this.xtag.dataready = fn;
+						if (this.xtag.request && this.xtag.request.readyState == 4) fn.call(this, this.xtag.request);
+					}
 				}
 			}
 		},
@@ -112,6 +118,14 @@
 			return source;
 		},
 		
+		wrap: function(original, fn){
+			return function(){
+				var args = xtag.toArray(arguments);
+				original.apply(this, args);
+				fn.apply(this, args);
+			}
+		},
+		
 		tagCheck: function(element){
 			return element.tagName.match(new RegExp(xtag.namespace + '-', 'i'));
 		},
@@ -133,6 +147,42 @@
 			xtag.sheet.insertRule(selector + prefix.properties, 0);
 		},
 		
+		extendElement: function(element){
+			if (!element.xtag){
+				element.xtag = {};
+				var options = xtag.getOptions(element);
+				xtag.applyMixins(element, options);
+				for (var z in options.methods) element.xtag[z] = options.methods[z].bind(element);
+				for (var z in options.getters) xtag.applyAccessor('get', element, z, options.getters[z]);
+				for (var z in options.setters) xtag.applyAccessor('set', element, z, options.setters[z]);
+				xtag.addEvents(element, options.events);
+				if (options.content) element.innerHTML = options.content;
+				options.onCreate.call(element);
+			}
+		},
+		
+		applyMixins: function(element, options){
+			options.mixins.forEach(function(name){
+				var mixin = xtag.mixins[name];
+				for (var z in mixin) {
+					switch (xtag.typeOf(mixin[z])){
+						case 'function': options[z] = xtag.wrap(options[z], mixin[z])
+							break;
+						case 'object': options[z] = xtag.merge({}, mixin[z], options[z]);
+							break;
+						default: options[z] = mixin[z];
+					}
+				}
+			});
+		},
+		
+		applyAccessor: function(accessor, element, key, value){
+			var accessor = accessor[0].toUpperCase();
+			xtag.applyPseudos(element, key, function(){
+				element['__define' + accessor + 'etter__'](key, value);
+			}, [key, element]);
+		}, 
+		
 		applyPseudos: function(element, key, fn, args){
 			var	action = fn, args = xtag.toArray(args);
 			if (key.match(':')) key.replace(/:(\w*)\(([^\)]*)\)/g, function(match, pseudo, value){ // TODO: Make this regex find non-paren pseudos --> foo:bar:baz()
@@ -145,38 +195,6 @@
 			});
 			if (action) action.apply(element, args);
 		},
-		
-		extendElement: function(element){
-			if (!element.xtag){
-				element.xtag = {};
-				var options = xtag.getOptions(element);
-				if (options.bindRequest) options = xtag.bindRequest(element, options);
-				for (var z in options.methods) element.xtag[z] = options.methods[z].bind(element);
-				for (var z in options.getters) xtag.defineAccessor('get', element, z, options.getters[z]);
-				for (var z in options.setters) xtag.defineAccessor('set', element, z, options.setters[z]);
-				xtag.addEvents(element, options.events);
-				if (options.content) element.innerHTML = options.content;
-				options.onCreate.call(element);
-				xtag.fireEvent('tagready', element); 
-			}
-		},
-		
-		bindRequest: function(element, options){
-			var onInsert = options.onInsert || function(){};
-			return xtag.merge({}, xtag.requestDefaults, options, {
-				onInsert: function(){
-					onInsert.call(this);
-					this.src = this.getAttribute('src');
-				}
-			});
-		},
-		
-		defineAccessor: function(accessor, element, key, value){
-			var accessor = accessor[0].toUpperCase();
-			xtag.applyPseudos(element, key, function(){
-				element['__define' + accessor + 'etter__'](key, value);
-			}, [key, element]);
-		}, 
 		
 		request: function(element, options){
 			xtag.clearRequest(element);

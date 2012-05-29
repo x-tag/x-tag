@@ -2,7 +2,7 @@
 (function(){
 	
 	xtag.register('panel', {
-		bindRequest: true,
+		mixins: ['request'],
 		setters: {
 			src: function(src){
 				if (src && this.getAttribute('selected')) xtag.request(this, { url: src, method: 'GET' });
