@@ -46,9 +46,6 @@
 			onCreate: function(){},
 			onInsert: function(){}
 		},
-		eventMap: {
-			animationstart: ['animationstart', 'oAnimationStart', 'MSAnimationStart', 'webkitAnimationStart']
-		},
 		pseudos: {
 			delegate: function(selector, fn, event){
 				var target = xtag.query(this, selector).filter(function(node){
@@ -79,8 +76,10 @@
 				},
 				setters: {
 					src: function(src){
-						if (src) xtag.request(this, { url: src, method: 'GET' });
-						this.setAttribute('src', src);
+						if (src){
+							this.setAttribute('src', src);
+							xtag.request(this, { url: src, method: 'GET' });
+						}
 					},
 					'dataready:retain()': function(fn){
 						this.xtag.dataready = fn;
@@ -211,12 +210,11 @@
 		
 		request: function(element, options){
 			xtag.clearRequest(element);
-			
 			var last = element.xtag.request,
 				request = element.xtag.request = options;
-			if (xtag.fireEvent('beforerequest', element) === false) return false;
+			if (xtag.fireEvent('beforerequest', element) === false) return false;			
 			if (last && !options.update && last.url == element.xtag.request.url) return false;
-			
+			element.setAttribute('src', element.xtag.request.url);
 			xtag.anchor.href = options.url;
 			if (xtag.anchor.hostname == window.location.hostname) {
 				request = xtag.merge(new XMLHttpRequest(), request);
@@ -299,14 +297,15 @@
 		return element;
 	};
 	
-	var nodeInserted = function(event){
-		if (event.animationName == 'nodeInserted' && xtag.tagCheck(event.target)){
-			xtag.extendElement(event.target);
-			xtag.getOptions(event.target).onInsert.call(event.target);
-		}
-	}
+	var animationstart = ['animationstart', 'oAnimationStart', 'MSAnimationStart', 'webkitAnimationStart'],
+		nodeInserted = function(event){
+			if (event.animationName == 'nodeInserted' && xtag.tagCheck(event.target)){
+				xtag.extendElement(event.target);
+				xtag.getOptions(event.target).onInsert.call(event.target);
+			}
+		};
 	
-	xtag.eventMap.animationstart.forEach(function(event){
+	animationstart.forEach(function(event){
 		document.addEventListener(event, nodeInserted, false);
 	});
 	

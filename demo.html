@@ -265,7 +265,8 @@
 	}
 	
 	document.getElementById('autosuggest_demo').dataready = function(request){
-		console.log(this);
+		console.log(request);
+		if (!request.responseText) return this;
 		request.responseText.movies.forEach(function(movie){
 			console.log(movie);
 		});
