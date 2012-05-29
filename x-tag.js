@@ -147,6 +147,19 @@
 			xtag.sheet.insertRule(selector + prefix.properties, 0);
 		},
 		
+		applyPseudos: function(element, key, fn, args){
+			var	action = fn, args = xtag.toArray(args);
+			if (key.match(':')) key.replace(/:(\w+)\(([^\)]+)\)|:(\w+)/g, function(match, pseudo, value){ // TODO: Make this regex find non-paren pseudos --> foo:bar:baz()
+				if (action){
+					var passed = xtag.toArray(args);
+						passed.unshift(value, fn);
+					var returned = xtag.pseudos[pseudo].apply(element, passed);
+					action = returned === false ? false : returned || fn;
+				}
+			});
+			if (action) action.apply(element, args);
+		},
+		
 		extendElement: function(element){
 			if (!element.xtag){
 				element.xtag = {};
