@@ -9,14 +9,13 @@
 				this.setAttribute('src', src);
 			},
 			selected: function(value){
-				var src = this.getAttribute('src');
-				if (src) xtag.request(this, { url: src, method: 'GET' });
+				xtag.request(this, { url: this.getAttribute('src'), method: 'GET' });
 				this.setAttribute('selected', value);
 			}
 		},
 		events: {},
 		methods: {
-			parser: function(request){
+			dataready: function(request){
 				this.innerHTML = request.responseText;
 			}
 		}

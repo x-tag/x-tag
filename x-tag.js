@@ -34,6 +34,8 @@
 		namespace: 'x',
 		tags: {},
 		callbacks: {},
+		sheet: styles.sheet,
+		anchor: document.createElement('a'),
 		tagOptions: {
 			content: '',
 			events: {},
@@ -43,76 +45,62 @@
 			onCreate: function(){},
 			onInsert: function(){}
 		},
-		sheet: styles.sheet,
-		anchor: document.createElement('a'),
 		eventMap: {
 			animationstart: ['animationstart', 'oAnimationStart', 'MSAnimationStart', 'webkitAnimationStart']
 		},
-		eventPseudos: {
-			delegate: function(event, selector){
-				return xtag.query(this, selector).filter(function(node){
+		pseudos: {
+			delegate: function(selector, fn, event){
+				var target = xtag.query(this, selector).filter(function(node){
 					return node == event.target || node.contains(event.target);
-				})[0] || false;
+				})[0];
+				
+				return target ? function(){
+					fn.apply(target, arguments);
+				} : false;
+			},
+			retain: function(args, fn, property, element){
+				var value = element[property];
+				return function(){
+					fn();
+					element[property] = value;
+				}
+			}
+		},
+		requestDefaults: {
+			getters: {
+				'dataready:retain()': function(fn){
+					return this.xtag.dataready;
+				}
+			},
+			setters: {
+				src: function(src){
+					if (src) xtag.request(this, { url: src, method: 'GET' });
+					this.setAttribute('src', src);
+				},
+				'dataready:retain()': function(fn){
+					this.xtag.dataready = fn;
+					if (this.xtag.request && this.xtag.request.readyState == 4) fn.call(this, this.xtag.request);
+				}
 			}
 		},
 		
-		addEvent: function(element, type, fn){
-			var name = type.split(':')[0];
-			element.addEventListener(name, function(event){
-				var target = element;
-				if (type.match(':')) {
-					type.replace(/:(\w*)\(([^\)]*)\)/g, function(match, pseudo, value){
-						if (target){
-							var returned = xtag.eventPseudos[pseudo].call(element, event, value);
-							target = returned === false ? false : returned || element;
-						}
-					});
-					if (target) fn.call(target, event, element);
-				}
-				else fn.call(target, event, element);
-			}, !!~['focus', 'blur'].indexOf(name));
+		typeOf: function(obj) {
+		  return ({}).toString.call(obj).match(/\s([a-zA-Z]+)/)[1].toLowerCase();
 		},
 		
-		addEvents: function(element, events){
-			for (var z in events) xtag.addEvent(element, z, events[z]);
+		toArray: function(obj){
+			var sliced = Array.prototype.slice.call(obj, 0);
+			return sliced.length ? sliced : [obj];
 		},
 		
-		attachKeyframe: function(event, selector){
-			xtag.sheet.insertRule(selector + prefix.properties, 0);
+		query: function(element, selector){
+			return xtag.toArray(element.querySelectorAll(selector));
 		},
 		
 		clone: function(obj) {
 			var F = function(){};
 			F.prototype = obj;
 			return new F();
-		},
-		
-		extendElement: function(element){
-			if (!element.xtag){
-				var options = xtag.getOptions(element);
-				element.xtag = {};
-				if (options.bindRequest) xtag.bindRequest(element, options);
-				for (var z in options.methods) element.xtag[z] = options.methods[z].bind(element);
-				for (var z in options.getters) element.__defineGetter__(z, options.getters[z]);
-				for (var z in options.setters) element.__defineSetter__(z, options.setters[z]);
-				xtag.addEvents(element, options.events);
-				if (options.content) element.innerHTML = options.content;
-				options.onCreate.call(element);
-			}
-		},
-		
-		fireEvent: function(type, element, data){
-			var event = document.createEvent('Event');
-			event.initEvent(type, true, true);
-			element.dispatchEvent(xtag.merge(event, data));
-		},
-		
-		getTag: function(element){
-			return (element.tagName.split('-')[1] || '').toLowerCase();
-		},
-		
-		getOptions: function(element){
-			return xtag.tags[xtag.getTag(element)] || xtag.tagOptions;
 		},
 		
 		merge: function(source, k, v){
@@ -128,12 +116,12 @@
 			return element.tagName.match(new RegExp(xtag.namespace + '-', 'i'));
 		},
 		
-		toArray: function(obj){
-			return Array.prototype.slice.call(obj, 0);
+		getTag: function(element){
+			return (element.tagName.split('-')[1] || '').toLowerCase();
 		},
 		
-		typeOf: function(obj) {
-		  return ({}).toString.call(obj).match(/\s([a-zA-Z]+)/)[1].toLowerCase();
+		getOptions: function(element){
+			return xtag.tags[xtag.getTag(element)] || xtag.tagOptions;
 		},
 		
 		register: function(tag, options){
@@ -141,75 +129,135 @@
 			xtag.tags[tag] = xtag.merge({}, xtag.tagOptions, options);
 		},
 		
+		attachKeyframe: function(event, selector){
+			xtag.sheet.insertRule(selector + prefix.properties, 0);
+		},
+		
+		applyPseudos: function(element, key, fn, args){
+			var	action = fn, args = xtag.toArray(args);
+			if (key.match(':')) key.replace(/:(\w*)\(([^\)]*)\)/g, function(match, pseudo, value){ // TODO: Make this regex find non-paren pseudos --> foo:bar:baz()
+				if (action){
+					var passed = xtag.toArray(args);
+						passed.unshift(value, fn);
+					var returned = xtag.pseudos[pseudo].apply(element, passed);
+					action = returned === false ? false : returned || fn;
+				}
+			});
+			if (action) action.apply(element, args);
+		},
+		
+		extendElement: function(element){
+			if (!element.xtag){
+				element.xtag = {};
+				var options = xtag.getOptions(element);
+				if (options.bindRequest) options = xtag.bindRequest(element, options);
+				for (var z in options.methods) element.xtag[z] = options.methods[z].bind(element);
+				for (var z in options.getters) xtag.defineAccessor('get', element, z, options.getters[z]);
+				for (var z in options.setters) xtag.defineAccessor('set', element, z, options.setters[z]);
+				xtag.addEvents(element, options.events);
+				if (options.content) element.innerHTML = options.content;
+				options.onCreate.call(element);
+				xtag.fireEvent('tagready', element); 
+			}
+		},
+		
+		bindRequest: function(element, options){
+			var onInsert = options.onInsert || function(){};
+			return xtag.merge({}, xtag.requestDefaults, options, {
+				onInsert: function(){
+					onInsert.call(this);
+					this.src = this.getAttribute('src');
+				}
+			});
+		},
+		
+		defineAccessor: function(accessor, element, key, value){
+			var accessor = accessor[0].toUpperCase();
+			xtag.applyPseudos(element, key, function(){
+				element['__define' + accessor + 'etter__'](key, value);
+			}, [key, element]);
+		}, 
+		
 		request: function(element, options){
-			var request = { readyState: 0 };
+			xtag.clearRequest(element);
+			
+			var last = element.xtag.request,
+				request = element.xtag.request = options;
+			if (xtag.fireEvent('beforerequest', element) === false) return false;
+			if (last && !options.update && last.url == element.xtag.request.url) return false;
+			
 			xtag.anchor.href = options.url;
 			if (xtag.anchor.hostname == window.location.hostname) {
-				request = new XMLHttpRequest();
-				request.open(options.method , options.url, true);
+				request = xtag.merge(new XMLHttpRequest(), request);
+				request.open(request.method , request.url, true);
 				request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 				request.onreadystatechange = function(){
 					element.setAttribute('data-readystate', request.readyState);
-					if (request.readyState == 4) xtag.requestCallback(element, request);
+					if (request.readyState == 4){
+						(request.status < 400) ? xtag.requestCallback(element, request) : xtag.fireEvent('requesterror', element, error);
+					}
 				}
 				request.send();
 			}
 			else {
-				console.log('USE JSONP FOR REQUEST');
-				element.setAttribute('data-readystate', 0);
-				var script = document.createElement('script'),
-					callbackID = new Date().getTime(),
-					url = options.url + 
-						(~options.url.indexOf('?') ? '&' : '?') + 
-						(element.getAttribute('data-callback') || 'callback') + 
-						'=xtags.callbacks.' + callbackID;
-						
+				var callbackID = request.callbackID = 'x' + new Date().getTime();
+				element.setAttribute('data-readystate', request.readyState = 0);
 				xtag.callbacks[callbackID] = function(data){
-					xtag.requestCallback(element, { status: 200, responseText: data });
+					request.status = 200;
+					request.readyState = 4;
+					request.responseText = data;
+					xtag.requestCallback(element, request);
+					delete xtag.callbacks[callbackID];
+					xtag.clearRequest(element);
 				}
-				
-				script.type = 'text/javascript';
-				script.onload = function(){
+				request.script = document.createElement('script');
+				request.script.type = 'text/javascript';
+				request.script.src = options.url = options.url + 
+					(~options.url.indexOf('?') ? '&' : '?') + 
+					(element.getAttribute('data-callback-key') || 'callback') + 
+					'=xtag.callbacks.' + callbackID;
+				request.script.onerror = function(error){
 					element.setAttribute('data-readystate', request.readyState = 4);
+					element.setAttribute('data-requeststatus', request.status = 400);
+					xtag.fireEvent('requesterror', element, error);
 				}
+				document.head.appendChild(request.script);
 			}
 			element.xtag.request = request;
 		},
 		
 		requestCallback: function(element, request){
+			if (request != element.xtag.request) return xtag;
+			element.setAttribute('data-readystate', request.readyState);
 			element.setAttribute('data-requeststatus', request.status);
 			xtag.fireEvent('dataready', element, { request: request });
-			if (element.xtag.parser) element.xtag.parser.call(element, request);
+			if (element.dataready) element.dataready.call(element, request);
 		},
 		
-		bindRequest: function(element, options){
-			var onInsert = options.onInsert || function(){};
-			options.onInsert = function(){
-				onInsert.call(this);
-				var src = this.getAttribute('src');
-				if (src) this.src = src;
-			};
-			
-			options.getters.parser = function(fn){
-				return this.xtag.parser;
-			};
-			
-			options.setters.parser = function(fn){
-				this.xtag.parser = fn;
-				if (this.xtag.request.readyState == 4) fn.call(this, this.xtag.request);
-			};
-		},
-		
-		query: function(element, selector){
-			return xtag.toArray(element.querySelectorAll(selector));
-		},
-		
-		wrap: function(original, fn){
-			return function(){
-				var args = xtag.toArray(arguments);
-				original.apply(this, args);
-				fn.call(this, args);
+		clearRequest: function(element){
+			var request = element.xtag.request;
+			if (!request) return xtag;
+			if (request.script && ~xtag.toArray(document.head.children).indexOf(request.script)) {
+				document.head.removeChild(request.script);
 			}
+			else if (request.abort) request.abort();
+		},
+		
+		addEvent: function(element, type, fn){
+			var name = type.split(':')[0];
+			element.addEventListener(name, function(event){
+				xtag.applyPseudos(element, type, fn, [event, element]);
+			}, !!~['focus', 'blur'].indexOf(name));
+		},
+		
+		addEvents: function(element, events){
+			for (var z in events) xtag.addEvent(element, z, events[z]);
+		},
+		
+		fireEvent: function(type, element, data){
+			var event = document.createEvent('Event');
+			event.initEvent(type, true, true);
+			element.dispatchEvent(xtag.merge(event, data));
 		}
 	};
 	

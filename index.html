@@ -37,11 +37,11 @@
 			</p>
 			
 			<ol>
-				<li>find a plugin</li>
+				<li>scour the web for a plugin</li>
 				<li>add the plugin script include to your page</li>
-				<li>paste an element, or block of elements, into your markup</li>
-				<li>add a script block or external script include for your own code</li>
-				<li>write code to select elements on page load</li>
+				<li>copy an element, or block of elements, into your markup</li>
+				<li>create a script block or include for your own code</li>
+				<li>write JavaScript to select elements on page load</li>
 				<li>instantiate a script to augment the existing vanilla markup</li>
 				<li>wash, rinse, repeat for every plugin you need</li>
 			</ol>
@@ -77,21 +77,21 @@
 <code>
 xtag.register('accordion', {
 	onCreate: function(){
-		// do something when the node is initially created
+		// fired once at the time a component 
+		// is initially created or parsed
 	},
 	onInsert: function(){
-		// do something each time the node is inserted into the DOM
+		// fired each time a component 
+		// is inserted into the DOM
 	},
 	events: {
-		'click:delegate(x-toggler)': function(event){
-			// activate the clicked toggler
+		'click:delegate(x-toggler)': function(){
+			// activate a clicked toggler
 		}
 	},
 	getters: {
 		'togglers': function(){
-			return xtag.query(this, 'x-toggler').filter(function(toggler){
-				return toggler.parentNode == this;
-			}, this);
+			// return all toggler children
 		}
 	},
 	setters: {
@@ -99,10 +99,10 @@ xtag.register('accordion', {
 	},
 	methods: {
 		nextToggler: function(){
-			// activate next toggler element
+			// activate next toggler
 		},
 		previousToggler: function(){
-			// activate the previous toggler element
+			// activate the previous toggler
 		}
 	}
 });
@@ -115,34 +115,61 @@ xtag.register('accordion', {
 		Docs
 		<span id="docs" class="anchor-id"></span>
 	</h3>
-	<dl>
+	<dl id="doc_list">
 		<dt>Custom Tag Registration</dt>
 		<dd>
-			<h4><code>content</code></h4>
+			<h4><code>content</code><span>string</span></h4>
 			<p>
 				The content property on the tag registration object allows you to declare 
 				default innerHTML for your component, similar to Shadow DOM elements in highlighted 
 				in the W3 Web Components draft.
 			</p>
-			
-			<h4><code>onCreate</code></h4>
+		</dd>
+		
+		<dd>
+			<h4><code>onCreate</code><span>function</span></h4>
 			<p>
 				Whenever a tag is recognized and parsed on load or generated using 
 				<code>document.createElement</code>, an onCreate function is called 
 				allowing you to modify the element before any other code is applied to it.
 			</p>
-			
-			<h4><code>onInsert</code></h4>
+		</dd>	
+		
+		<dd>
+			<h4><code>onInsert</code><span>function</span></h4>
 			<p>
 				The onInsert method is called everytime a given component's DOM element
 				is added to the DOM. This allows you to do things like check the state or 
 				structure of the surrounding DOM tree or window scope and modify your 
 				component accordingly.
 			</p>
-			
-			<h4><code>events</code></h4>
+		</dd>
+		
+		<dd>
+			<h4><code>getters</code><span>object</span></h4>
 			<p>
-				The events property allows you to bind events to the component at the time of creation
+				The getter object provides native value retrieval handlers 
+				to your component. For example: if a user caches a component's value, 
+				<code>var value = element.value;</code> your 
+				getter would have the oppertunity to fetch that value from anywhere 
+				you'd like and even modify it before return
+			</p>
+		</dd>
+		
+		<dd>
+			<h4><code>setters</code><span>object</span></h4>
+			<p>
+				The setters object allows you to attach native JavaSript accessors methods to 
+				your component. For instance, when a user writes the code <code>element.src = "http://somesrc.com"</code>
+				your setter would be called with the provided string value giving you a chance to
+				manipulate the string or change properties on the element.
+			</p>
+		</dd>
+		
+		<dd>
+			<h4><code>events</code><span>object</span></h4>
+			<p>
+				The events object allows you to bind events to the component at the time of creation
 				pseudo events like delegation are supported, additional pseudos can be added to 
 				the <code>pseudoEvents</code> object on the global <code>xtag</code> variable.
 			</p>

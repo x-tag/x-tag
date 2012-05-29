@@ -1,5 +1,5 @@
 
-x-autocompleter {
+x-autosuggest {
 	position: relative;
 	display: box;
 	display: -o-box;
@@ -8,7 +8,7 @@ x-autocompleter {
 	display: -webkit-box;
 }
 
-x-autocompleter > input {
+x-autosuggest > input {
 	width: 100%;
 	display: box;
 	display: -o-box;
@@ -22,7 +22,7 @@ x-autocompleter > input {
 	-webkit-box-flex: 1;
 }
 
-x-autocompleter > ul {
+x-autosuggest > ul {
 	position: absolute;
 	top: 100%;
 	left: 0;
