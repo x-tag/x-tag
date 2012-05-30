@@ -1,0 +1,36 @@
+x-flipbox { 
+	width: 200px;
+	height: 260px;
+	display: block;
+	position: relative;
+	-webkit-perspective: 1000px;
+	-moz-perspective: 1000px;
+}
+x-card {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  overflow: hidden;
+  -webkit-transform-style: preserve-3d;
+  -webkit-transition: -webkit-transform 1s;
+  -moz-transform-style: preserve-3d;
+  -moz-transition: -moz-transform 1s;
+}
+x-card > * {
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+}
+x-flipbox x-card > *:last-child {  
+  -webkit-transform: rotateY(180deg);
+  -moz-transform: rotateY(180deg);
+}
+x-flipbox x-card[data-flipped="true"] {
+  -webkit-transform: rotateY(180deg);
+  -moz-transform: rotateY(180deg);
+}
+
+/*-webkit-transform: translateX(-100%) rotateY(-180deg);*/
