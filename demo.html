@@ -260,15 +260,12 @@
 
 <script type="text/javascript">
 	
-	document.getElementById('panel_demo').dataready = function(request){
-		this.innerHTML = request.responseText;
-	}
-	
 	document.getElementById('autosuggest_demo').dataready = function(request){
-		console.log(this);
+		console.log(request);
+		if (!request.responseText) return this;
 		request.responseText.movies.forEach(function(movie){
-			console.log(movie);
-		});
+			this.xtag.addSuggestion(movie.title, movie);
+		}, this);
 	};
 	
 	document.addEventListener('beforerequest', function(event){

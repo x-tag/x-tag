@@ -205,3 +205,10 @@ nav.actions button {
 		width: 300px;
 	}
 	
+/* AUTOSUGGEST DEMO */
+
+	#autosuggest_demo {
+		z-index: 1;
+	}
+	
+	

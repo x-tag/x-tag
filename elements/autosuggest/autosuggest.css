@@ -8,7 +8,7 @@ x-autosuggest {
 	display: -webkit-box;
 }
 
-x-autosuggest > input {
+x-autosuggest > input[type="text"] {
 	width: 100%;
 	display: box;
 	display: -o-box;
@@ -23,8 +23,18 @@ x-autosuggest > input {
 }
 
 x-autosuggest > ul {
+	display: none;
 	position: absolute;
 	top: 100%;
 	left: 0;
 	width: 100%;
+	background: #fff;
+}
+
+x-autosuggest[data-show-suggestions="true"] > ul {
+	display: block;
+}
+
+x-autosuggest > ul > li:hover {
+	text-decoration: underline;
 }
