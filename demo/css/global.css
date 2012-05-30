@@ -171,6 +171,7 @@ header nav a div:last-child {
 	min-width: 300px;
 	max-width: 600px;
 	margin: 0 auto;
+	overflow: hidden;
 }
 
 div.max-width > dl {
