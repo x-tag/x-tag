@@ -44,7 +44,10 @@
 			getters: {}, 
 			setters: {},
 			onCreate: function(){},
-			onInsert: function(){}
+			onInsert: function(){},
+			eventMap: {
+				animationstart: ['animationstart', 'oAnimationStart', 'MSAnimationStart', 'webkitAnimationStart']
+			}
 		},
 		pseudos: {
 			delegate: function(selector, fn, event){
@@ -70,7 +73,7 @@
 					this.src = this.getAttribute('src');
 				},
 				getters: {
-					'dataready:retain()': function(fn){
+					'dataready:retain': function(fn){
 						return this.xtag.dataready;
 					}
 				},
@@ -81,7 +84,7 @@
 							xtag.request(this, { url: src, method: 'GET' });
 						}
 					},
-					'dataready:retain()': function(fn){
+					'dataready:retain': function(fn){
 						this.xtag.dataready = fn;
 						if (this.xtag.request && this.xtag.request.readyState == 4) fn.call(this, this.xtag.request);
 					}
@@ -139,7 +142,7 @@
 		
 		register: function(tag, options){
 			xtag.attachKeyframe('nodeInserted', xtag.namespace + '-' + tag);
-			xtag.tags[tag] = xtag.merge({}, xtag.tagOptions, options);
+			xtag.tags[tag] = xtag.merge({}, xtag.tagOptions, xtag.applyMixins(options));
 		},
 		
 		attachKeyframe: function(event, selector){
@@ -148,7 +151,7 @@
 		
 		applyPseudos: function(element, key, fn, args){
 			var	action = fn, args = xtag.toArray(args);
-			if (key.match(':')) key.replace(/:(\w+)\(([^\)]+)\)|:(\w+)/g, function(match, pseudo, value){ // TODO: Make this regex find non-paren pseudos --> foo:bar:baz()
+			if (key.match(':')) key.replace(/:(\w+)\(([^\)]+)\)|:(\w+)/g, function(match, pseudo, value){
 				if (action){
 					var passed = xtag.toArray(args);
 						passed.unshift(value, fn);
@@ -163,22 +166,21 @@
 			if (!element.xtag){
 				element.xtag = {};
 				var options = xtag.getOptions(element);
-				xtag.applyMixins(element, options);
 				for (var z in options.methods) element.xtag[z] = options.methods[z].bind(element);
 				for (var z in options.getters) xtag.applyAccessor('get', element, z, options.getters[z]);
 				for (var z in options.setters) xtag.applyAccessor('set', element, z, options.setters[z]);
-				xtag.addEvents(element, options.events);
+				xtag.addEvents(element, options.events, options.eventMap);
 				if (options.content) element.innerHTML = options.content;
 				options.onCreate.call(element);
 			}
 		},
 		
-		applyMixins: function(element, options){
-			options.mixins.forEach(function(name){
+		applyMixins: function(options){
+			if (options.mixins) options.mixins.forEach(function(name){
 				var mixin = xtag.mixins[name];
 				for (var z in mixin) {
 					switch (xtag.typeOf(mixin[z])){
-						case 'function': options[z] = xtag.wrap(options[z], mixin[z])
+						case 'function': options[z] = options[z] ? xtag.wrap(options[z], mixin[z]) : mixin[z];
 							break;
 						case 'object': options[z] = xtag.merge({}, mixin[z], options[z]);
 							break;
@@ -186,6 +188,7 @@
 					}
 				}
 			});
+			return options;
 		},
 		
 		applyAccessor: function(accessor, element, key, value){
@@ -274,15 +277,19 @@
 			else if (request.abort) request.abort();
 		},
 		
-		addEvent: function(element, type, fn){
-			var name = type.split(':')[0];
-			element.addEventListener(name, function(event){
-				xtag.applyPseudos(element, type, fn, [event, element]);
-			}, !!~['focus', 'blur'].indexOf(name));
+		addEvent: function(element, type, fn, map){
+			var eventKey = type.split(':')[0],
+				eventMap = (map || xtag.getOptions(element).eventMap || {})[eventKey] || [eventKey];
+				
+			eventMap.forEach(function(name){
+				element.addEventListener(name, function(event){
+					xtag.applyPseudos(element, type, fn, [event, element]);
+				}, !!~['focus', 'blur'].indexOf(name));
+			});
 		},
 		
-		addEvents: function(element, events){
-			for (var z in events) xtag.addEvent(element, z, events[z]);
+		addEvents: function(element, events, map){
+			for (var z in events) xtag.addEvent(element, z, events[z], map);
 		},
 		
 		fireEvent: function(type, element, data){
@@ -299,15 +306,14 @@
 		return element;
 	};
 	
-	var animationstart = ['animationstart', 'oAnimationStart', 'MSAnimationStart', 'webkitAnimationStart'],
-		nodeInserted = function(event){
+	var nodeInserted = function(event){
 			if (event.animationName == 'nodeInserted' && xtag.tagCheck(event.target)){
 				xtag.extendElement(event.target);
 				xtag.getOptions(event.target).onInsert.call(event.target);
 			}
 		};
 	
-	animationstart.forEach(function(event){
+	xtag.tagOptions.eventMap.animationstart.forEach(function(event){
 		document.addEventListener(event, nodeInserted, false);
 	});
 	
