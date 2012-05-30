@@ -20,6 +20,7 @@
 		<link rel="stylesheet" type="text/css" href="elements/map/map.css"/>
 		<link rel="stylesheet" type="text/css" href="elements/autosuggest/autosuggest.css"/>
 		<link rel="stylesheet" type="text/css" href="elements/pager/pager.css"/>
+		<link rel="stylesheet" type="text/css" href="elements/flipbox/flipbox.css"/>
 		
 		<script type="text/javascript" src="x-tag.js"></script>
 		<script type="text/javascript" src="elements/panel/panel.js"></script>
@@ -29,6 +30,7 @@
 		<script type="text/javascript" src="elements/map/map.js"></script>
 		<script type="text/javascript" src="elements/autosuggest/autosuggest.js"></script>
 		<script type="text/javascript" src="elements/pager/pager.js"></script>
+		<script type="text/javascript" src="elements/flipbox/flipbox.js"></script>		
 	</head>
 
 
@@ -191,6 +193,29 @@
 			</x-accordion>
 			
 		</dd>
+
+		<dt>Flip Box</dt>
+		<dd id="flipbox">
+		
+			<p class="description">
+						
+			</p>
+			<nav class="actions">
+				<button data-action-type="toggleFlip">Flip</button>		
+			</nav>
+
+
+			<x-flipbox id="flipbox_demo">
+				<x-card>
+					<img src="demo/images/birnimal-graph.png"/>					
+					<img src="demo/images/birnimal-settings.png"/>
+				</x-card>
+			</x-flipbox>
+
+
+			
+		
+		</dd>
 		
 	</dl>
 	
@@ -255,6 +280,8 @@
 
 		</dd>
 	</dl>
+
+
 	
 </body>
 
@@ -354,6 +381,10 @@
 					
 				case 'slidePrevious':
 					demo.xtag.slidePrevious();
+					break;
+				case 'toggleFlip':
+					var card = demo.children[0];
+					card.setAttribute('data-flipped', card.getAttribute('data-flipped') == 'true' ? 'false' : 'true');
 					break;
 			}
 			
