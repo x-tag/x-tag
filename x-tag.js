@@ -49,7 +49,7 @@
 		pseudos: {
 			delegate: function(selector, fn, event){
 				var target = xtag.query(this, selector).filter(function(node){
-					return node == event.target || node.contains(event.target);
+					return node == event.target || node.contains ? node.contains(event.target) : false;
 				})[0];
 				
 				return target ? function(){
@@ -210,10 +210,15 @@
 		
 		request: function(element, options){
 			xtag.clearRequest(element);
-			var last = element.xtag.request,
-				request = element.xtag.request = options;
-			if (xtag.fireEvent('beforerequest', element) === false) return false;			
-			if (last && !options.update && last.url == element.xtag.request.url) return false;
+			var last = element.xtag.request || {};
+				element.xtag.request = options;
+			var request = element.xtag.request,
+				callbackKey = element.getAttribute('data-callback-key') || 'callback' + '=xtag.callbacks.';
+			if (xtag.fireEvent('beforerequest', element) === false) return false;
+			if (last.url && !options.update && last.url.replace(new RegExp('\&?\(' + callbackKey + 'x[0-9]+)'), '') == element.xtag.request.url){
+				element.xtag.request = last;
+				return false;
+			}
 			element.setAttribute('src', element.xtag.request.url);
 			xtag.anchor.href = options.url;
 			if (xtag.anchor.hostname == window.location.hostname) {
@@ -241,10 +246,7 @@
 				}
 				request.script = document.createElement('script');
 				request.script.type = 'text/javascript';
-				request.script.src = options.url = options.url + 
-					(~options.url.indexOf('?') ? '&' : '?') + 
-					(element.getAttribute('data-callback-key') || 'callback') + 
-					'=xtag.callbacks.' + callbackID;
+				request.script.src = options.url = options.url + (~options.url.indexOf('?') ? '&' : '?') + callbackKey + callbackID;
 				request.script.onerror = function(error){
 					element.setAttribute('data-readystate', request.readyState = 4);
 					element.setAttribute('data-requeststatus', request.status = 400);
