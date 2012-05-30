@@ -7,6 +7,7 @@ nav.actions {
 nav.actions button {
 	float: left;
 	margin: 4px 4px 4px 0;
+	padding-bottom: 1px;
 	cursor: pointer;
 }
 
@@ -149,13 +150,18 @@ nav.actions button {
 /* SLIDEBOX DEMO */
 
 	#slidebox_demo {
-		height: 300px;
+		height: 475px;
 		width: 300px;
 	}
 	
 	#slidebox_demo img {
 		width: 100%;
 		height: auto;
+	}
+	
+	#painfully_obvious_disclaimer_for_metalab_and_metalab-esque_ambulance_chasers {
+		font-size: 9px;
+		color: #666;
 	}
 	
 /* ACCORDION DEMO */
@@ -198,4 +204,11 @@ nav.actions button {
 		height: 300px;
 		width: 300px;
 	}
+	
+/* AUTOSUGGEST DEMO */
+
+	#autosuggest_demo {
+		z-index: 1;
+	}
+	
 	

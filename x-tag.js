@@ -33,9 +33,12 @@
 	xtag = {
 		namespace: 'x',
 		tags: {},
+		callbacks: {},
 		sheet: styles.sheet,
+		anchor: document.createElement('a'),
 		tagOptions: {
 			content: '',
+			mixins: [],
 			events: {},
 			methods: {},
 			getters: {}, 
@@ -43,73 +46,66 @@
 			onCreate: function(){},
 			onInsert: function(){}
 		},
-		eventMap: {
-			animationstart: ['animationstart', 'oAnimationStart', 'MSAnimationStart', 'webkitAnimationStart']
+		pseudos: {
+			delegate: function(selector, fn, event){
+				var target = xtag.query(this, selector).filter(function(node){
+					return node == event.target || node.contains ? node.contains(event.target) : false;
+				})[0];
+				
+				return target ? function(){
+					fn.apply(target, arguments);
+				} : false;
+			},
+			retain: function(args, fn, property, element){
+				var value = element[property];
+				return function(){
+					fn();
+					element[property] = value;
+				}
+			}
 		},
-		eventPseudos: {
-			delegate: function(event, selector){
-				return xtag.query(this, selector).filter(function(node){
-					return node == event.target || node.contains(event.target);
-				})[0] || false;
+		mixins: {
+			request: {
+				onInsert: function(){
+					this.src = this.getAttribute('src');
+				},
+				getters: {
+					'dataready:retain()': function(fn){
+						return this.xtag.dataready;
+					}
+				},
+				setters: {
+					src: function(src){
+						if (src){
+							this.setAttribute('src', src);
+							xtag.request(this, { url: src, method: 'GET' });
+						}
+					},
+					'dataready:retain()': function(fn){
+						this.xtag.dataready = fn;
+						if (this.xtag.request && this.xtag.request.readyState == 4) fn.call(this, this.xtag.request);
+					}
+				}
 			}
 		},
 		
-		addEvent: function(element, type, fn){
-			element.addEventListener(type.split(':')[0], function(event){
-				var target = element;
-				if (type.match(':')) {
-					type.replace(/:(\w*)\(([^\)]*)\)/g, function(match, pseudo, value){
-						if (target){
-							var returned = xtag.eventPseudos[pseudo].call(element, event, value);
-							target = returned === false ? false : returned || element;
-						}
-					});
-					if (target) fn.call(target, event);
-				}
-				else fn.call(target, event);
-			}, false);
+		typeOf: function(obj) {
+		  return ({}).toString.call(obj).match(/\s([a-zA-Z]+)/)[1].toLowerCase();
 		},
 		
-		addEvents: function(element, events){
-			for (var z in events) xtag.addEvent(element, z, events[z]);
+		toArray: function(obj){
+			var sliced = Array.prototype.slice.call(obj, 0);
+			return sliced.length ? sliced : [obj];
 		},
 		
-		attachKeyframe: function(event, selector){
-			xtag.sheet.insertRule(selector + prefix.properties, 0);
+		query: function(element, selector){
+			return xtag.toArray(element.querySelectorAll(selector));
 		},
 		
 		clone: function(obj) {
 			var F = function(){};
 			F.prototype = obj;
 			return new F();
-		},
-		
-		extendElement: function(element){
-			if (!element.xtag){
-				var options = xtag.getOptions(element);
-				element.xtag = {};
-				if (options.bindRequest) xtag.bindRequest(element, options);
-				for (var z in options.methods) element.xtag[z] = options.methods[z].bind(element);
-				for (var z in options.getters) element.__defineGetter__(z, options.getters[z]);
-				for (var z in options.setters) element.__defineSetter__(z, options.setters[z]);
-				xtag.addEvents(element, options.events);
-				if (options.content) element.innerHTML = options.content;
-				options.onCreate.call(element);
-			}
-		},
-		
-		fireEvent: function(type, element, data){
-			var event = document.createEvent('Event');
-			event.initEvent(type, true, true);
-			element.dispatchEvent(xtag.merge(event, data));
-		},
-		
-		getTag: function(element){
-			return (element.tagName.split('-')[1] || '').toLowerCase();
-		},
-		
-		getOptions: function(element){
-			return xtag.tags[xtag.getTag(element)] || xtag.tagOptions;
 		},
 		
 		merge: function(source, k, v){
@@ -121,16 +117,24 @@
 			return source;
 		},
 		
+		wrap: function(original, fn){
+			return function(){
+				var args = xtag.toArray(arguments);
+				original.apply(this, args);
+				fn.apply(this, args);
+			}
+		},
+		
 		tagCheck: function(element){
 			return element.tagName.match(new RegExp(xtag.namespace + '-', 'i'));
 		},
 		
-		toArray: function(obj){
-			return Array.prototype.slice.call(obj, 0);
+		getTag: function(element){
+			return (element.tagName.split('-')[1] || '').toLowerCase();
 		},
 		
-		typeOf: function(obj) {
-		  return ({}).toString.call(obj).match(/\s([a-zA-Z]+)/)[1].toLowerCase();
+		getOptions: function(element){
+			return xtag.tags[xtag.getTag(element)] || xtag.tagOptions;
 		},
 		
 		register: function(tag, options){
@@ -138,66 +142,153 @@
 			xtag.tags[tag] = xtag.merge({}, xtag.tagOptions, options);
 		},
 		
+		attachKeyframe: function(event, selector){
+			xtag.sheet.insertRule(selector + prefix.properties, 0);
+		},
+		
+		applyPseudos: function(element, key, fn, args){
+			var	action = fn, args = xtag.toArray(args);
+			if (key.match(':')) key.replace(/:(\w+)\(([^\)]+)\)|:(\w+)/g, function(match, pseudo, value){ // TODO: Make this regex find non-paren pseudos --> foo:bar:baz()
+				if (action){
+					var passed = xtag.toArray(args);
+						passed.unshift(value, fn);
+					var returned = xtag.pseudos[pseudo].apply(element, passed);
+					action = returned === false ? false : returned || fn;
+				}
+			});
+			if (action) action.apply(element, args);
+		},
+		
+		extendElement: function(element){
+			if (!element.xtag){
+				element.xtag = {};
+				var options = xtag.getOptions(element);
+				xtag.applyMixins(element, options);
+				for (var z in options.methods) element.xtag[z] = options.methods[z].bind(element);
+				for (var z in options.getters) xtag.applyAccessor('get', element, z, options.getters[z]);
+				for (var z in options.setters) xtag.applyAccessor('set', element, z, options.setters[z]);
+				xtag.addEvents(element, options.events);
+				if (options.content) element.innerHTML = options.content;
+				options.onCreate.call(element);
+			}
+		},
+		
+		applyMixins: function(element, options){
+			options.mixins.forEach(function(name){
+				var mixin = xtag.mixins[name];
+				for (var z in mixin) {
+					switch (xtag.typeOf(mixin[z])){
+						case 'function': options[z] = xtag.wrap(options[z], mixin[z])
+							break;
+						case 'object': options[z] = xtag.merge({}, mixin[z], options[z]);
+							break;
+						default: options[z] = mixin[z];
+					}
+				}
+			});
+		},
+		
+		applyAccessor: function(accessor, element, key, value){
+			var accessor = accessor[0].toUpperCase();
+			xtag.applyPseudos(element, key, function(){
+				element['__define' + accessor + 'etter__'](key, value);
+			}, [key, element]);
+		}, 
+		
+		applyPseudos: function(element, key, fn, args){
+			var	action = fn, args = xtag.toArray(args);
+			if (key.match(':')) key.replace(/:(\w*)\(([^\)]*)\)/g, function(match, pseudo, value){ // TODO: Make this regex find non-paren pseudos --> foo:bar:baz()
+				if (action){
+					var passed = xtag.toArray(args);
+						passed.unshift(value, fn);
+					var returned = xtag.pseudos[pseudo].apply(element, passed);
+					action = returned === false ? false : returned || fn;
+				}
+			});
+			if (action) action.apply(element, args);
+		},
+		
 		request: function(element, options){
-			var request = new XMLHttpRequest();
-				request.open(options.method , options.url, true);
+			xtag.clearRequest(element);
+			var last = element.xtag.request || {};
+				element.xtag.request = options;
+			var request = element.xtag.request,
+				callbackKey = element.getAttribute('data-callback-key') || 'callback' + '=xtag.callbacks.';
+			if (xtag.fireEvent('beforerequest', element) === false) return false;
+			if (last.url && !options.update && last.url.replace(new RegExp('\&?\(' + callbackKey + 'x[0-9]+)'), '') == element.xtag.request.url){
+				element.xtag.request = last;
+				return false;
+			}
+			element.setAttribute('src', element.xtag.request.url);
+			xtag.anchor.href = options.url;
+			if (xtag.anchor.hostname == window.location.hostname) {
+				request = xtag.merge(new XMLHttpRequest(), request);
+				request.open(request.method , request.url, true);
 				request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 				request.onreadystatechange = function(){
 					element.setAttribute('data-readystate', request.readyState);
 					if (request.readyState == 4){
-						element.setAttribute('data-requeststatus', request.status);
-						xtag.fireEvent('dataready', element, { request: request });
-						if (element.xtag.parser) element.xtag.parser.call(element, request);
+						(request.status < 400) ? xtag.requestCallback(element, request) : xtag.fireEvent('requesterror', element, error);
 					}
 				}
-			request.send();
+				request.send();
+			}
+			else {
+				var callbackID = request.callbackID = 'x' + new Date().getTime();
+				element.setAttribute('data-readystate', request.readyState = 0);
+				xtag.callbacks[callbackID] = function(data){
+					request.status = 200;
+					request.readyState = 4;
+					request.responseText = data;
+					xtag.requestCallback(element, request);
+					delete xtag.callbacks[callbackID];
+					xtag.clearRequest(element);
+				}
+				request.script = document.createElement('script');
+				request.script.type = 'text/javascript';
+				request.script.src = options.url = options.url + (~options.url.indexOf('?') ? '&' : '?') + callbackKey + callbackID;
+				request.script.onerror = function(error){
+					element.setAttribute('data-readystate', request.readyState = 4);
+					element.setAttribute('data-requeststatus', request.status = 400);
+					xtag.fireEvent('requesterror', element, error);
+				}
+				document.head.appendChild(request.script);
+			}
 			element.xtag.request = request;
 		},
 		
-		bindRequest: function(element, options){
-			var setSrc = options.setters.src || function(){},
-				setSelected = options.setters.selected || function(){},
-				onInsert = options.onInsert || function(){};
-			
-			options.getters.parser = function(fn){
-				return this.xtag.parser;
-			};
-			
-			options.setters.parser = function(fn){
-				this.xtag.parser = fn;
-				if (this.xtag.request.readyState == 4) fn.call(this, this.xtag.request);
-			};
-			
-			options.setters.src = function(src){
-				setSrc.call(this, src);
-				if (src && this.getAttribute('selected')) xtag.request(this, { url: src, method: 'GET' });
-				this.setAttribute('src', src);
-			};
-			
-			options.setters.selected = function(value){
-				setSelected.call(this, value);
-				var src = this.getAttribute('src');
-				if (src) xtag.request(this, { url: src, method: 'GET' });
-				this.setAttribute('selected', value);
-			};
-			
-			options.onInsert = function(){
-				onInsert.call(this);
-				var src = this.getAttribute('src');
-				if (src) this.src = src;
-			}
+		requestCallback: function(element, request){
+			if (request != element.xtag.request) return xtag;
+			element.setAttribute('data-readystate', request.readyState);
+			element.setAttribute('data-requeststatus', request.status);
+			xtag.fireEvent('dataready', element, { request: request });
+			if (element.dataready) element.dataready.call(element, request);
 		},
 		
-		query: function(element, selector){
-			return xtag.toArray(element.querySelectorAll(selector));
+		clearRequest: function(element){
+			var request = element.xtag.request;
+			if (!request) return xtag;
+			if (request.script && ~xtag.toArray(document.head.children).indexOf(request.script)) {
+				document.head.removeChild(request.script);
+			}
+			else if (request.abort) request.abort();
 		},
 		
-		wrap: function(original, fn){
-			return function(){
-				var args = xtag.toArray(arguments);
-				original.apply(this, args);
-				fn.call(this, args);
-			}
+		addEvent: function(element, type, fn){
+			var name = type.split(':')[0];
+			element.addEventListener(name, function(event){
+				xtag.applyPseudos(element, type, fn, [event, element]);
+			}, !!~['focus', 'blur'].indexOf(name));
+		},
+		
+		addEvents: function(element, events){
+			for (var z in events) xtag.addEvent(element, z, events[z]);
+		},
+		
+		fireEvent: function(type, element, data){
+			var event = document.createEvent('Event');
+			event.initEvent(type, true, true);
+			element.dispatchEvent(xtag.merge(event, data));
 		}
 	};
 	
@@ -208,14 +299,15 @@
 		return element;
 	};
 	
-	var nodeInserted = function(event){
-		if (event.animationName == 'nodeInserted' && xtag.tagCheck(event.target)){
-			xtag.extendElement(event.target);
-			xtag.getOptions(event.target).onInsert.call(event.target);
-		}
-	}
+	var animationstart = ['animationstart', 'oAnimationStart', 'MSAnimationStart', 'webkitAnimationStart'],
+		nodeInserted = function(event){
+			if (event.animationName == 'nodeInserted' && xtag.tagCheck(event.target)){
+				xtag.extendElement(event.target);
+				xtag.getOptions(event.target).onInsert.call(event.target);
+			}
+		};
 	
-	xtag.eventMap.animationstart.forEach(function(event){
+	animationstart.forEach(function(event){
 		document.addEventListener(event, nodeInserted, false);
 	});
 	

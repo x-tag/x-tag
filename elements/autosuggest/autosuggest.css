@@ -1,0 +1,40 @@
+
+x-autosuggest {
+	position: relative;
+	display: box;
+	display: -o-box;
+	display: -ms-box;
+	display: -moz-box;
+	display: -webkit-box;
+}
+
+x-autosuggest > input {
+	width: 100%;
+	display: box;
+	display: -o-box;
+	display: -ms-box;
+	display: -moz-box;
+	display: -webkit-box;
+	box-flex: 1;
+	-o-box-flex: 1;
+	-ms-box-flex: 1;
+	-moz-box-flex: 1;
+	-webkit-box-flex: 1;
+}
+
+x-autosuggest > ul {
+	display: none;
+	position: absolute;
+	top: 100%;
+	left: 0;
+	width: 100%;
+	background: #fff;
+}
+
+x-autosuggest[data-show-suggestions="true"] > ul {
+	display: block;
+}
+
+x-autosuggest > ul > li:hover {
+	text-decoration: underline;
+}
