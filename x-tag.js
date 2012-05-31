@@ -1,5 +1,5 @@
 (function(){
-	
+ 
 	var prefix = {
 			js: ['', 'O', 'MS', 'Moz', 'WebKit'].filter(function(prefix){
 				return window[prefix + 'CSSKeyframesRule'];
