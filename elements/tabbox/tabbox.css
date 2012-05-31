@@ -70,3 +70,8 @@ x-tabbox[tab-orient="right"] {
 	-moz-box-direction: reverse;
 	-webkit-box-direction: reverse;
 }
+
+x-tabbox[tab-orient="right"] x-tabs, x-tabbox[tab-orient="bottom"] x-tabs{
+	-webkit-box-direction: normal;
+}
+
