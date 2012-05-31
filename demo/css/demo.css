@@ -210,5 +210,18 @@ nav.actions button {
 	#autosuggest_demo {
 		z-index: 1;
 	}
+
+/* FLIPBOX DEMO */
+
+	#flipbox .perspective{
+		-webkit-perspective: 1000px;
+		-moz-perspective: 1000px;
+		-ms-perspective: 1000px;
+		-o-perspective: 1000px;
+		height: 300px;
+	    position: relative;
+	    width: 220px;
+	}
+
 	
 	
