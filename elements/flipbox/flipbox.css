@@ -3,28 +3,30 @@ x-flipbox {
   width: 100%;
   position: absolute;
   -webkit-transform-style: preserve-3d;
-  -webkit-transition: -webkit-transform 1s;
   -moz-transform-style: preserve-3d;
-  -moz-transition: -moz-transform 1s;
   -ms-transform-style: preserve-3d;
-  -ms-transition: -ms-transform 1s;
   -o-transform-style: preserve-3d;
-  -o-transition: -o-transform 1s;
   transform-style: preserve-3d;
+  -webkit-transition: -webkit-transform 1s;  
+  -moz-transition: -moz-transform 1s;  
+  -ms-transition: -ms-transform 1s; 
+  -o-transition: -o-transform 1s;  
   transition: transform 1s;
-  
 }
+
 x-flipbox > * {
   display: block;
   position: absolute;
   width: 100%;
   height: 100%;
+  background: white;
   -webkit-backface-visibility: hidden;
   -moz-backface-visibility: hidden;
   -ms-backface-visibility: hidden;
   -o-backface-visibility: hidden;
   backface-visibility: hidden;
 }
+
 x-flipbox > *:last-child {  
   -webkit-transform: rotateY(180deg);
   -moz-transform: rotateY(180deg);
@@ -32,6 +34,7 @@ x-flipbox > *:last-child {
   -o-transform: rotateY(180deg);
   transform: rotateY(180deg);
 }
+
 x-flipbox[data-flipped="true"] {
   -webkit-transform: rotateY(180deg);
   -moz-transform: rotateY(180deg);
@@ -39,4 +42,3 @@ x-flipbox[data-flipped="true"] {
   -o-transform: rotateY(180deg);
   transform: rotateY(180deg);
 }
-
