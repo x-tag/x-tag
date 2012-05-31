@@ -176,6 +176,7 @@ nav.actions button {
 	}
 	
 	#modal_demo.style {
+		max-width: 500px;
 		background: #fff;
 		padding: 12px 14px;
 		border: 1px solid;
