@@ -113,7 +113,7 @@
 			</x-tabbox>
 		</dd>
 		
-		<!-- 
+	<!--
 		<dt>Slidebox</dt>
 		<dd id="slidebox">
 			<p class="description">
@@ -132,6 +132,7 @@
 			</nav>
 			
 			<x-slidebox id="slidebox_demo" class="style" data-flip-axis="y">
+
 				<x-panel>
 					<img src="demo/images/birnimal-calendar.png" />
 				</x-panel>
@@ -206,13 +207,14 @@
 				<button data-action-type="toggleFlip">Flip</button>		
 			</nav>
 
-
-			<x-flipbox id="flipbox_demo">
-				<x-card>
-					<img src="demo/images/birnimal-graph.png"/>					
-					<img src="demo/images/birnimal-settings.png"/>
-				</x-card>
-			</x-flipbox>
+			<div class="perspective">
+				<x-flipbox id="flipbox_demo">
+					
+						<img src="demo/images/birnimal-graph.png"/>					
+						<img src="demo/images/birnimal-settings.png"/>
+					
+				</x-flipbox>
+			</div>
 
 
 			
@@ -413,9 +415,8 @@
 				case 'slidePrevious':
 					demo.xtag.slidePrevious();
 					break;
-				case 'toggleFlip':
-					var card = demo.children[0];
-					card.setAttribute('data-flipped', card.getAttribute('data-flipped') == 'true' ? 'false' : 'true');
+				case 'toggleFlip':					
+					demo.setAttribute('data-flipped', demo.getAttribute('data-flipped') == 'true' ? 'false' : 'true');
 					break;
 			}
 			

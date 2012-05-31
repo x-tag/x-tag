@@ -1,7 +1,7 @@
 xtag.register('flipbox', {
 	events:{
-		'transitionend:delegate(x-card)': function(e){
-			xtag.fireEvent('flipend', this);
+		'transitionend': function(e){			
+			if (e.target == this) xtag.fireEvent('flipend', this);
 		}
 	},
 	eventMap:{
