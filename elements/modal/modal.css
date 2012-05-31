@@ -1,8 +1,14 @@
 
 x-modal {
-	display: fixed;
+	display: block;
+	position: fixed;
 	top: 50%;
 	left: 50%;
+	box-sizing: border-box;
+	-o-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
 	transform: translate(-50%, -50%);
 	-o-transform: translate(-50%, -50%);
 	-ms-transform: translate(-50%, -50%);

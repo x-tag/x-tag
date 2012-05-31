@@ -17,6 +17,7 @@
 		<link rel="stylesheet" type="text/css" href="elements/tabbox/tabbox.css"/>
 		<link rel="stylesheet" type="text/css" href="elements/accordion/accordion.css"/>
 		<link rel="stylesheet" type="text/css" href="elements/slidebox/slidebox.css"/>
+		<link rel="stylesheet" type="text/css" href="elements/modal/modal.css"/>
 		<link rel="stylesheet" type="text/css" href="elements/map/map.css"/>
 		<link rel="stylesheet" type="text/css" href="elements/autosuggest/autosuggest.css"/>
 		<link rel="stylesheet" type="text/css" href="elements/pager/pager.css"/>
@@ -26,6 +27,7 @@
 		<script type="text/javascript" src="elements/tabbox/tabbox.js"></script>
 		<script type="text/javascript" src="elements/accordion/accordion.js"></script>
 		<script type="text/javascript" src="elements/slidebox/slidebox.js"></script>
+		<script type="text/javascript" src="elements/mdoal/modal.js"></script>
 		<script type="text/javascript" src="elements/map/map.js"></script>
 		<script type="text/javascript" src="elements/autosuggest/autosuggest.js"></script>
 		<script type="text/javascript" src="elements/pager/pager.js"></script>
@@ -111,8 +113,7 @@
 			</x-tabbox>
 		</dd>
 		
-		<!-- 
-		<dt>Slidebox</dt>
+		<!-- <dt>Slidebox</dt>
 		<dd id="slidebox">
 			<p class="description">
 				A container used to display a set of tabbed pages of elements.
@@ -152,9 +153,8 @@
 				of the Slidebox element, they are not mock-ups of any Mozilla product in planning, development, or live use - 
 				assuming anything of the sort would make an ass out of u and me. (I'm looking at you Metalab)
 			</p>
-		</dd>
-		 -->
-		 
+		</dd> -->
+		
 		<dt>Accordion</dt>
 		<dd id="accordion">
 		
@@ -194,34 +194,17 @@
 			
 		</dd>
 		
-		<!-- <dt>Modal</dt>
+		<dt>Modal</dt>
 		<dd id="modal">
 			<p class="description">
 				Modal dialogs are used to show notices or flows that <code>tabpanel</code> elements.
 			</p>
 			
 			<nav class="actions">
+				<button data-action-type="show">Show</button>
 				<button data-action-type="style">Untyle</button>
 			</nav>
-			
-			<x-modal id="modal_demo" class="style">
-				<div>
-					<p>
-						All the railway lines north of the Thames and the South-Eastern people at Cannon Street had been warned by midnight on Sunday, and trains were being filled. 
-						People were fighting savagely for standing-room in the carriages even at two o'clock.  By three, people were being trampled and crushed even in Bishopsgate Street, 
-						a couple of hundred yards or more from Liverpool Street station; revolvers were fired, people stabbed, and the policemen who had been sent to direct the traffic, 
-						exhausted and infuriated, were breaking the heads of the people they were called out to protect.
-					</p>
-
-					<p>
-						And as the day advanced and the engine drivers and stokers refused to return to London, the pressure of the flight drove the people in an ever-thickening multitude 
-						away from the stations and along the northward-running roads.  By midday a Martian had been seen at Barnes, and a cloud of slowly sinking black vapour drove along 
-						the Thames and across the flats of Lambeth, cutting off all escape over the bridges in its sluggish advance.  Another bank drove over Ealing, and surrounded a little 
-						island of survivors on Castle Hill, alive, but unable to escape.
-					</p>
-				</div>
-			</x-modal>
-		</dd> -->
+		</dd>
 		
 	</dl>
 	
@@ -287,6 +270,24 @@
 		</dd>
 	</dl>
 	
+	<x-modal id="modal_demo" class="style">
+		<div>
+			<p>
+				All the railway lines north of the Thames and the South-Eastern people at Cannon Street had been warned by midnight on Sunday, and trains were being filled. 
+				People were fighting savagely for standing-room in the carriages even at two o'clock.  By three, people were being trampled and crushed even in Bishopsgate Street, 
+				a couple of hundred yards or more from Liverpool Street station; revolvers were fired, people stabbed, and the policemen who had been sent to direct the traffic, 
+				exhausted and infuriated, were breaking the heads of the people they were called out to protect.
+			</p>
+
+			<p>
+				And as the day advanced and the engine drivers and stokers refused to return to London, the pressure of the flight drove the people in an ever-thickening multitude 
+				away from the stations and along the northward-running roads.  By midday a Martian had been seen at Barnes, and a cloud of slowly sinking black vapour drove along 
+				the Thames and across the flats of Lambeth, cutting off all escape over the bridges in its sluggish advance.  Another bank drove over Ealing, and surrounded a little 
+				island of survivors on Castle Hill, alive, but unable to escape.
+			</p>
+		</div>
+	</x-modal>
+	
 </body>
 
 <script type="text/javascript">
@@ -325,7 +326,12 @@
 					var src = demo.getAttribute('src');
 					demo.src = src.replace.apply(src, ~src.indexOf('2.html') ? ['2.html', '.html'] : ['.html', '2.html']);
 					break;
-					
+				
+				case 'show':
+					action.textContent = demo.classList.contains('show') ? 'Show' : 'Hide';
+					demo.classList.toggle('show');
+					break;
+				
 				case 'style':
 					action.textContent = demo.classList.contains('style') ? 'Style' : 'Unstyle';
 					demo.classList.toggle('style');

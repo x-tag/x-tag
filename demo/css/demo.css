@@ -163,6 +163,32 @@ nav.actions button {
 		font-size: 9px;
 		color: #666;
 	}
+
+/* MODAL DEMO */
+	
+	#modal_demo {
+		display: none;
+		z-index: 1000;
+	}
+
+	#modal_demo.show {
+		display: block;
+	}
+	
+	#modal_demo.style {
+		background: #fff;
+		padding: 12px 14px;
+		border: 1px solid;
+		border-color: #aaa #999 #888;
+		border-radius: 3px;
+		-ms-border-radius: 3px;
+		-moz-border-radius: 3px;
+		-webkit-border-radius: 3px;
+		box-shadow: 0 4px 20px -4px #000;
+		-ms-box-shadow: 0 4px 20px -4px #000;
+		-moz-box-shadow: 0 4px 20px -4px #000;
+		-webkit-box-shadow: 0 4px 24px -4px #000;
+	}
 	
 /* ACCORDION DEMO */
 
