@@ -2,9 +2,7 @@
 (function(){
 	
 	xtag.register('modal', {
-		methods: {
-			
-		}
+		mixins: ['request']
 	});
 	
 })();

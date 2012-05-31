@@ -205,7 +205,7 @@
 			</p>
 			
 			<nav class="actions">
-				<button data-action-type="show">Show</button>
+				<button data-action-type="showModal">Show</button>
 				<button data-action-type="style">Untyle</button>
 			</nav>
 		</dd>
@@ -252,7 +252,6 @@
 			<p class="description">
 				A pager element that allows you set properties and it will do the rest
 			</p>
-
 			
 			<x-pager id="simple_pager1" 
 				data-pages="10" 
@@ -274,21 +273,20 @@
 	</dl>
 	
 	<x-modal id="modal_demo" class="style">
-		<div>
-			<p>
-				All the railway lines north of the Thames and the South-Eastern people at Cannon Street had been warned by midnight on Sunday, and trains were being filled. 
-				People were fighting savagely for standing-room in the carriages even at two o'clock.  By three, people were being trampled and crushed even in Bishopsgate Street, 
-				a couple of hundred yards or more from Liverpool Street station; revolvers were fired, people stabbed, and the policemen who had been sent to direct the traffic, 
-				exhausted and infuriated, were breaking the heads of the people they were called out to protect.
-			</p>
+		<p>
+			All the railway lines north of the Thames and the South-Eastern people at Cannon Street had been warned by midnight on Sunday, and trains were being filled. 
+			People were fighting savagely for standing-room in the carriages even at two o'clock.  By three, people were being trampled and crushed even in Bishopsgate Street, 
+			a couple of hundred yards or more from Liverpool Street station; revolvers were fired, people stabbed, and the policemen who had been sent to direct the traffic, 
+			exhausted and infuriated, were breaking the heads of the people they were called out to protect.
+		</p>
 
-			<p>
-				And as the day advanced and the engine drivers and stokers refused to return to London, the pressure of the flight drove the people in an ever-thickening multitude 
-				away from the stations and along the northward-running roads.  By midday a Martian had been seen at Barnes, and a cloud of slowly sinking black vapour drove along 
-				the Thames and across the flats of Lambeth, cutting off all escape over the bridges in its sluggish advance.  Another bank drove over Ealing, and surrounded a little 
-				island of survivors on Castle Hill, alive, but unable to escape.
-			</p>
-		</div>
+		<p>
+			And as the day advanced and the engine drivers and stokers refused to return to London, the pressure of the flight drove the people in an ever-thickening multitude 
+			away from the stations and along the northward-running roads.  By midday a Martian had been seen at Barnes, and a cloud of slowly sinking black vapour drove along 
+			the Thames and across the flats of Lambeth, cutting off all escape over the bridges in its sluggish advance.  Another bank drove over Ealing, and surrounded a little 
+			island of survivors on Castle Hill, alive, but unable to escape.
+		</p>
+		<div><button data-action-type="closeModal">Close</button></div>
 	</x-modal>
 </body>
 
@@ -312,14 +310,15 @@
 	document.addEventListener('click', function(e){
 		
 		var action = e.target,
-			parent = action.parentNode;
+			parent = action.parentNode,
+			actionType = action.getAttribute('data-action-type');
 	
-		if (parent.classList && parent.classList.contains('actions')) {
+		if (actionType) {
 		
 			var tag = action.parentElement.parentElement.id,
 				demo = document.getElementById(tag + '_demo');
 				
-			switch(action.getAttribute('data-action-type')) {
+			switch(actionType) {
 				case 'select':
 					demo.selected = true;
 					break;
@@ -329,9 +328,14 @@
 					demo.src = src.replace.apply(src, ~src.indexOf('2.html') ? ['2.html', '.html'] : ['.html', '2.html']);
 					break;
 				
-				case 'show':
+				case 'showModal':
 					action.textContent = demo.classList.contains('show') ? 'Show' : 'Hide';
 					demo.classList.toggle('show');
+					break;
+				
+				case 'closeModal':
+					document.querySelector('[data-action-type="showModal"]').textContent = 'Show';
+					document.getElementById('modal_demo').classList.toggle('show');
 					break;
 				
 				case 'style':

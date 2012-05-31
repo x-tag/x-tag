@@ -56,7 +56,7 @@
 				})[0];
 				
 				return target ? function(){
-					fn.apply(target, arguments);
+					fn.apply(target, xtag.toArray(arguments));
 				} : false;
 			},
 			retain: function(args, fn, property, element){
@@ -133,7 +133,7 @@
 		},
 		
 		getTag: function(element){
-			return (element.tagName.split('-')[1] || '').toLowerCase();
+			return (element.tagName ? element.tagName.split('-')[1] : '').toLowerCase();
 		},
 		
 		getOptions: function(element){
