@@ -73,6 +73,13 @@
 					fn();
 					element[property] = value;
 				}
+			},
+			preventable: function(args, fn){
+				return function(event){
+					if (!event.defaultPrevented){
+						fn.apply(this, xtag.toArray(arguments));
+					}
+				}
 			}
 		},
 		mixins: {
@@ -208,7 +215,8 @@
 		
 		applyPseudos: function(element, key, fn, args){
 			var	action = fn, args = xtag.toArray(args);
-			if (key.match(':')) key.replace(/:(\w*)\(([^\)]*)\)/g, function(match, pseudo, value){ // TODO: Make this regex find non-paren pseudos --> foo:bar:baz()
+			if (key.match(':')) key.replace(/:(\w*)(?:\(([^\)]*)\))?/g, function(match, pseudo, value){ // TODO: Make this regex find non-paren pseudos --> foo:bar:baz()
+				console.log(arguments);
 				if (action){
 					var passed = xtag.toArray(args);
 						passed.unshift(value, fn);
@@ -271,9 +279,9 @@
 		requestCallback: function(element, request){
 			if (request != element.xtag.request) return xtag;
 			element.setAttribute('data-readystate', request.readyState);
-			element.setAttribute('data-requeststatus', request.status);
-			xtag.fireEvent('dataready', element, { request: request });
+			element.setAttribute('data-requeststatus', request.status);			
 			if (element.dataready) element.dataready.call(element, request);
+			xtag.fireEvent('dataready', element, { request: request });
 		},
 		
 		clearRequest: function(element){

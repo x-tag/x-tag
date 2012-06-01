@@ -17,7 +17,7 @@
 			}
 		},
 		events: {
-			'dataready': function(){
+			'dataready:preventable': function(event){				
 				this.xtag.clearSuggestions();
 				this.xtag.showSuggestions();
 			},
