@@ -1,4 +1,25 @@
 
+code {
+	padding: 0 2px 1px;
+	border: 1px solid;
+	border-color: #dfdfdf #dadada #d0d0d0;
+	font-size: 80%;
+	border-radius: 3px;
+	-ms-border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+}
+
+p.description code {
+	position: relative;
+    top: -1px;
+	margin: 0 2px;
+	background: linear-gradient(top, #fafafa, #efefef);
+	background: -ms-linear-gradient(top, #fafafa, #efefef);
+	background: -moz-linear-gradient(top, #fafafa, #efefef);
+	background: -webkit-linear-gradient(top, #fafafa, #efefef);
+}
+
 nav.actions {
 	margin-bottom: 20px;
 	overflow: hidden;
@@ -7,42 +28,7 @@ nav.actions {
 nav.actions button {
 	float: left;
 	margin: 4px 4px 4px 0;
-	padding-bottom: 1px;
 	cursor: pointer;
-}
-
-#tags {
-	position: relative;
-	z-index: 1;
-}
-
-span[feature] {
-	display: inline-block;
-    float: right;
-    padding: 11px 9px;
-	background: no-repeat center center;
-}
-
-span[feature="data-bound"] {
-	background-image: url(http://cdn3.iconfinder.com/data/icons/fatcow/16x16_0340/database_link.png);
-}
-
-/* PANEL DEMO */
-
-#panel_demo {
-	height: 200px;
-	width: 300px;
-	background: #f3f3f3;
-	border: 1px solid #ddd;
-	transition: 1s;
-	-o-transition: 1s;
-	-ms-transition: 1s;
-	-moz-transition: 1s;
-	-webkit-transition: 1s;
-}
-
-#panel_demo[data-readystate="4"] {
-	background-color: #58F48C;
 }
 
 
@@ -128,7 +114,7 @@ span[feature="data-bound"] {
 			-webkit-border-radius: 0px 3px 3px 0px !important;
 		}
 
-	#tabbox_demo.style x-tabpanels {
+	#tabbox_demo.style x-panels {
 		margin-top: -1px;
 		padding: 4px 6px;
 		border: 1px solid;
@@ -147,70 +133,28 @@ span[feature="data-bound"] {
 		-webkit-box-shadow: 0 1px 7px -4px #000;
 	}
 	
-		#tabbox_demo.style[tab-orient="bottom"] x-tabpanels {
+		#tabbox_demo.style[tab-orient="bottom"] x-panels {
 			border-radius: 3px 3px 0 0;
 			-ms-border-radius: 3px 3px 0 0;
 			-moz-border-radius: 3px 3px 0 0;
 			-webkit-border-radius: 3px 3px 0 0;
 		}
 	
-	#tabbox_demo[tab-orient="left"] x-tabpanels, #tabbox_demo[tab-orient="right"] x-tabpanels {
+	#tabbox_demo[tab-orient="left"] x-panels, #tabbox_demo[tab-orient="right"] x-panels {
 		margin-top: 0px;
 	}
 
-/* SLIDEBOX DEMO */
-
-	#slidebox_container {
-		height: 300px;
-		width: 220px;
-	    position: relative;	    
-	    overflow: hidden;
-	}
-	
-	#painfully_obvious_disclaimer_for_metalab_and_metalab-esque_ambulance_chasers {
-		font-size: 9px;
-		color: #666;
-	}
-
-/* MODAL DEMO */
-	
-	#modal_demo {
-		display: none;
-		z-index: 1000;
-	}
-
-	#modal_demo.show {
-		display: block;
-	}
-	
-	#modal_demo.style {
-		max-width: 500px;
-		background: #fff;
-		padding: 12px 14px;
-		border: 1px solid;
-		border-color: #aaa #999 #888;
-		border-radius: 3px;
-		-ms-border-radius: 3px;
-		-moz-border-radius: 3px;
-		-webkit-border-radius: 3px;
-		box-shadow: 0 4px 20px -4px #000;
-		-ms-box-shadow: 0 4px 20px -4px #000;
-		-moz-box-shadow: 0 4px 20px -4px #000;
-		-webkit-box-shadow: 0 4px 24px -4px #000;
-	}
-	
 /* ACCORDION DEMO */
 
 	#accordion_demo.style {
 		width: 300px;
-		text-shadow: 0 1px 0 #fff;
 	}
 	
 	#accordion_demo.style x-toggler {
 		margin-top: 4px;
 		padding: 0 4px 2px;
 		border: 1px solid;
-		border-color: #cacaca #afafaf #a0a0a0;
+		border-color: #cacaca #b0b0b0 #bbb;
 		background: linear-gradient(top, #fafafa, #dadada);
 		background: -ms-linear-gradient(top, #fafafa, #dadada);
 		background: -moz-linear-gradient(top, #fafafa, #dadada);
@@ -225,35 +169,31 @@ span[feature="data-bound"] {
 	
 	#accordion_demo.style x-toggler[selected="true"] {
 		color: #000;
-		background: linear-gradient(top, #EEF2F8, #CFDBEC);
-		background: -ms-linear-gradient(top, #EEF2F8, #CFDBEC);
-		background: -moz-linear-gradient(top, #EEF2F8, #CFDBEC);
-		background: -webkit-linear-gradient(top, #EEF2F8, #CFDBEC);
+		background: linear-gradient(top, #E7EDF6, #CFDBEC);
+		background: -ms-linear-gradient(top, #E7EDF6, #CFDBEC);
+		background: -moz-linear-gradient(top, #E7EDF6, #CFDBEC);
+		background: -webkit-linear-gradient(top, #E7EDF6, #CFDBEC);
 		text-decoration: none;
 		cursor: default;
 	}
 
-/* MAP DEMO */
+/* SLIDEBOX DEMO */
 
-	#map_demo {
-		height: 300px;
+	#accordion_demo.style {
 		width: 300px;
 	}
 	
-/* AUTOSUGGEST DEMO */
+	
+/* STACK DEMO */
 
-	#autosuggest_demo {
-		z-index: 1;
+	#stack_demo.style > img {
+		padding: 6px;
+		background: #fff;
+		border: 1px solid;
+		border-color: #888 #777 #666;
+		box-shadow: 0 1px 10px -6px #000;
+		-ms-box-shadow: 0 1px 10px -6px #000;
+		-moz-box-shadow: 0 1px 10px -6px #000;
+		-webkit-box-shadow: 0 1px 10px -6px #000;
 	}
-
-/* FLIPBOX DEMO */
-
-	#flipbox_container{
-		-webkit-perspective: 1000px;
-		-moz-perspective: 1000px;
-		-ms-perspective: 1000px;
-		-o-perspective: 1000px;
-		height: 300px;
-	    position: relative;
-	    width: 220px;
-	}
+	

@@ -1,5 +1,5 @@
 (function(){
-	
+ 
 	var prefix = {
 			js: ['', 'O', 'MS', 'Moz', 'WebKit'].filter(function(prefix){
 				return window[prefix + 'CSSKeyframesRule'];
@@ -47,7 +47,8 @@
 			onCreate: function(){},
 			onInsert: function(){},
 			eventMap: {
-				animationstart: ['animationstart', 'oAnimationStart', 'MSAnimationStart', 'webkitAnimationStart']
+				animationstart: ['animationstart', 'oAnimationStart', 'MSAnimationStart', 'webkitAnimationStart'],
+				transitionend: ['transitionend', 'oTransitionEnd', 'MSTransitionEnd', 'webkitTransitionEnd']
 			}
 		},
 		pseudos: {
@@ -141,7 +142,7 @@
 		},
 		
 		getTag: function(element){
-			return (element.tagName.split('-')[1] || '').toLowerCase();
+			return (element.tagName ? element.tagName.split('-')[1] : '').toLowerCase();
 		},
 		
 		getOptions: function(element){

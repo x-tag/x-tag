@@ -1,11 +1,40 @@
 
 x-modal {
-	display: fixed;
+	display: block;
+	position: fixed;
 	top: 50%;
 	left: 50%;
-	transform: translate(-50%, -50%);
-	-o-transform: translate(-50%, -50%);
-	-ms-transform: translate(-50%, -50%);
-	-moz-transform: translate(-50%, -50%);
-	-webkit-transform: translate(-50%, -50%);
+	
+	box-sizing: border-box;
+	-o-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	
+	transform-style: preserve-3d;
+	-o-transform-style: preserve-3d;
+	-ms-transform-style: preserve-3d;
+	-moz-transform-style: preserve-3d;
+	-webkit-transform-style: preserve-3d;
+	
+	transform: translate(-50%, -50%) translateZ(1px);
+	-o-transform: translate(-50%, -50%) translateZ(1px);
+	-ms-transform: translate(-50%, -50%) translateZ(1px);
+	-moz-transform: translate(-50%, -50%) translateZ(1px);
+	-webkit-transform: translate(-50%, -50%) translateZ(1px);
+}
+
+x-modal[data-overlay="true"]:after {
+	content: " ";
+	position: absolute;
+	width: 9999px;
+	height: 9999px;
+	background: none repeat scroll 0 0 rgba(0, 0, 0, 0.6);
+	pointer-events: none;
+	
+    transform: translate(-50%, -50%) translateZ(-1px);
+	-o-transform: translate(-50%, -50%) translateZ(-1px);
+	-ms-transform: translate(-50%, -50%) translateZ(-1px);
+	-moz-transform: translate(-50%, -50%) translateZ(-1px);
+	-webkit-transform: translate(-50%, -50%) translateZ(-1px);
 }
