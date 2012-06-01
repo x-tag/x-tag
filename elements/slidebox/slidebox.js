@@ -33,7 +33,7 @@
 			slideTo: function(index){
 
 			},
-			slideNext: function(){
+			slideNext: function(){				
 				var transformStyle = this.style[xtag.prefix.js+'Transform'];
 				var currentXShift = !!transformStyle ? Number(transformStyle.match(/\((-?\d+)%\)/)[1]) : 0;
 				var nextShift = currentXShift > ((this.children.length-1) * -100) ? currentXShift - 100 : 0;

@@ -216,7 +216,6 @@
 		applyPseudos: function(element, key, fn, args){
 			var	action = fn, args = xtag.toArray(args);
 			if (key.match(':')) key.replace(/:(\w*)(?:\(([^\)]*)\))?/g, function(match, pseudo, value){ // TODO: Make this regex find non-paren pseudos --> foo:bar:baz()
-				console.log(arguments);
 				if (action){
 					var passed = xtag.toArray(args);
 						passed.unshift(value, fn);
