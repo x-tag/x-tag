@@ -160,14 +160,11 @@ span[feature="data-bound"] {
 
 /* SLIDEBOX DEMO */
 
-	#slidebox_demo {
-		height: 475px;
-		width: 300px;
-	}
-	
-	#slidebox_demo img {
-		width: 100%;
-		height: auto;
+	#slidebox_container {
+		height: 300px;
+		width: 220px;
+	    position: relative;	    
+	    overflow: hidden;
 	}
 	
 	#painfully_obvious_disclaimer_for_metalab_and_metalab-esque_ambulance_chasers {
@@ -251,7 +248,7 @@ span[feature="data-bound"] {
 
 /* FLIPBOX DEMO */
 
-	#flipbox .perspective{
+	#flipbox_container{
 		-webkit-perspective: 1000px;
 		-moz-perspective: 1000px;
 		-ms-perspective: 1000px;
@@ -260,6 +257,3 @@ span[feature="data-bound"] {
 	    position: relative;
 	    width: 220px;
 	}
-
-	
-	

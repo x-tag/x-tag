@@ -65,7 +65,7 @@
 			<x-panel id="panel_demo" src="demo/html/panel-content.html"></x-panel>
 		</dd>
 		
-		<dt>Tabbox</dt>
+		<dt>Tab Box</dt>
 		<dd id="tabbox">
 			<p class="description">
 				A container used to display a set of tabbed pages of elements.
@@ -114,8 +114,7 @@
 			</x-tabbox>
 		</dd>
 		
-	<!-- 
-		<dt>Slidebox</dt>
+		<dt>Slide Box</dt>
 		<dd id="slidebox">
 			<p class="description">
 				A container used to display a set of tabbed pages of elements.
@@ -134,24 +133,14 @@
 				<button data-action-type="addSlide">Add Slide</button>
 			</nav>
 			
-			<x-slidebox id="slidebox_demo" class="style" data-flip-axis="y">
-
-				<x-panel>
+			<div id="slidebox_container">
+				<x-slidebox id="slidebox_demo" data-orientation='Y'>
 					<img src="demo/images/birnimal-calendar.png" />
-				</x-panel>
-				
-				<x-panel>
 					<img src="demo/images/birnimal-graph.png" />
-				</x-panel>
-
-				<x-panel>
 					<img src="demo/images/birnimal-detail.png" />
-				</x-panel>
-				
-				<x-panel>
 					<img src="demo/images/birnimal-settings.png" />
-				</x-panel>
-			</x-slidebox>
+				</x-slidebox>
+			</div>
 			
 			<p id="painfully_obvious_disclaimer_for_metalab_and_metalab-esque_ambulance_chasers">
 				*** Screenshots of Birnimal above are used strictly to show the functionality 
@@ -159,7 +148,6 @@
 				assuming anything of the sort would make an ass out of u and me. (I'm looking at you Metalab)
 			</p>
 		</dd>
-	-->
 		
 		<dt>Accordion</dt>
 		<dd id="accordion">
@@ -210,7 +198,7 @@
 				<button data-action-type="toggleFlip">Flip</button>		
 			</nav>
 
-			<div class="perspective">
+			<div id="flipbox_container">
 				<x-flipbox id="flipbox_demo">
 					
 						<img src="demo/images/birnimal-graph.png"/>					
@@ -400,6 +388,7 @@
 					break;
 					
 				case 'nextTab':
+
 					demo.firstElementChild.xtag.nextTab();
 					break;
 				
@@ -425,7 +414,7 @@
 					demo.xtag.nextToggler();
 					break;
 					
-				case 'slideNext':
+				case 'slideNext':			
 					demo.xtag.slideNext();
 					break;
 					

@@ -32,6 +32,7 @@
 	
 	xtag = {
 		namespace: 'x',
+		prefix: prefix, 
 		tags: {},
 		callbacks: {},
 		sheet: styles.sheet,
