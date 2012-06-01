@@ -149,14 +149,11 @@ nav.actions button {
 
 /* SLIDEBOX DEMO */
 
-	#slidebox_demo {
-		height: 475px;
-		width: 300px;
-	}
-	
-	#slidebox_demo img {
-		width: 100%;
-		height: auto;
+	#slidebox_container {
+		height: 300px;
+		width: 220px;
+	    position: relative;	    
+	    overflow: hidden;
 	}
 	
 	#painfully_obvious_disclaimer_for_metalab_and_metalab-esque_ambulance_chasers {
@@ -213,7 +210,7 @@ nav.actions button {
 
 /* FLIPBOX DEMO */
 
-	#flipbox .perspective{
+	#flipbox_container{
 		-webkit-perspective: 1000px;
 		-moz-perspective: 1000px;
 		-ms-perspective: 1000px;
@@ -222,6 +219,3 @@ nav.actions button {
 	    position: relative;
 	    width: 220px;
 	}
-
-	
-	

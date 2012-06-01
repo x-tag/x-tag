@@ -1,34 +1,53 @@
 
 (function(){
-	
-	var transitionend = function(e){
-			if (e.target.parentNode == this) {
-				e.target.removeAttribute('data-current-slide');
-				e.target.setAttribute('data-previous-slide', true);
+
+	var slideTo = function(amount){
+		this.style[xtag.prefix.js+'Transform'] = 'translate'+
+			(this.getAttribute('data-orientation')||'X')+'('+amount+'%)';
+		},
+		init = function(){
+			var elemCount = this.children.length;
+			for(var i=0; i < this.children.length; i++){				
+				this.children[i].style[xtag.prefix.js+'Transform'] = 'translate'+
+					(this.getAttribute('data-orientation')||'X') + '(' + i*100 +'%)';
+			}
+			this.style[xtag.prefix.js+'Transform'] = 'translate' + (this.getAttribute('data-orientation')||'X') + '(0%)';
+		}
+
+	xtag.register('slidebox', {
+		events:{
+			'transitionend': function(e){
+				if (e.target == this) xtag.fireEvent('slideend', this);
 			}
 		},
-		slide = function(side){
-			
-		}
-	
-	xtag.register('slidebox', {
-		events: {
-			'transitionend': transitionend,
-			'oTransitionEnd': transitionend,
-			'MSTransitionEnd': transitionend,
-			'webkitTransitionEnd': transitionend
+		eventMap:{
+			'transitionend': ['transitionend', 'oTransitionEnd', 'MSTransitionEnd', 'webkitTransitionEnd'],
+		},
+		setters: {
+			'data-orientation': function(value){
+				this.setAttribute('data-orientation', value);
+				init.call(this);
+			}
 		},
 		methods: {
 			slideTo: function(index){
-				slide.call(this, index);
+
 			},
 			slideNext: function(){
-				slide.call(this, 'next');
+				var transformStyle = this.style[xtag.prefix.js+'Transform'];
+				var currentXShift = !!transformStyle ? Number(transformStyle.match(/\((-?\d+)%\)/)[1]) : 0;
+				var nextShift = currentXShift > ((this.children.length-1) * -100) ? currentXShift - 100 : 0;
+				slideTo.call(this, nextShift);
 			},
 			slidePrevious: function(){
-				slide.call(this, 'previous');
+				var transformStyle = this.style[xtag.prefix.js+'Transform'];
+				var currentXShift = !!transformStyle ? Number(transformStyle.match(/\((-?\d+)%\)/)[1]) : 0;
+				var nextShift = currentXShift == 0 ? (this.children.length-1) * -100 : currentXShift + 100;
+				slideTo.call(this, nextShift);
 			}
-		}
+		},
+		onInsert: init
+
 	});
 
 })();
