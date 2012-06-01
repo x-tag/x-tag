@@ -5,6 +5,7 @@
 				return window[prefix + 'CSSKeyframesRule'];
 			})[0]
 		};
+		if (prefix.js == 'WebKit') prefix.js = prefix.js.toLowerCase();
 		prefix.css = prefix.js ? '-' + prefix.js.toLowerCase() + '-' : prefix.js;
 		prefix.properties = '{' + 
 			prefix.css + 'animation-duration: 0.0001s;' +
@@ -60,6 +61,11 @@
 				return target ? function(){
 					fn.apply(target, xtag.toArray(arguments));
 				} : false;
+			},
+			keycodes: function(codes){
+				return function(event){
+					if (~codes.indexOf(event.keyCode)) fn.apply(this, xtag.toArray(arguments));
+				}
 			},
 			retain: function(args, fn, property, element){
 				var value = element[property];

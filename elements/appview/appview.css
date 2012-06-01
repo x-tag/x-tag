@@ -1,0 +1,9 @@
+
+x-appview > * {
+	display: box;
+	display: -o-box;
+	display: -ms-box;
+	display: -moz-box;
+	display: -webkit-box;
+}
+

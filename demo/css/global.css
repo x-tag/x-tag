@@ -95,7 +95,7 @@ button code {
 	background: #fff;
 }
 
-header {
+body > header {
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -139,12 +139,12 @@ header {
     margin: 0 2px;
 }
 
-header nav {
+body > header nav {
 	float: right;
 	margin: 16px 20px 0 0;
 }
 
-header nav a {
+body > header nav a {
 	display: block;
 	margin-left: 18px;
 	color: #fff;
@@ -154,15 +154,15 @@ header nav a {
 	line-height: 0;
 }
 
-header nav a:first-child {
+body > header nav a:first-child {
 	margin-left: 0;
 }
 
-header nav a div {
+body > header nav a div {
     position: relative;
 }
 
-header nav a div:last-child {
+body > header nav a div:last-child {
     top: 8px;
 }
 

@@ -2,7 +2,7 @@
 (function(){
 
 	var slideTo = function(amount){
-		this.style[xtag.prefix.js+'Transform'] = 'translate'+
+		this.style[xtag.prefix.js + 'Transform'] = 'translate'+
 			(this.getAttribute('data-orientation')||'X')+'('+amount+'%)';
 		},
 		init = function(){

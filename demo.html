@@ -13,6 +13,8 @@
 		<link rel="stylesheet" type="text/css" href="demo/highlight/styles/vs.css" />
 		<link rel="stylesheet" type="text/css" href="demo/css/global.css"/>
 		<link rel="stylesheet" type="text/css" href="demo/css/demo.css"/>
+		<link rel="stylesheet" type="text/css" href="elements/appview/appview.css"/>
+		<link rel="stylesheet" type="text/css" href="elements/actionbar/actionbar.css"/>
 		<link rel="stylesheet" type="text/css" href="elements/panel/panel.css"/>
 		<link rel="stylesheet" type="text/css" href="elements/tabbox/tabbox.css"/>
 		<link rel="stylesheet" type="text/css" href="elements/accordion/accordion.css"/>
@@ -24,6 +26,8 @@
 		<link rel="stylesheet" type="text/css" href="elements/flipbox/flipbox.css"/>
 		
 		<script type="text/javascript" src="x-tag.js"></script>
+		<script type="text/javascript" src="elements/appview/appview.js"></script>
+		<script type="text/javascript" src="elements/actionbar/actionbar.js"></script>
 		<script type="text/javascript" src="elements/panel/panel.js"></script>
 		<script type="text/javascript" src="elements/tabbox/tabbox.js"></script>
 		<script type="text/javascript" src="elements/accordion/accordion.js"></script>
@@ -51,6 +55,35 @@
 		<span id="structural" class="anchor-id"></span>
 	</h3>
 	<dl>
+		<dt>App View</dt>
+		<dd id="appview">
+			<p class="description">
+				The <code>appview</code> element is the container for arranging content a common app layout (similar to Android and iOS). 
+				The element responsively transitions the app to an optimal layout state based on orientation and screen size and manages 
+				the location of global menus and actions.
+			</p>
+			
+			<nav class="actions">
+				<button data-action-type="orientAppView">Orient Horizontal</button>
+			</nav>
+			
+			<x-appview id="appview_demo">
+				<header>
+					<img src="http://cdn5.iconfinder.com/data/icons/Aristocracy_WebDesignTuts/32/Download_Crate.png" /><h2>Some App</h2>
+				</header>
+				
+			<!-- 	<x-slidebox>
+					
+				</x-slidebox> -->
+				
+				<x-actionbar>
+					<x-action command="new-content" data-label="New" src="demo/images/action_icons/light/medium/plus.png"></x-action>
+					<x-action command="new-content" data-label="New" src="demo/images/action_icons/light/medium/refresh.png"></x-action>
+					<x-action command="new-content" data-label="New" src="demo/images/action_icons/light/medium/grid.png"></x-action>
+				</x-actionbar>
+			</x-appview>
+		</dd>
+	
 		<dt>Panel<span feature="data-bound" title="This element has data request bindings"></span></dt>
 		<dd id="panel">
 			<p class="description">

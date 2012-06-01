@@ -5,10 +5,19 @@
 /*** Element Styles ***/
 
 x-slidebox {
-	-moz-transition: -moz-transform 1s ease 0s;
-	position: absolute;
+	display: box;
+	display: -o-box;
+	display: -ms-box;
+	display: -moz-box;
+	display: -webkit-box;
+	position: relative;
 	height: 100%;
 	width: 100%;
+	transition: transform 1s ease 0s;
+	-o-transition: -o-transform 1s ease 0s;
+	-ms-transition: -ms-transform 1s ease 0s;
+	-moz-transition: -moz-transform 1s ease 0s;
+	-webkit-transition: -webkit-transform 1s ease 0s;
 }
 
 x-slidebox > * {

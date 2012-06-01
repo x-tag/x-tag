@@ -1,0 +1,36 @@
+
+x-actionbar {
+	display: box;
+	display: -o-box;
+	display: -ms-box;
+	display: -moz-box;
+	display: -webkit-box;
+}
+
+x-action img{
+	display: block;
+	width: 100%;
+	height: auto;
+	margin: 0 auto;
+}
+
+x-action label {
+	text-align: center;
+	font-size: 80%;
+}
+
+x-action[data-action-style="icon"] img {
+	
+}
+
+x-action[data-action-style="icon"] label {
+	display: none;
+}
+
+x-action[data-action-style="text"] img {
+	display: none;
+}
+
+x-action[data-action-style="text"] label {
+	font-size: 100%;
+}
