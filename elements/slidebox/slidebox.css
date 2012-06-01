@@ -9,15 +9,7 @@ x-slidebox {
 	display: block;
 }
 
-x-slidebox[data-flip-axis="x"] > * {
-	overflow-x: hidden;
-	overflow-y: auto;
-}
 
-x-slidebox[data-flip-axis="y"]  > * {
-	overflow-x: auto;
-	overflow-y: hidden;
-}
 
 x-slidebox  > * {
 	display: block;
@@ -30,3 +22,4 @@ x-slidebox  > * {
 	-o-transition-duration: 0.6s;
 	transition-duration: 0.6s;
 }
+

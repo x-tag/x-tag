@@ -46,7 +46,8 @@
 			onCreate: function(){},
 			onInsert: function(){},
 			eventMap: {
-				animationstart: ['animationstart', 'oAnimationStart', 'MSAnimationStart', 'webkitAnimationStart']
+				animationstart: ['animationstart', 'oAnimationStart', 'MSAnimationStart', 'webkitAnimationStart'],
+				transitionend: ['transitionend', 'oTransitionEnd', 'MSTransitionEnd', 'webkitTransitionEnd']
 			}
 		},
 		pseudos: {

@@ -28,7 +28,7 @@ xtag.register('tab', {
 			tabs.forEach(function(el){
 				el.setAttribute('selected', el == this ? true : '');
 			}, this);
-			xtag.query(this.parentNode.nextElementSibling, 'x-panel').forEach(function(el, i, array){
+			xtag.query(this.parentNode.parentNode, 'x-tabpanels > *').forEach(function(el, i, array){
 				el.setAttribute('selected', el == array[index] ? true : '');
 			});
 		}
