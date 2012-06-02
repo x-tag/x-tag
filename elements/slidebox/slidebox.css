@@ -1,15 +1,11 @@
 
-/*** Animation Keyframes ***/
-
-
-/*** Element Styles ***/
-
 x-slidebox {
-	display: box;
-	display: -o-box;
-	display: -ms-box;
-	display: -moz-box;
-	display: -webkit-box;
+	display: block;
+	overflow: hidden;
+}
+
+x-slides {
+	display: block;
 	position: relative;
 	height: 100%;
 	width: 100%;
@@ -20,7 +16,8 @@ x-slidebox {
 	-webkit-transition: -webkit-transform 1s ease 0s;
 }
 
-x-slidebox > * {
+
+x-slides > * {
 	display: block;
 	height: 100%;
 	width: 100%;

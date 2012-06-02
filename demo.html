@@ -161,14 +161,14 @@
 				<button data-action-type="slideNext">Next Slide -></button>
 			</nav>
 			
-			<div id="slidebox_container">
-				<x-slidebox id="slidebox_demo" data-orientation='X'>
+			<x-slidebox id="slidebox_demo" data-orientation='X'>
+				<x-slides>
 					<img src="demo/images/birnimal-calendar.png" />
 					<img src="demo/images/birnimal-graph.png" />
 					<img src="demo/images/birnimal-detail.png" />
 					<img src="demo/images/birnimal-settings.png" />
-				</x-slidebox>
-			</div>
+				</x-slides>
+			</x-slidebox>
 			
 			<p id="painfully_obvious_disclaimer_for_metalab_and_metalab-esque_ambulance_chasers">
 				*** Screenshots of Birnimal above are used strictly to show the functionality 
@@ -225,18 +225,13 @@
 			<nav class="actions">
 				<button data-action-type="toggleFlip">Flip</button>		
 			</nav>
-
-			<div id="flipbox_container">
-				<x-flipbox id="flipbox_demo">
-					
-						<img src="demo/images/birnimal-graph.png"/>					
-						<img class="back" src="demo/images/birnimal-settings.png"/>
-					
-				</x-flipbox>
-			</div>
-
-
 			
+			<x-flipbox id="flipbox_demo">
+				<x-card>
+					<img src="demo/images/birnimal-graph.png"/>					
+					<img class="back" src="demo/images/birnimal-settings.png"/>
+				</x-card>
+			</x-flipbox>
 		
 		</dd>
 		
