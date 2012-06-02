@@ -1,18 +1,32 @@
 
 (function(){
 
-	var slideTo = function(amount){
-		this.firstElementChild.style[xtag.prefix.js + 'Transform'] = 'translate'+
-			(this.getAttribute('data-orientation')||'X')+'('+amount+'%)';
+	var transform = xtag.prefix.js + 'Transform',
+		getState = function(el){
+			var style = el.firstElementChild.style[transform];
+			return [!!style ? Number(style.match(/\((-?\d+)%\)/)[1]) : 0, 100 / el.firstElementChild.children.length];
+		},
+		slide = function(el, amount){
+			el.firstElementChild.style[transform] = 'translate'+ (el.getAttribute('data-orientation') || 'X') + '(' + amount + '%)';
 		},
 		init = function(){
-			var slides = this.firstElementChild;
-			for (var i=0; i < slides.children.length; i++){				
-				slides.children[i].style[xtag.prefix.js+'Transform'] = 'translate'+
-					(this.getAttribute('data-orientation')||'X') + '(' + i*100 +'%)';
-			}
-			slides.style[xtag.prefix.js+'Transform'] = 'translate' + (this.getAttribute('data-orientation')||'X') + '(0%)';
-		}
+			var slides = this.firstElementChild,
+				size = 100 / slides.children.length,
+				orient = this.getAttribute('data-orientation') || 'X',
+				style = orient == 'X' ? ['width', 'height'] : ['height', 'width'];
+			
+			slides.style[xtag.prefix.js + 'Transition'] = 'none';
+			slides.style[style[1]] =  '100%';
+			slides.style[style[0]] = slides.children.length * 100 + '%';
+			slides.style[transform] = 'translate' + orient + '(0%)';
+			xtag.toArray(slides.children).forEach(function(slide){				
+				slide.style[style[0]] = size + '%';
+				slide.style[style[1]] = '100%';
+			});
+			setTimeout(function(){
+				slides.style[xtag.prefix.js + 'Transition'] = '';
+			}, 1);
+		};
 
 	xtag.register('slidebox', {
 		onInsert: init,
@@ -32,19 +46,15 @@
 		},
 		methods: {
 			slideTo: function(index){
-
+				
 			},
 			slideNext: function(){
-				var transformStyle = this.firstElementChild.style[xtag.prefix.js+'Transform'],
-					currentXShift = !!transformStyle ? Number(transformStyle.match(/\((-?\d+)%\)/)[1]) : 0,
-					nextShift = currentXShift > ((this.firstElementChild.children.length-1) * -100) ? currentXShift - 100 : 0;
-				slideTo.call(this, nextShift);
+				var shift = getState(this);
+				slide(this, (shift[0] == -100 + shift[1]) ? 0 : shift[0] - shift[1]);
 			},
 			slidePrevious: function(){
-				var transformStyle = this.firstElementChild.style[xtag.prefix.js+'Transform'],
-					currentXShift = !!transformStyle ? Number(transformStyle.match(/\((-?\d+)%\)/)[1]) : 0,
-					nextShift = currentXShift == 0 ? (this.firstElementChild.children.length-1) * -100 : currentXShift + 100;
-				slideTo.call(this, nextShift);
+				var shift = getState(this);
+				slide(this, shift[0] == 0 ? -100 + shift[1] : shift[0] + shift[1]);
 			}
 		}
 	});

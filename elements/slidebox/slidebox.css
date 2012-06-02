@@ -9,6 +9,7 @@ x-slides {
 	position: relative;
 	height: 100%;
 	width: 100%;
+	overflow: hidden;
 	transition: transform 1s ease 0s;
 	-o-transition: -o-transform 1s ease 0s;
 	-ms-transition: -ms-transform 1s ease 0s;
@@ -19,9 +20,9 @@ x-slides {
 
 x-slides > * {
 	display: block;
+	float: left;
 	height: 100%;
 	width: 100%;
-	position: absolute;
 	border: 2px solid black;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
