@@ -333,7 +333,6 @@
 <script type="text/javascript">
 	
 	document.getElementById('autosuggest_demo').dataready = function(request){
-		console.log(request);
 		if (!request.responseText) return this;
 		request.responseText.movies.forEach(function(movie){
 			this.xtag.addSuggestion(movie.title, movie);

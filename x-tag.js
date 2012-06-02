@@ -279,8 +279,8 @@
 			if (request != element.xtag.request) return xtag;
 			element.setAttribute('data-readystate', request.readyState);
 			element.setAttribute('data-requeststatus', request.status);			
-			if (element.dataready) element.dataready.call(element, request);
 			xtag.fireEvent('dataready', element, { request: request });
+			if (element.dataready) element.dataready.call(element, request);
 		},
 		
 		clearRequest: function(element){
