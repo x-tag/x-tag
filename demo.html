@@ -55,7 +55,7 @@
 		<span id="structural" class="anchor-id"></span>
 	</h3>
 	<dl>
-		<dt>App View</dt>
+	<!-- 	<dt>App View</dt>
 		<dd id="appview">
 			<p class="description">
 				The <code>appview</code> element is the container for arranging content a common app layout (similar to Android and iOS). 
@@ -72,9 +72,9 @@
 					<img src="http://cdn5.iconfinder.com/data/icons/Aristocracy_WebDesignTuts/32/Download_Crate.png" /><h2>Some App</h2>
 				</header>
 				
-			<!-- 	<x-slidebox>
+				<x-slidebox>
 					
-				</x-slidebox> -->
+				</x-slidebox> 
 				
 				<x-actionbar>
 					<x-action command="new-content" data-label="New" src="demo/images/action_icons/light/medium/plus.png"></x-action>
@@ -82,7 +82,7 @@
 					<x-action command="new-content" data-label="New" src="demo/images/action_icons/light/medium/grid.png"></x-action>
 				</x-actionbar>
 			</x-appview>
-		</dd>
+		</dd> -->
 	
 		<dt>Panel<span feature="data-bound" title="This element has data request bindings"></span></dt>
 		<dd id="panel">
@@ -96,6 +96,12 @@
 			</nav>
 			
 			<x-panel id="panel_demo" src="demo/html/panel-content.html"></x-panel>
+			
+<!-- <pre>
+<code>
+&#60;x-panel src="demo/html/panel-content.html"&#62;&#60;/x-panel&#62;
+</code>
+</pre> -->
 		</dd>
 		
 		<dt>Tab Box</dt>
@@ -145,6 +151,32 @@
 					</div>
 				</x-tabpanels>
 			</x-tabbox>
+			
+<!-- <pre>
+<code>
+&#60;x-tabbox&#62;
+	&#60;x-tabs&#62;
+		&#60;x-tab selected="true"&#62;Tab 1&#60;/x-tab&#62;
+		&#60;x-tab&#62;Tab 2&#60;/x-tab&#62;
+		&#60;x-tab&#62;Tab 3&#60;/x-tab&#62;
+	&#60;/x-tabs&#62;
+	
+	&#60;x-tabpanels&#62;
+		&#60;div selected="true"&#62;
+			&#60;p&#62;ONE&#60;/p&#62;
+		&#60;/div&#62;
+		
+		&#60;div&#62;
+			&#60;p&#62;TWO&#60;/p&#62;
+		&#60;/div&#62;
+
+		&#60;div&#62;
+			&#60;p&#62;THREE&#60;/p&#62;
+		&#60;/div&#62;
+	&#60;/x-tabpanels&#62;
+&#60;/x-tabbox&#62;
+</code>
+</pre> -->
 		</dd>
 		
 		<dt>Slide Box</dt>
@@ -172,7 +204,7 @@
 			
 			<p id="painfully_obvious_disclaimer_for_metalab_and_metalab-esque_ambulance_chasers">
 				*** Obligatory Statement of the Obvious: The screenshots of <a href="http://app.birnimal.net/en/iphoneapp">Birnimal</a> above are strictly 
-				to demo the Slidebox - we needed a pretty app image folks, contain yourselves. *** <!-- f u m e . t .. a ... l .... a ..... -->
+				to demo the Slidebox - we needed a pretty app image folks, contain yourselves. ***
 			</p>
 		</dd>
 		

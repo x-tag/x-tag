@@ -27,6 +27,10 @@ span[feature="data-bound"] {
 	background-image: url(http://cdn3.iconfinder.com/data/icons/fatcow/16x16_0340/database_link.png);
 }
 
+pre {
+	margin-top: 20px;
+}
+
 /* APPVIEW DEMO */
 
 #appview_demo {
