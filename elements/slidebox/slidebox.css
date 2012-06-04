@@ -1,11 +1,5 @@
 
-/*** Animation Keyframes ***/
-
-
-/*** Element Styles ***/
-
 x-slidebox {
-
 	display: box;
 	display: -o-box;
 	display: -ms-box;
@@ -14,18 +8,20 @@ x-slidebox {
 	position: relative;
 	height: 100%;
 	width: 100%;
-	transition: transform 1s ease 0s;
-	-o-transition: -o-transform 1s ease 0s;
-	-ms-transition: -ms-transform 1s ease 0s;
-	-moz-transition: -moz-transform 1s ease 0s;
-	-webkit-transition: -webkit-transform 1s ease 0s;
+	overflow: hidden;
+	transition: transform 0.5s ease 0s;
+	-o-transition: -o-transform 0.5s ease 0s;
+	-ms-transition: -ms-transform 0.5s ease 0s;
+	-moz-transition: -moz-transform 0.5s ease 0s;
+	-webkit-transition: -webkit-transform 0.5s ease 0s;
 }
 
-x-slidebox > * {
+
+x-slides > * {
 	display: block;
+	float: left;
 	height: 100%;
 	width: 100%;
-	position: absolute;
 	border: 2px solid black;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;

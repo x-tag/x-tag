@@ -20,16 +20,21 @@
 		document.head.appendChild(styles);
 	
 	var mergeOne = function(source, key, current){
-		switch (xtag.typeOf(current)){
-			case 'object':
-				if (xtag.typeOf(source[key]) == 'object') xtag.merge(source[key], current);
-				else source[key] = xtag.clone(current);
-			break;
-			case 'array': source[key] = xtag.toArray(current); break;
-			default: source[key] = current;
-		}
-		return source;
-	};
+			switch (xtag.typeOf(current)){
+				case 'object':
+					if (xtag.typeOf(source[key]) == 'object') xtag.merge(source[key], current);
+					else source[key] = xtag.clone(current);
+				break;
+				case 'array': source[key] = xtag.toArray(current); break;
+				default: source[key] = current;
+			}
+			return source;
+		},
+		keypseudo = function(fn, value, pseudo){
+			return function(event){	
+				if (!!~value.match(/(\d+)/g).indexOf(String(event.keyCode)) == (pseudo == 'keypass')) fn.apply(this, xtag.toArray(arguments));
+			}
+		};
 	
 	xtag = {
 		namespace: 'x',
@@ -53,8 +58,8 @@
 			}
 		},
 		pseudos: {
-			delegate: function(selector, fn, event){
-				var target = xtag.query(this, selector).filter(function(node){
+			delegate: function(fn, value, pseudo, event){
+				var target = xtag.query(this, value).filter(function(node){
 					return node == event.target || node.contains ? node.contains(event.target) : false;
 				})[0];
 				
@@ -62,23 +67,18 @@
 					fn.apply(target, xtag.toArray(arguments));
 				} : false;
 			},
-			keycodes: function(codes){
-				return function(event){
-					if (~codes.indexOf(event.keyCode)) fn.apply(this, xtag.toArray(arguments));
-				}
-			},
-			retain: function(args, fn, property, element){
-				var value = element[property];
+			keystop: keypseudo,
+			keypass: keypseudo,
+			retain: function(fn, value, pseudo, property, element){
+				value = element[property];
 				return function(){
 					fn();
 					element[property] = value;
 				}
 			},
-			preventable: function(args, fn){
+			preventable: function(fn, value, pseudo){
 				return function(event){
-					if (!event.defaultPrevented){
-						fn.apply(this, xtag.toArray(arguments));
-					}
+					if (!event.defaultPrevented) fn.apply(this, xtag.toArray(arguments));
 				}
 			}
 		},
@@ -164,19 +164,6 @@
 			xtag.sheet.insertRule(selector + prefix.properties, 0);
 		},
 		
-		applyPseudos: function(element, key, fn, args){
-			var	action = fn, args = xtag.toArray(args);
-			if (key.match(':')) key.replace(/:(\w+)\(([^\)]+)\)|:(\w+)/g, function(match, pseudo, value){
-				if (action){
-					var passed = xtag.toArray(args);
-						passed.unshift(value, fn);
-					var returned = xtag.pseudos[pseudo].apply(element, passed);
-					action = returned === false ? false : returned || fn;
-				}
-			});
-			if (action) action.apply(element, args);
-		},
-		
 		extendElement: function(element){
 			if (!element.xtag){
 				element.xtag = {};
@@ -218,7 +205,7 @@
 			if (key.match(':')) key.replace(/:(\w*)(?:\(([^\)]*)\))?/g, function(match, pseudo, value){ // TODO: Make this regex find non-paren pseudos --> foo:bar:baz()
 				if (action){
 					var passed = xtag.toArray(args);
-						passed.unshift(value, fn);
+						passed.unshift(action, value, pseudo);
 					var returned = xtag.pseudos[pseudo].apply(element, passed);
 					action = returned === false ? false : returned || fn;
 				}
@@ -279,8 +266,8 @@
 			if (request != element.xtag.request) return xtag;
 			element.setAttribute('data-readystate', request.readyState);
 			element.setAttribute('data-requeststatus', request.status);			
-			if (element.dataready) element.dataready.call(element, request);
 			xtag.fireEvent('dataready', element, { request: request });
+			if (element.dataready) element.dataready.call(element, request);
 		},
 		
 		clearRequest: function(element){

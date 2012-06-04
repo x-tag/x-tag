@@ -27,6 +27,10 @@ span[feature="data-bound"] {
 	background-image: url(http://cdn3.iconfinder.com/data/icons/fatcow/16x16_0340/database_link.png);
 }
 
+pre {
+	margin-top: 20px;
+}
+
 /* APPVIEW DEMO */
 
 #appview_demo {
@@ -168,11 +172,10 @@ span[feature="data-bound"] {
 
 /* SLIDEBOX DEMO */
 
-	#slidebox_container {
-		height: 300px;
+	#slidebox_demo {
+		height: 320px;
 		width: 220px;
-	    position: relative;	    
-	    overflow: hidden;
+		margin-bottom: 15px;
 	}
 	
 	#painfully_obvious_disclaimer_for_metalab_and_metalab-esque_ambulance_chasers {
@@ -256,12 +259,12 @@ span[feature="data-bound"] {
 
 /* FLIPBOX DEMO */
 
-	#flipbox_container{
-		-webkit-perspective: 1000px;
-		-moz-perspective: 1000px;
-		-ms-perspective: 1000px;
+	#flipbox_demo{
+		height: 320px;
+		width: 220px;
+		perspective: 1000px;
 		-o-perspective: 1000px;
-		height: 300px;
-	    position: relative;
-	    width: 220px;
+		-ms-perspective: 1000px;
+		-moz-perspective: 1000px;
+		-webkit-perspective: 1000px;
 	}
