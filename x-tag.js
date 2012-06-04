@@ -113,7 +113,7 @@
 		
 		toArray: function(obj){
 			var sliced = Array.prototype.slice.call(obj, 0);
-			return sliced.length ? sliced : [obj];
+			return sliced.hasOwnProperty ? sliced : [obj];
 		},
 		
 		query: function(element, selector){
