@@ -3,11 +3,14 @@
 
 	var transform = xtag.prefix.js + 'Transform',
 		getState = function(el){
-			var style = el.firstElementChild.style[transform];
-			return [!!style ? Number(style.match(/\((-?\d+)%\)/)[1]) : 0, 100 / el.firstElementChild.children.length];
+			var selected = xtag.query(el, 'x-slides > [selected="true"]')[0] || 0;
+			return [selected ? xtag.query(el, 'x-slides > *').indexOf(selected) : selected, el.firstElementChild.children.length - 1];
 		},
-		slide = function(el, amount){
-			el.firstElementChild.style[transform] = 'translate'+ (el.getAttribute('data-orientation') || 'X') + '(' + amount + '%)';
+		slide = function(el, index){
+			var slides = xtag.toArray(el.firstElementChild.children);
+			slides.forEach(function(slide){ slide.removeAttribute('selected'); });
+			slides[index].setAttribute('selected', true);
+			el.firstElementChild.style[transform] = 'translate'+ (el.getAttribute('data-orientation') || 'X') + '(' + index * (-100 / slides.length) + '%)';
 		},
 		init = function(){
 			var slides = this.firstElementChild,
@@ -50,11 +53,13 @@
 			},
 			slideNext: function(){
 				var shift = getState(this);
-				slide(this, (shift[0] == -100 + shift[1]) ? 0 : shift[0] - shift[1]);
+					shift[0]++;
+				slide(this, shift[0] > shift[1] ? 0 : shift[0]);
 			},
 			slidePrevious: function(){
 				var shift = getState(this);
-				slide(this, shift[0] == 0 ? -100 + shift[1] : shift[0] + shift[1]);
+					shift[0]--;
+				slide(this, shift[0] < 0 ? shift[1] : shift[0]);
 			}
 		}
 	});
