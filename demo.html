@@ -191,6 +191,7 @@
 			<nav class="actions">				
 				<button data-action-type="slidePrevious"><- Previous Slide</button>
 				<button data-action-type="slideNext">Next Slide -></button>
+				<button data-action-type="slideTo">Slide To 3</button>
 			</nav>
 			
 			<x-slidebox id="slidebox_demo" data-orientation='X'>
@@ -376,6 +377,39 @@
 			element.xtag.request.url = element.xtag.request.url + '&q=' + element.value;
 		}
 	});
+
+	
+	var click_event = null;
+	var inital = 0;
+	document.getElementById('slidebox_demo').addEventListener('mousedown', function(e){
+		inital = Number(document.getElementById('slidebox_demo').children[0].style['MozTransform'].match(/(\d+)/)[0]);
+				document.getElementById('slidebox_demo').setAttribute('data-transition-disabled', true);
+		click_event = e;
+	});
+
+	document.getElementById('slidebox_demo').addEventListener('mouseout', function(){
+		click_event = false;
+		document.getElementById('slidebox_demo').setAttribute('data-transition-disabled', false);
+	});
+
+	document.getElementById('slidebox_demo').addEventListener('mouseup', function(){
+		click_event = false;
+		document.getElementById('slidebox_demo').setAttribute('data-transition-disabled', false);
+	});
+
+	document.getElementById('slidebox_demo').addEventListener('mousemove', function(e){
+
+		if(click_event){
+			var moved = e.clientX - click_event.clientX;
+			var dir = moved > 0 ? moved+inital : moved-inital;
+			document.getElementById('slidebox_demo').children[0].style['MozTransform'] = 'translateX('+ dir +'px)';
+
+		}
+	});
+
+	document.getElementById('slidebox_demo').addEventListener('dragstart', function(e){
+		e.preventDefault();		
+	});
 	
 	document.addEventListener('click', function(e){
 		
@@ -470,10 +504,15 @@
 				case 'slideNext':			
 					demo.xtag.slideNext();
 					break;
-					
+
 				case 'slidePrevious':
 					demo.xtag.slidePrevious();
 					break;
+
+				case 'slideTo':
+					demo.xtag.slideTo(2);
+					break;
+
 				case 'toggleFlip':					
 					demo.setAttribute('data-flipped', demo.getAttribute('data-flipped') == 'true' ? 'false' : 'true');
 					break;
