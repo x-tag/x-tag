@@ -13,10 +13,11 @@
 			el.firstElementChild.style[transform] = 'translate'+ (el.getAttribute('data-orientation') || 'X') + '(' + index * (-100 / slides.length) + '%)';
 		},
 		init = function(){
-			if (!slides.children.length) return;
+			
 
-			var slides = this.firstElementChild,
-				size = 100 / (slides.children.length||1),
+			var slides = this.firstElementChild;
+			if (!slides.children.length) return;
+			var	size = 100 / (slides.children.length||1),
 				orient = this.getAttribute('data-orientation') || 'X',
 				style = orient == 'X' ? ['width', 'height'] : ['height', 'width'];
 			
