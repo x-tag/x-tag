@@ -13,8 +13,11 @@
 			el.firstElementChild.style[transform] = 'translate'+ (el.getAttribute('data-orientation') || 'X') + '(' + index * (-100 / slides.length) + '%)';
 		},
 		init = function(){
-			var slides = this.firstElementChild,
-				size = 100 / slides.children.length,
+			
+
+			var slides = this.firstElementChild;
+			if (!slides.children.length) return;
+			var	size = 100 / (slides.children.length||1),
 				orient = this.getAttribute('data-orientation') || 'X',
 				style = orient == 'X' ? ['width', 'height'] : ['height', 'width'];
 			
@@ -45,11 +48,11 @@
 			'data-orientation': function(value){
 				this.setAttribute('data-orientation', value);
 				init.call(this);
-			}
+			},
 		},
 		methods: {
 			slideTo: function(index){
-				
+				slide(this, index);
 			},
 			slideNext: function(){
 				var shift = getState(this);

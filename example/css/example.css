@@ -1,0 +1,23 @@
+#flipbox {
+	height: 300px;
+	width: 220px;
+	overflow: hidden;
+}
+#slidebox {
+	height: 300px;
+	width: 220px;
+}
+x-autosuggest {
+	display: block !important;
+}
+x-autosuggest > ul{
+	top: 0 !important;
+	display: block !important;
+	position: relative !important;
+}
+x-autosuggest > input[type="text"] {
+	display: block;
+}
+#detail_view {
+	overflow: auto;
+}

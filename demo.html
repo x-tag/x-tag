@@ -55,47 +55,6 @@
 		<span id="structural" class="anchor-id"></span>
 	</h3>
 	<dl>
-		<dt>App View</dt>
-		<dd id="appview">
-			<p class="description">
-				The <code>appview</code> element is the container for arranging content a common app layout (similar to Android and iOS). 
-				The element responsively transitions the app to an optimal layout state based on orientation and screen size and manages 
-				the location of global menus and actions.
-			</p>
-			
-			<nav class="actions">
-				<button data-action-type="orientAppView">Orient Horizontal</button>
-			</nav>
-			
-			<x-appview id="appview_demo">
-				<header>
-					<img src="http://cdn5.iconfinder.com/data/icons/Aristocracy_WebDesignTuts/32/Download_Crate.png" /><h2>Some App</h2>
-				</header>
-				
-				<x-flipbox>
-					<x-card>
-						<x-slidebox>
-							<x-slides>
-								<div>LIST SLIDE</div>
-								<div>DETAIL SLIDE</div>
-							</x-slides>
-						</x-slidebox>
-						
-						<div>
-							SETTINGS PAGE!
-						</div>
-					</x-card>
-				</x-flipbox>
-				
-				<footer>
-					<x-actionbar>
-						<x-action command="new-content" data-label="New" src="demo/images/action_icons/light/medium/plus.png"></x-action>
-						<x-action command="new-content" data-label="New" src="demo/images/action_icons/light/medium/refresh.png"></x-action>
-						<x-action command="new-content" data-label="New" src="demo/images/action_icons/light/medium/grid.png"></x-action>
-					</x-actionbar>
-				</footer>
-			</x-appview>
-		</dd>
 	
 		<dt>Panel<span feature="data-bound" title="This element has data request bindings"></span></dt>
 		<dd id="panel">
@@ -204,6 +163,7 @@
 			<nav class="actions">				
 				<button data-action-type="slidePrevious"><- Previous Slide</button>
 				<button data-action-type="slideNext">Next Slide -></button>
+				<button data-action-type="slideTo">Slide To 3</button>
 			</nav>
 			
 			<x-slidebox id="slidebox_demo" data-orientation='X'>
@@ -367,6 +327,56 @@
 		</dd>
 	</dl>
 	
+	<h3>
+		Compositions
+		<span id="compositions" class="anchor-id"></span>
+	</h3>
+	<dl>
+		<dt>App View</dt>
+		<dd id="appview">
+			<p class="description">
+				The <code>appview</code> element is the container for arranging content a common app layout (similar to Android and iOS). 
+				The element responsively transitions the app to an optimal layout state based on orientation and screen size and manages 
+				the location of global menus and actions.
+			</p>
+			
+			<nav class="actions">
+				<button data-action-type="orientAppView">Orient Horizontal</button>
+			</nav>
+			
+			<x-appview id="appview_demo">
+				<header>
+					<img src="http://cdn5.iconfinder.com/data/icons/Aristocracy_WebDesignTuts/32/Download_Crate.png" /><h2>Some App</h2>
+				</header>
+				
+				<x-flipbox>
+					<x-card>
+						<x-slidebox>
+							<x-slides>
+								<div>LIST SLIDE</div>
+								<div>DETAIL SLIDE</div>
+							</x-slides>
+						</x-slidebox>
+						
+						<div>
+							SETTINGS PAGE!
+						</div>
+					</x-card>
+				</x-flipbox>
+				
+				<footer>
+					<x-actionbar data-action-count="3">
+						<x-action command="new-content" label="New" src="demo/images/action_icons/light/medium/plus.png"></x-action>
+						<x-action command="refresh-content" label="Refresh" src="demo/images/action_icons/light/medium/refresh.png"></x-action>
+						<x-action command="gridify-content" label="Grid" src="demo/images/action_icons/light/medium/grid.png"></x-action>
+						<x-action for="more-actions" command="action-4" label="4th Action" src="demo/images/action_icons/light/medium/grid.png"></x-action>
+						<x-action for="more-actions" command="action-5" label="5th Action" src="demo/images/action_icons/light/medium/grid.png"></x-action>
+						<x-action group="more-actions" label="More" src="demo/images/action_icons/light/medium/more-actions.png"></x-action>
+					</x-actionbar>
+				</footer>
+			</x-appview>
+		</dd>
+	</dl>
 </div>
 
 <x-modal id="modal_demo" class="style">
@@ -402,6 +412,39 @@
 		if (element.tagName == 'X-AUTOSUGGEST'){
 			element.xtag.request.url = element.xtag.request.url + '&q=' + element.value;
 		}
+	});
+
+	
+	var click_event = null;
+	var inital = 0;
+	document.getElementById('slidebox_demo').addEventListener('mousedown', function(e){
+		inital = Number(document.getElementById('slidebox_demo').children[0].style['MozTransform'].match(/(\d+)/)[0]);
+				document.getElementById('slidebox_demo').setAttribute('data-transition-disabled', true);
+		click_event = e;
+	});
+
+	document.getElementById('slidebox_demo').addEventListener('mouseout', function(){
+		click_event = false;
+		document.getElementById('slidebox_demo').setAttribute('data-transition-disabled', false);
+	});
+
+	document.getElementById('slidebox_demo').addEventListener('mouseup', function(){
+		click_event = false;
+		document.getElementById('slidebox_demo').setAttribute('data-transition-disabled', false);
+	});
+
+	document.getElementById('slidebox_demo').addEventListener('mousemove', function(e){
+
+		if(click_event){
+			var moved = e.clientX - click_event.clientX;
+			var dir = moved > 0 ? moved+inital : moved-inital;
+			document.getElementById('slidebox_demo').children[0].style['MozTransform'] = 'translateX('+ dir +'px)';
+
+		}
+	});
+
+	document.getElementById('slidebox_demo').addEventListener('dragstart', function(e){
+		e.preventDefault();		
 	});
 	
 	document.addEventListener('click', function(e){
@@ -497,10 +540,15 @@
 				case 'slideNext':			
 					demo.xtag.slideNext();
 					break;
-					
+
 				case 'slidePrevious':
 					demo.xtag.slidePrevious();
 					break;
+
+				case 'slideTo':
+					demo.xtag.slideTo(2);
+					break;
+
 				case 'toggleFlip':					
 					demo.setAttribute('data-flipped', demo.getAttribute('data-flipped') == 'true' ? 'false' : 'true');
 					break;

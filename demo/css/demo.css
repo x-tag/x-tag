@@ -36,6 +36,7 @@ pre {
 #appview_demo {
 	height: 450px;
 	width: 300px;
+	border: 1px solid #bbb;
 }
 
 
