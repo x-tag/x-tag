@@ -55,7 +55,7 @@
 		<span id="structural" class="anchor-id"></span>
 	</h3>
 	<dl>
-	<!-- 	<dt>App View</dt>
+		<dt>App View</dt>
 		<dd id="appview">
 			<p class="description">
 				The <code>appview</code> element is the container for arranging content a common app layout (similar to Android and iOS). 
@@ -72,17 +72,30 @@
 					<img src="http://cdn5.iconfinder.com/data/icons/Aristocracy_WebDesignTuts/32/Download_Crate.png" /><h2>Some App</h2>
 				</header>
 				
-				<x-slidebox>
-					
-				</x-slidebox> 
+				<x-flipbox>
+					<x-card>
+						<x-slidebox>
+							<x-slides>
+								<div>LIST SLIDE</div>
+								<div>DETAIL SLIDE</div>
+							</x-slides>
+						</x-slidebox>
+						
+						<div>
+							SETTINGS PAGE!
+						</div>
+					</x-card>
+				</x-flipbox>
 				
-				<x-actionbar>
-					<x-action command="new-content" data-label="New" src="demo/images/action_icons/light/medium/plus.png"></x-action>
-					<x-action command="new-content" data-label="New" src="demo/images/action_icons/light/medium/refresh.png"></x-action>
-					<x-action command="new-content" data-label="New" src="demo/images/action_icons/light/medium/grid.png"></x-action>
-				</x-actionbar>
+				<footer>
+					<x-actionbar>
+						<x-action command="new-content" data-label="New" src="demo/images/action_icons/light/medium/plus.png"></x-action>
+						<x-action command="new-content" data-label="New" src="demo/images/action_icons/light/medium/refresh.png"></x-action>
+						<x-action command="new-content" data-label="New" src="demo/images/action_icons/light/medium/grid.png"></x-action>
+					</x-actionbar>
+				</footer>
 			</x-appview>
-		</dd> -->
+		</dd>
 	
 		<dt>Panel<span feature="data-bound" title="This element has data request bindings"></span></dt>
 		<dd id="panel">
@@ -97,11 +110,11 @@
 			
 			<x-panel id="panel_demo" src="demo/html/panel-content.html"></x-panel>
 			
-<!-- <pre>
+<pre>
 <code>
 &#60;x-panel src="demo/html/panel-content.html"&#62;&#60;/x-panel&#62;
 </code>
-</pre> -->
+</pre>
 		</dd>
 		
 		<dt>Tab Box</dt>
@@ -152,7 +165,7 @@
 				</x-tabpanels>
 			</x-tabbox>
 			
-<!-- <pre>
+<pre>
 <code>
 &#60;x-tabbox&#62;
 	&#60;x-tabs&#62;
@@ -176,7 +189,7 @@
 	&#60;/x-tabpanels&#62;
 &#60;/x-tabbox&#62;
 </code>
-</pre> -->
+</pre>
 		</dd>
 		
 		<dt>Slide Box</dt>
@@ -336,6 +349,20 @@
 				data-firstlast="true"
 				data-page-padding="2">
 			</x-pager>
+
+		</dd>
+		
+		<dt>Action Bar</dt>
+		<dd>
+			<p class="description">
+				An iconified navigation that fire user-defined actions.
+			</p>
+			
+			<x-actionbar>
+				<x-action command="new-content" data-label="New" src="demo/images/action_icons/light/medium/plus.png"></x-action>
+				<x-action command="refresh-content" data-label="Refresh" src="demo/images/action_icons/light/medium/refresh.png"></x-action>
+				<x-action command="gridify-content" data-label="Grid" src="demo/images/action_icons/light/medium/grid.png"></x-action>
+			</x-actionbar>
 
 		</dd>
 	</dl>

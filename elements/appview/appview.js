@@ -6,7 +6,7 @@
 			
 		},
 		setters: {
-			orient: function(src){
+			orientation: function(src){
 				
 			}
 		}

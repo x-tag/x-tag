@@ -1,10 +1,10 @@
 
 x-actionbar {
-	display: box;
-	display: -o-box;
-	display: -ms-box;
-	display: -moz-box;
-	display: -webkit-box;
+	display: inline-block;
+}
+
+x-action {
+	display: inline-block;
 }
 
 x-action img{
