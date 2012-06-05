@@ -13,8 +13,6 @@
 			el.firstElementChild.style[transform] = 'translate'+ (el.getAttribute('data-orientation') || 'X') + '(' + index * (-100 / slides.length) + '%)';
 		},
 		init = function(){
-			
-
 			var slides = this.firstElementChild;
 			if (!slides.children.length) return;
 			var	size = 100 / (slides.children.length||1),
@@ -35,10 +33,7 @@
 		};
 
 	xtag.register('slidebox', {
-		onInsert: init,
-		eventMap:{
-			'transitionend': ['transitionend', 'oTransitionEnd', 'MSTransitionEnd', 'webkitTransitionEnd']
-		},
+		onInsert: init,		
 		events:{
 			'transitionend': function(e){
 				if (e.target == this) xtag.fireEvent('slideend', this);

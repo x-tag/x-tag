@@ -5,8 +5,9 @@
 				return window[prefix + 'CSSKeyframesRule'];
 			})[0]
 		};
-		if (prefix.js == 'WebKit') prefix.js = prefix.js.toLowerCase();
-		prefix.css = prefix.js ? '-' + prefix.js.toLowerCase() + '-' : prefix.js;
+		prefix.lowercase = prefix.js.toLowerCase();
+ 		if (prefix.js == 'WebKit') prefix.js = prefix.lowercase ;
+		prefix.css = prefix.js ? '-' + prefix.lowercase  + '-' : prefix.js;
 		prefix.properties = '{' + 
 			prefix.css + 'animation-duration: 0.0001s;' +
 			prefix.css + 'animation-name: nodeInserted !important;' + 
@@ -41,7 +42,7 @@
 		prefix: prefix, 
 		tags: {},
 		callbacks: {},
-		sheet: styles.sheet,
+		sheet: styles.sheet,	
 		anchor: document.createElement('a'),
 		tagOptions: {
 			content: '',
@@ -51,11 +52,11 @@
 			getters: {}, 
 			setters: {},
 			onCreate: function(){},
-			onInsert: function(){},
-			eventMap: {
-				animationstart: ['animationstart', 'oAnimationStart', 'MSAnimationStart', 'webkitAnimationStart'],
-				transitionend: ['transitionend', 'oTransitionEnd', 'MSTransitionEnd', 'webkitTransitionEnd']
-			}
+			onInsert: function(){}		
+		},
+		eventMap: {
+			animationstart: ['animationstart', 'oAnimationStart', 'MSAnimationStart', 'webkitAnimationStart'],
+			transitionend: ['transitionend', 'oTransitionEnd', 'MSTransitionEnd', 'webkitTransitionEnd']
 		},
 		pseudos: {
 			delegate: function(fn, value, pseudo, event){
@@ -141,6 +142,15 @@
 				original.apply(this, args);
 				fn.apply(this, args);
 			}
+		},
+
+		skipTransition: function(element, after, bind){
+			var duration = xtag.prefix.js + 'TransitionDuration';
+			element.style[duration] = '0.001s';
+			after.call(bind);
+			element.addEventListener('transitionend', function(){
+				element.style[duration] = '';
+			});
 		},
 		
 		tagCheck: function(element){
@@ -281,7 +291,7 @@
 		
 		addEvent: function(element, type, fn, map){
 			var eventKey = type.split(':')[0],
-				eventMap = (map || xtag.getOptions(element).eventMap || {})[eventKey] || [eventKey];
+				eventMap = (map || xtag.eventMap || {})[eventKey] || [eventKey];
 				
 			eventMap.forEach(function(name){
 				element.addEventListener(name, function(event){
@@ -315,7 +325,7 @@
 			}
 		};
 	
-	xtag.tagOptions.eventMap.animationstart.forEach(function(event){
+	xtag.eventMap.animationstart.forEach(function(event){
 		document.addEventListener(event, nodeInserted, false);
 	});
 	
