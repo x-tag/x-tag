@@ -19,6 +19,10 @@ x-card{
 	transition: transform 0.65s;
 }
 
+x-card[data-transition-none="true"]{
+	-moz-transition: none !important;  
+}
+
 x-card > * {
 	display: block;
 	position: absolute;
@@ -32,6 +36,14 @@ x-card > * {
 	backface-visibility: hidden;
 }
 
+/*x-flipbox[data-flip-direction="right"] > x-card > *:last-child, x-flipbox > x-card > *:last-child {  
+	-webkit-transform: rotateY(-180deg);
+	-moz-transform: rotateY(-180deg);
+	-ms-transform: rotateY(-180deg);
+	-o-transform: rotateY(-180deg);
+	transform: rotateY(-180deg);
+}*/
+
 x-card > *:last-child {  
 	-webkit-transform: rotateY(180deg);
 	-moz-transform: rotateY(180deg);
@@ -40,10 +52,17 @@ x-card > *:last-child {
 	transform: rotateY(180deg);
 }
 
-x-flipbox[data-flipped="true"] > x-card{
+x-flipbox[data-flipped="true"][data-flip-direction="right"] > x-card, x-flipbox[data-flipped="true"] > x-card{
 	-webkit-transform: rotateY(180deg);
 	-moz-transform: rotateY(180deg);
 	-ms-transform: rotateY(180deg);
 	-o-transform: rotateY(180deg);
 	transform: rotateY(180deg);
+}
+x-flipbox[data-flipped="true"][data-flip-direction="left"] > x-card{
+	-webkit-transform: rotateY(-180deg);
+	-moz-transform: rotateY(-180deg);
+	-ms-transform: rotateY(-180deg);
+	-o-transform: rotateY(-180deg);
+	transform: rotateY(-180deg);
 }

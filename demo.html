@@ -227,7 +227,8 @@
 						
 			</p>
 			<nav class="actions">
-				<button data-action-type="toggleFlip">Flip</button>		
+				<button data-action-type="toggleFlip">Flip</button>
+				<button data-action-type="toggleDirection">Switch Flip Direction</button>
 			</nav>
 			
 			<x-flipbox id="flipbox_demo">
@@ -552,6 +553,10 @@
 				case 'toggleFlip':					
 					demo.setAttribute('data-flipped', demo.getAttribute('data-flipped') == 'true' ? 'false' : 'true');
 					break;
+				case 'toggleDirection':
+					demo['data-flip-direction'] = demo.getAttribute('data-flip-direction') == 'right' ? 'left' : 'right';
+					break;
+
 			}
 			
 		}
