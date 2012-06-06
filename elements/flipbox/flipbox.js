@@ -1,15 +1,20 @@
 
-xtag.register('flipbox', {	
+xtag.register('flipbox', {
 	events:{
 		'transitionend': function(e){			
 			if (e.target == this) xtag.fireEvent('flipend', this);
 		}
 	},
 	setters: {
-		'data-flip-direction': function(value){			
-			xtag.skipTransition(this.firstElementChild, function(){
+		'data-flip-direction': function(value){
+			if (this.getAttribute('data-flipped') == "true"){
+				xtag.skipTransition(this.firstElementChild, function(){
+					this.setAttribute('data-flip-direction', value);
+				}, this);
+			}
+			else{
 				this.setAttribute('data-flip-direction', value);
-			}, this);
+			}
 		},
 	},
 });

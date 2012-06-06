@@ -15,7 +15,6 @@ var getNavPositions = function(data){
 		}
 	};
 
-
 xtag.register('pager', {
 	content: '<a data-pager-element="first">first</a>' +
 				'<a data-pager-element="prev">previous</a>' +			
@@ -42,10 +41,7 @@ xtag.register('pager', {
 			if (!isNum) data.current_page = Number(this.innerHTML) ;            
 			this.parentElement['data-current-page'] = data.current_page;		
 		}
-	},          
-	onCreate: function(){
-
-	}, 
+	},
 	onInsert: function(){           
 		var self = this,
 			data = getAttributes(this),
@@ -85,7 +81,6 @@ xtag.register('pager', {
 				data.current_page-data.padding < 1 ? 
 				(data.padding * 2) + 1 :
 				data.current_page+data.padding;
-
 
 		for (var i = startIdx; i <= endIdx; i++){
 			if(populated){

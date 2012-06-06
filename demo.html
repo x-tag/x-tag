@@ -228,7 +228,7 @@
 			</p>
 			<nav class="actions">
 				<button data-action-type="toggleFlip">Flip</button>
-				<button data-action-type="toggleDirection">Switch Flip Direction</button>
+				<button data-action-type="toggleDirection">Switch Flip Direction (right)</button>				
 			</nav>
 			
 			<x-flipbox id="flipbox_demo">
@@ -563,8 +563,15 @@
 				case 'toggleFlip':					
 					demo.setAttribute('data-flipped', demo.getAttribute('data-flipped') == 'true' ? 'false' : 'true');
 					break;
+
 				case 'toggleDirection':
-					demo['data-flip-direction'] = demo.getAttribute('data-flip-direction') == 'right' ? 'left' : 'right';
+					var directions = ['right','left','up','down'];					
+					var idx = directions.indexOf(demo.getAttribute('data-flip-direction'))+1;
+					idx = idx >= 4 ? 0 : idx;
+					action.innerHTML = action.innerHTML.replace(/\((\w+)\)/, function(a,b,c){						
+						return '(' + directions[idx] + ')';
+					});
+					demo['data-flip-direction'] = directions[idx];
 					break;
 
 			}
