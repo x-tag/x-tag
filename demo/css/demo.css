@@ -188,6 +188,7 @@ pre {
 	
 	#modal_demo {
 		display: none;
+		background: #fff;
 		z-index: 1000;
 	}
 

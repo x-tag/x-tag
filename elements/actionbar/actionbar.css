@@ -5,7 +5,6 @@ x-actionbar {
 	display: -ms-box;
 	display: -moz-box;
 	display: -webkit-box;
-	width: 100%;
 }
 
 x-actionbar  x-action[for] {
@@ -13,7 +12,7 @@ x-actionbar  x-action[for] {
 }
 
 x-action {
-	display: inline-block;
+	display: block;
 	text-align: center;
 	box-flex: 1;
 	-o-box-flex: 1;
@@ -64,6 +63,9 @@ x-action[data-action-style="text"] img {
 x-action[data-action-style="text"] label {
 	font-size: 100%;
 }
+
+
+/*** MODAL STYLES ***/
 
 x-modal[data-action-group-modal] {
 	background: #fff;
