@@ -447,6 +447,16 @@
 	document.getElementById('slidebox_demo').addEventListener('dragstart', function(e){
 		e.preventDefault();		
 	});
+
+	var pagers = document.getElementsByTagName('x-pager');
+	for(var i=0; i<pagers.length;i++){
+		pagers[i].addEventListener('click', function(e){			
+			if(e.target.tagName == 'A'){
+					console.log("Do ajax call", e.target.href);
+					e.preventDefault();
+			}
+		});
+	}	
 	
 	document.addEventListener('click', function(e){
 		

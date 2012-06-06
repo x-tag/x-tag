@@ -29,7 +29,6 @@ xtag.register('pager', {
 	},
 	events: {
 		'click:delegate(a)': function(e){
-			e.preventDefault(); // for dev only       
 			var data = getAttributes(this.parentElement);
 
 			if (!data.current_page && data.current_offset && data.page_size){              
@@ -40,9 +39,8 @@ xtag.register('pager', {
 			for (var z in pos){
 				if (this.dataset.pagerElement == z) var isNum = data.current_page = pos[z];
 			}				
-			if (!isNum) data.current_page = Number(this.innerHTML) ;
-            
-			this.parentElement['data-current-page'] = data.current_page;
+			if (!isNum) data.current_page = Number(this.innerHTML) ;            
+			this.parentElement['data-current-page'] = data.current_page;		
 		}
 	},          
 	onCreate: function(){
