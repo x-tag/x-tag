@@ -144,10 +144,10 @@
 			}
 		},
 
-		skipTransition: function(element, after, bind){
+		skipTransition: function(element, fn, bind){
 			var duration = xtag.prefix.js + 'TransitionDuration';
 			element.style[duration] = '0.001s';
-			after.call(bind);
+			fn.call(bind);
 			element.addEventListener('transitionend', function(){
 				element.style[duration] = '';
 			});

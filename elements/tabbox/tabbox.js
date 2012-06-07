@@ -17,7 +17,7 @@ xtag.register('tabbox', {
 xtag.register('tab', {
 	onInsert: function(){
 		xtag.query(this.parentNode, 'x-tab').forEach(function(tab, index){
-			tab.setAttribute('tabindex', index + 1);
+			tab.setAttribute('tabindex', 0);
 		});
 	},
 	methods: {
