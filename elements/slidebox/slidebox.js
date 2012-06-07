@@ -3,31 +3,38 @@
 
 	var transform = xtag.prefix.js + 'Transform',
 		getState = function(el){
-			var selected = xtag.query(el, 'x-slides > [selected="true"]')[0] || 0;
-			return [selected ? xtag.query(el, 'x-slides > *').indexOf(selected) : selected, el.firstElementChild.children.length - 1];
+			var selected = xtag.query(el, 'x-slides > x-slide[selected="true"]')[0] || 0;
+			return [selected ? xtag.query(el, 'x-slides > x-slide').indexOf(selected) : selected, el.firstElementChild.children.length - 1];
 		},
 		slide = function(el, index){
 			var slides = xtag.toArray(el.firstElementChild.children);
 			slides.forEach(function(slide){ slide.removeAttribute('selected'); });
-			slides[index].setAttribute('selected', true);
-			el.firstElementChild.style[transform] = 'translate'+ (el.getAttribute('data-orientation') || 'x') + '(' + index * (-100 / slides.length) + '%)';
+			slides[index || 0].setAttribute('selected', true);
+			el.firstElementChild.style[transform] = 'translate'+ (el.getAttribute('data-orientation') || 'x') + '(' + (index || 0) * (-100 / slides.length) + '%)';
 		},
-		init = function(){
+		init = function(orientation){
 			var slides = this.firstElementChild;
-			if (!slides.children.length) return;
-			var	size = 100 / (slides.children.length||1),
+			if (!slides || !slides.children.length || xtag.getTag(slides) != 'slides') return;
+			
+			var	children = xtag.toArray(slides.children),
+				size = 100 / (children.length || 1),
 				orient = this.getAttribute('data-orientation') || 'x',
 				style = orient == 'x' ? ['width', 'height'] : ['height', 'width'];
 			
 			xtag.skipTransition(slides, function(){
 				slides.style[style[1]] =  '100%';
-				slides.style[style[0]] = slides.children.length * 100 + '%';
+				slides.style[style[0]] = children.length * 100 + '%';
 				slides.style[transform] = 'translate' + orient + '(0%)';
-				xtag.toArray(slides.children).forEach(function(slide){				
+				children.forEach(function(slide){				
 					slide.style[style[0]] = size + '%';
 					slide.style[style[1]] = '100%';
 				});
 			});
+			
+			if (orientation) {
+				var selected = slides.querySelector('[selected="true"]');
+				if (selected) slide(this, children.indexOf(selected) || 0);
+			}
 		};
 
 	xtag.register('slidebox', {
@@ -40,7 +47,7 @@
 		setters: {
 			'data-orientation': function(value){
 				this.setAttribute('data-orientation', value.toLowerCase());
-				init.call(this);
+				init.call(this, true);
 			},
 		},
 		methods: {
@@ -59,5 +66,12 @@
 			}
 		}
 	});
-
+	
+	xtag.register('slide', {
+		onInsert: function(){
+			var ancestor = this.parentNode.parentNode;
+			if (xtag.getTag(ancestor) == 'slidebox') init.call(ancestor);
+		}
+	});
+	
 })();

@@ -14,7 +14,7 @@ x-slides {
 	-moz-transition: -moz-transform 0.5s ease 0s;
 	-webkit-transition: -webkit-transform 0.5s ease 0s;
 }
-x-slides > * {
+x-slides > x-slide {
 	display: block;
 	float: left;
 	height: 100%;

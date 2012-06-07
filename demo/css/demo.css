@@ -65,7 +65,11 @@ span[feature="data-bound"] {
 		width: 300px;
 		text-shadow: 0 1px 0 #fff;
 	}
-
+	
+	#tabbox_demo p {
+		margin: 0;
+	}
+	
 	#tabbox_demo.style x-tabs {
 		position: relative;
 		z-index: 1;
@@ -177,6 +181,11 @@ span[feature="data-bound"] {
 		height: 320px;
 		width: 220px;
 		margin-bottom: 15px;
+	}
+	
+	#slidebox_demo img {
+		width: 100%;
+		height: 100%;
 	}
 	
 	#painfully_obvious_disclaimer_for_metalab_and_metalab-esque_ambulance_chasers {

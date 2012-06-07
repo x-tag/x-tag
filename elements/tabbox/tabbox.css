@@ -6,7 +6,7 @@ x-tabbox, x-tabs, x-tab {
 	display: -webkit-box;
 }
 
-x-tabbox, x-tabpanels, x-tabpanels > * {
+x-tabbox, x-tabpanels, x-tabpanel {
 	box-orient: vertical;
 	-ms-box-orient: vertical;
 	-moz-box-orient: vertical;
@@ -28,7 +28,7 @@ x-tab[selected="true"] {
 	text-decoration: underline;
 }
 
-x-tabpanels > * {
+x-tabpanels > x-tabpanel {
 	display: none;
 }
 

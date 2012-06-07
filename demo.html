@@ -105,23 +105,23 @@
 				</x-tabs>
 				
 				<x-tabpanels>
-					<div selected="true">
+					<x-tabpanel selected="true">
 						<p>
 							Tabboxes are great for showing users only the conent they need to see, while providing users an easy way to access additional content on-demand
 						</p>
-					</div>
+					</x-tabpanel>
 					
-					<div>
+					<x-tabpanel>
 						<p>
 							Examples of use-cases for tabboxes include: a set of step-wise directions, grouping like content elements together, or as a building block for a tabbed viewing interface in a mobile web app.
 						</p>
-					</div>
+					</x-tabpanel>
 
-					<div>
+					<x-tabpanel>
 						<p>
 							In short, tabboxes are pretty freaking cool, and when you pair them with CSS animations/transitions, you can do things with a few styles that used to take a ton of JavaScript and custom code.
 						</p>
-					</div>
+					</x-tabpanel>
 				</x-tabpanels>
 			</x-tabbox>
 			
@@ -130,14 +130,14 @@
 <code>
 <x-tabbox>
 	<x-tabs>
-		<x-tab selected="true">Tab 1</x-tab>
+		<x-tab>Tab 1</x-tab>
 		<x-tab>Tab 2</x-tab>
 		<x-tab>Tab 3</x-tab>
 	</x-tabs>
 	<x-tabpanels>
-		<div>Panel 1</div>
-		<div>Panel 2</div>
-		<div>Panel 3</div>
+		<x-tabpanel>Panel 1</x-tabpanel>
+		<x-tabpanel>Panel 2</x-tabpanel>
+		<x-tabpanel>Panel 3</x-tabpanel>
 	</x-tabpanels>
 </x-tabbox>
 </code>
@@ -159,10 +159,10 @@
 			
 			<x-slidebox id="slidebox_demo" data-orientation='x'>
 				<x-slides>
-					<img src="demo/images/birnimal-calendar.png" />
-					<img src="demo/images/birnimal-graph.png" />
-					<img src="demo/images/birnimal-detail.png" />
-					<img src="demo/images/birnimal-settings.png" />
+					<x-slide><img src="demo/images/birnimal-calendar.png" /></x-slide>
+					<x-slide><img src="demo/images/birnimal-graph.png" /></x-slide>
+					<x-slide><img src="demo/images/birnimal-detail.png" /></x-slide>
+					<x-slide><img src="demo/images/birnimal-settings.png" /></x-slide>
 				</x-slides>
 			</x-slidebox>
 			
@@ -171,9 +171,9 @@
 <code>
 <x-slidebox>
 	<x-slides>
-		<div>Slide 1</div>
-		<div>Slide 2</div>
-		<div>Slide 3</div>
+		<x-slide>Slide 1</x-slide>
+		<x-slide>Slide 2</x-slide>
+		<x-slide>Slide 3</x-slide>
 	</x-slides>
 </x-slidebox>
 </code>
@@ -535,7 +535,7 @@
 					
 				case 'addTab':
 						tab = document.createElement('x-tab'),
-						panel = document.createElement('x-panel'),
+						panel = document.createElement('x-tabpanel'),
 						tabs = demo.firstElementChild;
 					
 					tab.textContent = 'Tab ' + (demo.firstElementChild.children.length + 1);
