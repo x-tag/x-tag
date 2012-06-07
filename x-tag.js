@@ -55,6 +55,7 @@
 			onInsert: function(){}		
 		},
 		eventMap: {
+			click: ['click', 'touchend'],
 			animationstart: ['animationstart', 'oAnimationStart', 'MSAnimationStart', 'webkitAnimationStart'],
 			transitionend: ['transitionend', 'oTransitionEnd', 'MSTransitionEnd', 'webkitTransitionEnd']
 		},
@@ -238,14 +239,18 @@
 			xtag.anchor.href = options.url;
 			if (xtag.anchor.hostname == window.location.hostname) {
 				request = xtag.merge(new XMLHttpRequest(), request);
-				request.open(request.method , request.url, true);
-				request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 				request.onreadystatechange = function(){
 					element.setAttribute('data-readystate', request.readyState);
-					if (request.readyState == 4){
-						(request.status < 400) ? xtag.requestCallback(element, request) : xtag.fireEvent('requesterror', element, error);
+					if (request.readyState == 4 && request.status < 400) xtag.requestCallback(element, request);
+				};
+				['error', 'abort', 'load'].forEach(function(type){
+					request['on' + type] = function(event){
+						event.request = request;
+						xtag.fireEvent(type, element, event);
 					}
-				}
+				});
+				request.open(request.method , request.url, true);
+				request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 				request.send();
 			}
 			else {
@@ -265,7 +270,7 @@
 				request.script.onerror = function(error){
 					element.setAttribute('data-readystate', request.readyState = 4);
 					element.setAttribute('data-requeststatus', request.status = 400);
-					xtag.fireEvent('requesterror', element, error);
+					xtag.fireEvent('error', element, error);
 				}
 				document.head.appendChild(request.script);
 			}

@@ -10,11 +10,7 @@ x-autosuggest {
 
 x-autosuggest > input[type="text"] {
 	width: 100%;
-	display: box;
-	display: -o-box;
-	display: -ms-box;
-	display: -moz-box;
-	display: -webkit-box;
+	display: block;
 	box-flex: 1;
 	-o-box-flex: 1;
 	-ms-box-flex: 1;

@@ -43,12 +43,15 @@
 
 <header>
 	<h1 id="logo">&lt;<span>x</span>&gt;</h1>
-	<nav>
+	<nav id="global_menu">
 		<a href="#menu">
 			<div>&#9552;</div><br /><div>&#9552;</div>
-			<!-- <nav>
+			<nav id="global_nav">
 				<a href="#structural">Structural Elements</a>
-			</nav> -->
+				<a href="#media">Media Elements</a>
+				<a href="#input">Input Elements</a>
+				<a href="#navigation">Navigation Elements</a>
+			</nav>
 		</a>
 	</nav>
 </header>
@@ -201,7 +204,7 @@
 			
 			<x-accordion id="accordion_demo" class="style">
 				<x-toggler selected="true">Toggler 1</x-toggler>
-				<div selected="true">
+				<div>
 					<p>
 						Tabboxes are great for showing users only the conent they need to see, while providing users an easy way to access additional content on-demand
 					</p>
@@ -226,11 +229,13 @@
 <code>
 <x-accordion>
 	<x-toggler selected="true">Toggler 1</x-toggler>
-		<div selected="true">Panel 1</div>
+	<div>Panel 1</div>
+	
 	<x-toggler>Toggler 2</x-toggler>
-		<div>Panel 2</div>
+	<div>Panel 2</div>
+	
 	<x-toggler>Toggler 3</x-toggler>
-		<div>Panel 3</div>
+	<div>Panel 3</div>
 </x-accordion>
 </code>
 </pre>	
@@ -289,7 +294,7 @@
 	
 	<h3>
 		Media Elements
-		<span id="structural" class="anchor-id"></span>
+		<span id="media" class="anchor-id"></span>
 	</h3>
 	<dl>
 		<dt>Map</dt>
@@ -567,14 +572,14 @@
 				
 				case 'addSection':
 						toggler = document.createElement('x-toggler'),
-						panel = document.createElement('x-panel'),
+						div = document.createElement('div'),
 						length = xtag.query(demo, 'x-toggler').length;
 						
 					toggler.textContent = 'Toggler ' + (length + 1);
 					demo.appendChild(toggler);
 					
-					panel.innerHTML = 'This panel was added dynamically, it shows when you click on the toggler element above entitled "Toggler ' + (length + 1) + '"';
-					demo.appendChild(panel);
+					div.innerHTML = 'This panel was added dynamically, it shows when you click on the toggler element above entitled "Toggler ' + (length + 1) + '"';
+					demo.appendChild(div);
 					
 					toggler.xtag.selectToggler();
 					break;

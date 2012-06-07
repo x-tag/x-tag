@@ -16,8 +16,14 @@
 
 <header>
 	<h1 id="logo">&lt;<span>x</span>&gt;</h1>
-	<nav>
-		<a href="#menu"><div>&#9552;</div><br /><div>&#9552;</div></a>
+	<nav id="global_menu">
+		<a href="#menu">
+			<div>&#9552;</div><br /><div>&#9552;</div>
+			<nav id="global_nav" class="small-nav">
+				<a href="#intro">Intro</a>
+				<a href="#docs">Docs</a>
+			</nav>
+		</a>
 	</nav>
 </header>
 
@@ -159,7 +165,7 @@ xtag.register('accordion', {
 		<dd>
 			<h4><code>setters</code><span>object</span></h4>
 			<p>
-				The setters object allows you to attach native JavaSript accessors methods to 
+				The setters object is a shortcut for easy attachements of JavaSript accessors to the DOM element of your
 				your component. For instance, when a user writes the code <code>element.src = "http://somesrc.com"</code>
 				your setter would be called with the provided string value giving you a chance to
 				manipulate the string or change properties on the element.
@@ -171,7 +177,16 @@ xtag.register('accordion', {
 			<p>
 				The events object allows you to bind events to the component at the time of creation
 				pseudo events like delegation are supported, additional pseudos can be added to 
-				the <code>pseudoEvents</code> object on the global <code>xtag</code> variable.
+				the <code>pseudos</code> object on the global <code>xtag</code> variable.
+			</p>
+		</dd>
+		
+		<dd>
+			<h4><code>mixins</code><span>array</span></h4>
+			<p>
+				The mixins array allows you to specify a key names that pull in collections of 
+				getters, setters, events, and lifecycle functions that are defined on the
+				<code>mixins</code> object of the global <code>xtag</code> variable.
 			</p>
 		</dd>
 	</dl>
