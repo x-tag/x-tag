@@ -327,30 +327,31 @@ a.leaflet-active {
 }
 
 .leaflet-control-zoom a {
+	position: relative;
 	height: 20px;
     width: 20px;
 	text-decoration: none;
-	text-align: center;
-	overflow: hidden;
-	font-family: Helvetica;
 }
 
-.leaflet-control-zoom-in:before, .leaflet-control-zoom-out:before {
+.leaflet-control-zoom-in:before, .leaflet-control-zoom-in:after, .leaflet-control-zoom-out:before {
+	content: " ";
 	display: block;
-	margin: 0 auto;
-	font-weight: bold;
-    line-height: 22px;
-	color: #000;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	height: 4px;
+	width: 14px;
+	background: #000;
+	margin: -2px 0 0 -7px;
 }
 
-.leaflet-control-zoom-in:before {
-    content: "+";
-	font-size: 27px;
+.leaflet-control-zoom-in:after {
+	height: 14px;
+	width: 4px;
+	margin: -7px 0 0 -2px;
 }
 
 .leaflet-control-zoom-out:before {
-    content: "-";
-	font-size: 38px;
-    line-height: 10px;
-	margin-left: -1px;
+	width: 12px;
+	margin: -2px 0 0 -6px;
 }
