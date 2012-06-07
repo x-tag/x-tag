@@ -69,9 +69,10 @@
 			
 			<x-panel id="panel_demo" rel="demo/html/panel-content.html"></x-panel>
 			
+<h4>The Markup:</h4>		
 <pre>
 <code>
-&#60;x-panel src="demo/html/panel-content.html"&#62;&#60;/x-panel&#62;
+<x-panel id="panel_demo" rel="demo/html/panel-content.html"></x-panel>
 </code>
 </pre>
 		</dd>
@@ -124,29 +125,21 @@
 				</x-tabpanels>
 			</x-tabbox>
 			
+<h4>The Markup:</h4>
 <pre>
 <code>
-&#60;x-tabbox&#62;
-	&#60;x-tabs&#62;
-		&#60;x-tab selected="true"&#62;Tab 1&#60;/x-tab&#62;
-		&#60;x-tab&#62;Tab 2&#60;/x-tab&#62;
-		&#60;x-tab&#62;Tab 3&#60;/x-tab&#62;
-	&#60;/x-tabs&#62;
-	
-	&#60;x-tabpanels&#62;
-		&#60;div selected="true"&#62;
-			&#60;p&#62;ONE&#60;/p&#62;
-		&#60;/div&#62;
-		
-		&#60;div&#62;
-			&#60;p&#62;TWO&#60;/p&#62;
-		&#60;/div&#62;
-
-		&#60;div&#62;
-			&#60;p&#62;THREE&#60;/p&#62;
-		&#60;/div&#62;
-	&#60;/x-tabpanels&#62;
-&#60;/x-tabbox&#62;
+<x-tabbox>
+	<x-tabs>
+		<x-tab selected="true">Tab 1</x-tab>
+		<x-tab>Tab 2</x-tab>
+		<x-tab>Tab 3</x-tab>
+	</x-tabs>
+	<x-tabpanels>
+		<div>Panel 1</div>
+		<div>Panel 2</div>
+		<div>Panel 3</div>
+	</x-tabpanels>
+</x-tabbox>
 </code>
 </pre>
 		</dd>
@@ -172,6 +165,19 @@
 					<img src="demo/images/birnimal-settings.png" />
 				</x-slides>
 			</x-slidebox>
+			
+<h4>The Markup:</h4>
+<pre>
+<code>
+<x-slidebox>
+	<x-slides>
+		<div>Slide 1</div>
+		<div>Slide 2</div>
+		<div>Slide 3</div>
+	</x-slides>
+</x-slidebox>
+</code>
+</pre>
 		</dd>
 		
 		<dt>Accordion</dt>
@@ -210,7 +216,19 @@
 					</p>
 				</div>
 			</x-accordion>
-			
+<h4>The Markup:</h4>
+<pre>
+<code>
+<x-accordion>
+	<x-toggler selected="true">Toggler 1</x-toggler>
+		<div selected="true">Panel 1</div>
+	<x-toggler>Toggler 2</x-toggler>
+		<div>Panel 2</div>
+	<x-toggler>Toggler 3</x-toggler>
+		<div>Panel 3</div>
+</x-accordion>
+</code>
+</pre>	
 		</dd>
 
 		<dt>Flip Box</dt>
@@ -230,7 +248,18 @@
 					<img class="back" src="demo/images/birnimal-settings.png"/>
 				</x-card>
 			</x-flipbox>
-		
+			
+<h4>The Markup:</h4>
+<pre>
+<code>
+<x-flipbox>
+	<x-card>
+		<div>Side 1</div>
+		<div>Side 2</div>
+	</x-card>
+</x-flipbox>
+</code>
+</pre>	
 		</dd>
 		
 		<dt>Modal<span feature="data-bound" title="This element has data request bindings"></span></dt>
@@ -243,6 +272,13 @@
 				<button data-action-type="showModal">Show</button>
 				<button data-action-type="style">Unstyle</button>
 			</nav>
+			
+<h4>The Markup:</h4>
+<pre>
+<code>
+<x-modal> YOUR CONTENT HERE </x-modal>
+</code>
+</pre>	
 		</dd>
 	</dl>
 	
@@ -259,6 +295,13 @@
 				or an internal default (Montain View, CA - had to pick somewhere!)
 			</p>
 			<x-map id="map_demo" data-key="39d2b66f0d5d49dbb52a5b7ad87aea9b"></x-map>
+			
+<h4>The Markup:</h4>
+<pre>
+<code>
+<x-map data-key="YOUR-FREE-Cloudmade/OpenStreetMaps-API-KEY"></x-map>
+</code>
+</pre>	
 		</dd>
 	</dl>
 	
@@ -274,6 +317,13 @@
 			</p>
 			
 			<x-autosuggest id="autosuggest_demo" data-padding="2" data-url="http://api.rottentomatoes.com/api/public/v1.0/movies.json?apikey=v695ukwehrcb5q8kwkrgjmbd&page_limit=10&page=1"></x-autosuggest>
+
+<h4>The Markup:</h4>
+<pre>
+<code>
+<x-autosuggest data-url="SOME-API-URL-HERE"></x-autosuggest>
+</code>
+</pre>	
 		</dd>
 	</dl>
 	
@@ -303,7 +353,13 @@
 				data-firstlast="true"
 				data-page-padding="2">
 			</x-pager>
-
+			
+<h4>The Markup:</h4>
+<pre>
+<code>
+<x-pager data-pages="10" data-url="/posts?p={current-page}"></x-pager>
+</code>
+</pre>
 		</dd>
 		
 		<dt>Action Bar</dt>
@@ -395,7 +451,17 @@
 
 </body>
 
+<script type="text/javascript" src="demo/highlight/highlight.pack.js"></script>
 <script type="text/javascript">
+
+	xtag.query(document.body, 'code').forEach(function(el){
+		var text = el.innerHTML;
+		el.innerHTML = '';
+		el.textContent = text;
+	});
+	
+	hljs.tabReplace = '    ';
+	hljs.initHighlightingOnLoad();
 	
 	document.getElementById('autosuggest_demo').dataready = function(request){
 		if (!request.responseText) return this;
