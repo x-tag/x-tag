@@ -44,7 +44,12 @@
 <header>
 	<h1 id="logo">&lt;<span>x</span>&gt;</h1>
 	<nav>
-		<a href="#menu"><div>&#9552;</div><br /><div>&#9552;</div></a>
+		<a href="#menu">
+			<div>&#9552;</div><br /><div>&#9552;</div>
+			<!-- <nav>
+				<a href="#structural">Structural Elements</a>
+			</nav> -->
+		</a>
 	</nav>
 </header>
 
@@ -72,7 +77,7 @@
 <h4>The Markup:</h4>		
 <pre>
 <code>
-<x-panel id="panel_demo" rel="demo/html/panel-content.html"></x-panel>
+<x-panel id="panel_demo" src="/foo/bar.html"></x-panel>
 </code>
 </pre>
 		</dd>
@@ -147,7 +152,7 @@
 		<dt>Slide Box</dt>
 		<dd id="slidebox">
 			<p class="description">
-				A container that allows animated transitions between content panes.   Slide Box supports horizontal and vertical transitions.
+				A container that allows animated transitions between content panes. Slide Box supports horizontal and vertical transitions.
 			</p>
 			
 			<nav class="actions">				
@@ -265,7 +270,7 @@
 		<dt>Modal<span feature="data-bound" title="This element has data request bindings"></span></dt>
 		<dd id="modal">
 			<p class="description">
-				Modal dialogs are used to show notices or flows that <code>tabpanel</code> elements.
+				The <code>modal</code> element can be used to show notices or secondary content with the option of blocking interaction with the rest of the document using a background overlay.
 			</p>
 			
 			<nav class="actions">
@@ -276,7 +281,7 @@
 <h4>The Markup:</h4>
 <pre>
 <code>
-<x-modal> YOUR CONTENT HERE </x-modal>
+<x-modal data-overlay="true"> YOUR CONTENT HERE </x-modal>
 </code>
 </pre>	
 		</dd>
@@ -299,7 +304,7 @@
 <h4>The Markup:</h4>
 <pre>
 <code>
-<x-map data-key="YOUR-FREE-Cloudmade/OpenStreetMaps-API-KEY"></x-map>
+<x-map data-key="Cloudmade/OpenStreetMaps-API-Key"></x-map>
 </code>
 </pre>	
 		</dd>

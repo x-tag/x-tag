@@ -326,19 +326,22 @@ a.leaflet-active {
 	margin-bottom: 6px;
 }
 
-.leaflet-control-zoom-in, .leaflet-control-zoom-out {
+.leaflet-control-zoom a {
+	height: 20px;
+    width: 20px;
 	text-decoration: none;
 	text-align: center;
+	overflow: hidden;
+	font-family: Helvetica;
 }
 
 .leaflet-control-zoom-in:before, .leaflet-control-zoom-out:before {
 	display: block;
 	margin: 0 auto;
 	font-weight: bold;
-    line-height: 10px;
+    line-height: 22px;
 	color: #000;
 }
-
 
 .leaflet-control-zoom-in:before {
     content: "+";
@@ -347,6 +350,7 @@ a.leaflet-active {
 
 .leaflet-control-zoom-out:before {
     content: "-";
-	font-size: 31px;
+	font-size: 38px;
+    line-height: 10px;
+	margin-left: -1px;
 }
-	
