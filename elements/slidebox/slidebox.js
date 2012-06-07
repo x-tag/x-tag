@@ -10,26 +10,24 @@
 			var slides = xtag.toArray(el.firstElementChild.children);
 			slides.forEach(function(slide){ slide.removeAttribute('selected'); });
 			slides[index].setAttribute('selected', true);
-			el.firstElementChild.style[transform] = 'translate'+ (el.getAttribute('data-orientation') || 'X') + '(' + index * (-100 / slides.length) + '%)';
+			el.firstElementChild.style[transform] = 'translate'+ (el.getAttribute('data-orientation') || 'x') + '(' + index * (-100 / slides.length) + '%)';
 		},
 		init = function(){
 			var slides = this.firstElementChild;
 			if (!slides.children.length) return;
 			var	size = 100 / (slides.children.length||1),
-				orient = this.getAttribute('data-orientation') || 'X',
-				style = orient == 'X' ? ['width', 'height'] : ['height', 'width'];
+				orient = this.getAttribute('data-orientation') || 'x',
+				style = orient == 'x' ? ['width', 'height'] : ['height', 'width'];
 			
-			slides.style[xtag.prefix.js + 'Transition'] = 'none';
-			slides.style[style[1]] =  '100%';
-			slides.style[style[0]] = slides.children.length * 100 + '%';
-			slides.style[transform] = 'translate' + orient + '(0%)';
-			xtag.toArray(slides.children).forEach(function(slide){				
-				slide.style[style[0]] = size + '%';
-				slide.style[style[1]] = '100%';
+			xtag.skipTransition(slides, function(){
+				slides.style[style[1]] =  '100%';
+				slides.style[style[0]] = slides.children.length * 100 + '%';
+				slides.style[transform] = 'translate' + orient + '(0%)';
+				xtag.toArray(slides.children).forEach(function(slide){				
+					slide.style[style[0]] = size + '%';
+					slide.style[style[1]] = '100%';
+				});
 			});
-			setTimeout(function(){
-				slides.style[xtag.prefix.js + 'Transition'] = '';
-			}, 1);
 		};
 
 	xtag.register('slidebox', {
@@ -41,7 +39,7 @@
 		},
 		setters: {
 			'data-orientation': function(value){
-				this.setAttribute('data-orientation', value);
+				this.setAttribute('data-orientation', value.toLowerCase());
 				init.call(this);
 			},
 		},

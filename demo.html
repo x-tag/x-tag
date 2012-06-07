@@ -154,19 +154,17 @@
 		<dt>Slide Box</dt>
 		<dd id="slidebox">
 			<p class="description">
-				A container used to display a set of tabbed pages of elements.
-				A row of tabs is displayed at the top of tabbox which may be used to switch between each page.
-				The tabbox may contain a <code>tabs</code> element, a cointainer for <code>tab</code> elements, 
-				and a <code>tabpanels</code> element, which serves as a contianer for <code>tabpanel</code> elements.
+				A container that allows animated transitions between content panes.   Slide Box supports horizontal and vertical transitions.
 			</p>
 			
 			<nav class="actions">				
 				<button data-action-type="slidePrevious"><- Previous Slide</button>
 				<button data-action-type="slideNext">Next Slide -></button>
 				<button data-action-type="slideTo">Slide To 3</button>
+				<button data-action-type="slideOrientation">Toggle orientation</button>
 			</nav>
 			
-			<x-slidebox id="slidebox_demo" data-orientation='X'>
+			<x-slidebox id="slidebox_demo" data-orientation='x'>
 				<x-slides>
 					<img src="demo/images/birnimal-calendar.png" />
 					<img src="demo/images/birnimal-graph.png" />
@@ -174,11 +172,6 @@
 					<img src="demo/images/birnimal-settings.png" />
 				</x-slides>
 			</x-slidebox>
-			
-			<p id="painfully_obvious_disclaimer_for_metalab_and_metalab-esque_ambulance_chasers">
-				*** Obligatory Statement of the Obvious: The screenshots of <a href="http://app.birnimal.net/en/iphoneapp">Birnimal</a> above are strictly 
-				to demo the Slidebox - we needed a pretty app image folks, contain yourselves. ***
-			</p>
 		</dd>
 		
 		<dt>Accordion</dt>
@@ -224,7 +217,7 @@
 		<dd id="flipbox">
 		
 			<p class="description">
-						
+				This element allows you to place two elements back-to-back and then flip between them.
 			</p>
 			<nav class="actions">
 				<button data-action-type="toggleFlip">Flip</button>
@@ -417,38 +410,6 @@
 			element.xtag.request.url = element.xtag.request.url + '&q=' + element.value;
 		}
 	});
-	
-	var click_event = null;
-	var inital = 0;
-	document.getElementById('slidebox_demo').addEventListener('mousedown', function(e){
-		inital = Number(document.getElementById('slidebox_demo').children[0].style['MozTransform'].match(/(\d+)/)[0]);
-				document.getElementById('slidebox_demo').setAttribute('data-transition-disabled', true);
-		click_event = e;
-	});
-
-	document.getElementById('slidebox_demo').addEventListener('mouseout', function(){
-		click_event = false;
-		document.getElementById('slidebox_demo').setAttribute('data-transition-disabled', false);
-	});
-
-	document.getElementById('slidebox_demo').addEventListener('mouseup', function(){
-		click_event = false;
-		document.getElementById('slidebox_demo').setAttribute('data-transition-disabled', false);
-	});
-
-	document.getElementById('slidebox_demo').addEventListener('mousemove', function(e){
-
-		if(click_event){
-			var moved = e.clientX - click_event.clientX;
-			var dir = moved > 0 ? moved+inital : moved-inital;
-			document.getElementById('slidebox_demo').children[0].style['MozTransform'] = 'translateX('+ dir +'px)';
-
-		}
-	});
-
-	document.getElementById('slidebox_demo').addEventListener('dragstart', function(e){
-		e.preventDefault();		
-	});
 
 	var pagers = document.getElementsByTagName('x-pager');
 	for(var i=0; i<pagers.length;i++){
@@ -560,6 +521,9 @@
 
 				case 'slideTo':
 					demo.xtag.slideTo(2);
+					break;
+				case 'slideOrientation':
+					demo['data-orientation'] = demo.getAttribute('data-orientation') == 'x' ? 'y' : 'x';
 					break;
 
 				case 'toggleFlip':					
