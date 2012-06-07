@@ -5,30 +5,30 @@
 		
 	});
 	
-	var actionEvent = function(){
-		var group = this.getAttribute('group'),
-			actions = group ? xtag.query(this.parentNode, '[for="' + group + '"]') : false,
-			modal = document.querySelector('[data-action-group-modal="' + group + '"]'),
-			command = this.getAttribute('data-command');
-		
-		if (command) xtag.fireEvent('action', this, { command: command });
-		if (actions && !modal){
-			modal = document.createElement('x-modal');
-			modal.setAttribute('data-overlay', true);
-			modal.setAttribute('data-action-group-modal', group);
-				
-			actions.forEach(function(action){
-				var clone = action.cloneNode();
-				xtag.addEvents(clone, xtag.tags.action);
-				modal.appendChild(clone);
-			});
-			var modalTarget = this.getAttribute('data-modal-target');
-			(document.getElementById(modalTarget) || document.body).appendChild(modal);
-		}
-		else if (modal) {
-			modal.parentNode.removeChild(modal);
-		}
-	};
+	var outerClick = function(event){
+			
+		},
+		actionEvent = function(){
+			var group = this.getAttribute('group'),
+				actions = group ? xtag.query(this.parentNode, '[for="' + group + '"]') : false,
+				modal = document.querySelector('[data-action-group-modal="' + group + '"]'),
+				command = this.getAttribute('command');
+			
+			if (command) xtag.fireEvent('action', this, { command: command });
+			if (actions && !modal){
+				modal = document.createElement('x-modal');
+				modal.setAttribute('data-overlay', true);
+				modal.setAttribute('data-action-group-modal', group);
+				actions.forEach(function(action){
+					modal.appendChild(action);
+					
+				});
+				(document.getElementById(this.getAttribute('data-modal-target')) || document.body).appendChild(modal);
+			}
+			else if (modal) {
+				modal.parentNode.removeChild(modal);
+			}
+		};
 	
 	xtag.register('action', {
 		content: '<img /><label></label>',

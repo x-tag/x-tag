@@ -333,7 +333,7 @@
 		<span id="compositions" class="anchor-id"></span>
 	</h3>
 	<dl>
-		<!-- <dt>App View</dt>
+		<dt>App View</dt>
 		<dd id="appview">
 			<p class="description">
 				The <code>appview</code> element is the container for arranging content a common app layout (similar to Android and iOS). 
@@ -376,8 +376,10 @@
 					</x-actionbar>
 				</footer>
 			</x-appview>
-		</dd> -->
+
+		</dd>
 	</dl>
+
 </div>
 
 <x-modal id="modal_demo" class="style">
@@ -395,6 +397,7 @@
 		island of survivors on Castle Hill, alive, but unable to escape.
 	</p>
 	<div><button data-action-type="toggleOverlay">Toggle Overlay</button><button data-action-type="closeModal">Close</button></div>
+	<div id="screen_numbers"></div>
 </x-modal>
 
 </body>
@@ -414,7 +417,6 @@
 			element.xtag.request.url = element.xtag.request.url + '&q=' + element.value;
 		}
 	});
-
 	
 	var click_event = null;
 	var inital = 0;
