@@ -40,3 +40,6 @@ x-modal[data-overlay="true"]:before {
 	-moz-transform: translate(-50%, -50%) translateZ(-1px);
 	-webkit-transform: translate(-50%, -50%) translateZ(-1px);
 }
+x-modal[data-modal-hidden="true"]{
+	display: none;
+}
