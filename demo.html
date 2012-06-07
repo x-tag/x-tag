@@ -568,7 +568,7 @@
 					var directions = ['right','left','up','down'];					
 					var idx = directions.indexOf(demo.getAttribute('data-flip-direction'))+1;
 					idx = idx >= 4 ? 0 : idx;
-					action.innerHTML = action.innerHTML.replace(/\((\w+)\)/, function(a,b,c){						
+					action.innerHTML = action.innerHTML.replace(/\((\w+)\)/, function(){
 						return '(' + directions[idx] + ')';
 					});
 					demo['data-flip-direction'] = directions[idx];

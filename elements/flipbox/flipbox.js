@@ -17,4 +17,8 @@ xtag.register('flipbox', {
 			}
 		},
 	},
+	onCreate: function(){
+		this.setAttribute('data-flip-direction', this.getAttribute('data-flip-direction')||'right');
+		this.setAttribute('data-flipped', this.getAttribute('data-flipped')||'false');
+	}
 });

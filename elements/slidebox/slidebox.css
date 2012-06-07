@@ -1,9 +1,7 @@
-
 x-slidebox {
 	display: block;
 	overflow: hidden;
 }
-
 x-slides {
 	display: block;
 	position: relative;
@@ -16,15 +14,6 @@ x-slides {
 	-moz-transition: -moz-transform 0.5s ease 0s;
 	-webkit-transition: -webkit-transform 0.5s ease 0s;
 }
-
-x-slidebox[data-transition-disabled="true"] > x-slides {
-	transition: none;
-	-o-transition: none;
-	-ms-transition: none;
-	-moz-transition: none;
-	-webkit-transition: none;
-}
-
 x-slides > * {
 	display: block;
 	float: left;
@@ -35,3 +24,11 @@ x-slides > * {
 	-ms-box-sizing: border-box;
 	-o-box-sizing: border-box;
 }
+x-slidebox[data-transition-disabled="true"] > x-slides {
+	transition: none;
+	-o-transition: none;
+	-ms-transition: none;
+	-moz-transition: none;
+	-webkit-transition: none;
+}
+
