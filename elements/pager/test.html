@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8" />
+		
+		<title>X-Tag - a cross-browser web components library</title>
+		
+		
+		<link rel="stylesheet" type="text/css" href="pager.css"/>		
+		
+		<script type="text/javascript" src="../../x-tag.js"></script>		
+		<script type="text/javascript" src="pager.js"></script>		
+		<style type="text/css">
+			
+		</style>
+	</head>
+
+<body>
+
+<div id="tags" class="max-width">
+
+	<dl>
+	
+		<dt>Pager</dt>
+		<dd>
+			<p class="description">
+				A pager element that allows you set properties and it will do the rest
+			</p>
+			
+			<x-pager id="simple_pager1" 
+				data-pages="10" 
+				data-current-page="5"
+				data-url="/articles?p={current-page}">
+			</x-pager>
+
+			<x-pager id="advanced_pager1" 
+				data-pages="50" 
+				data-current-offset="250" 
+				data-page-size="10" 
+				data-url="/articles?skip={current-offset}"
+				data-prevnext="true"
+				data-firstlast="true"
+				data-page-padding="2">
+			</x-pager>
+			
+		</dd>
+	</dl>
+</div>
+	
+
+</body>
+
+<script type="text/javascript">
+
+	var pagers = document.getElementsByTagName('x-pager');
+	for(var i=0; i<pagers.length;i++){
+		pagers[i].addEventListener('click', function(e){			
+			if(e.target.tagName == 'A'){
+					console.log("Do ajax call", e.target.href);
+					e.preventDefault();
+			}
+		});
+	}
+
+</script>
+
+</html>
