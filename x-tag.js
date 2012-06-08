@@ -184,16 +184,17 @@
 			if (!element.xtag){
 				element.xtag = {};
 				var options = xtag.getOptions(element);
-				for (var z in options.methods) {
-					var method = options.methods[z];
-					element.xtag[z] = function(){ return method.apply(element, xtag.toArray(arguments)) };
-				}
+				for (var z in options.methods) xtag.bindMethods(element, z, options.methods[z]);
 				for (var z in options.getters) xtag.applyAccessor('get', element, z, options.getters[z]);
 				for (var z in options.setters) xtag.applyAccessor('set', element, z, options.setters[z]);
 				xtag.addEvents(element, options.events, options.eventMap);
 				if (options.content) element.innerHTML = options.content;
 				options.onCreate.call(element);
 			}
+		},
+		
+		bindMethods: function(element, key, method){
+			element.xtag[key] = function(){ return method.apply(element, xtag.toArray(arguments)) };
 		},
 		
 		applyMixins: function(options){
