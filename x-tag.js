@@ -13,12 +13,13 @@
 			prefix.css + 'animation-name: nodeInserted !important;' + 
 		'}';
 		
-	var styles = document.createElement('style');
-		styles.type = "text/css";
-		styles.innerHTML = '@' + prefix.css + 'keyframes nodeInserted {' +
+	var styles = document.createElement('style'),
+		cssText = document.createTextNode('@' + prefix.css + 'keyframes nodeInserted {' +
 			'from { clip: rect(1px, auto, auto, auto); } to { clip: rect(0px, auto, auto, auto); }' +
-		'}';
-		document.head.appendChild(styles);
+		'}');
+		styles.type = "text/css";
+		styles.appendChild(cssText);
+		document.getElementsByTagName('head')[0].appendChild(styles);
 	
 	var mergeOne = function(source, key, current){
 			switch (xtag.typeOf(current)){
@@ -55,7 +56,7 @@
 			onInsert: function(){}		
 		},
 		eventMap: {
-			click: ['click', 'touchend'],
+			//click: ['click', 'touchend'],
 			animationstart: ['animationstart', 'oAnimationStart', 'MSAnimationStart', 'webkitAnimationStart'],
 			transitionend: ['transitionend', 'oTransitionEnd', 'MSTransitionEnd', 'webkitTransitionEnd']
 		},
@@ -179,7 +180,7 @@
 			if (!element.xtag){
 				element.xtag = {};
 				var options = xtag.getOptions(element);
-				for (var z in options.methods) element.xtag[z] = options.methods[z].bind(element);
+				for (var z in options.methods) element.xtag[z] = function(){ return options.methods[z].apply(element, xtag.toArray(arguments)); };
 				for (var z in options.getters) xtag.applyAccessor('get', element, z, options.getters[z]);
 				for (var z in options.setters) xtag.applyAccessor('set', element, z, options.setters[z]);
 				xtag.addEvents(element, options.events, options.eventMap);
@@ -213,7 +214,7 @@
 		
 		applyPseudos: function(element, key, fn, args){
 			var	action = fn, args = xtag.toArray(args);
-			if (key.match(':')) key.replace(/:(\w*)(?:\(([^\)]*)\))?/g, function(match, pseudo, value){ // TODO: Make this regex find non-paren pseudos --> foo:bar:baz()
+			if (key.match(':')) key.replace(/:(\w*)(?:\(([^\)]*)\))?/g, function(match, pseudo, value){
 				if (action){
 					var passed = xtag.toArray(args);
 						passed.unshift(action, value, pseudo);

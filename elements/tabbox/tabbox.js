@@ -34,6 +34,7 @@ xtag.register('tabs', {
 	}
 });
 
+
 xtag.register('tab', {
 	onInsert: function(){
 		this.setAttribute('tabindex', 0);
