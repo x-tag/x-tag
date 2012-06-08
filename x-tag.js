@@ -73,14 +73,10 @@
 			keystop: keypseudo,
 			keypass: keypseudo,
 			retain: function(fn, value, pseudo, property, element){
-				value = element[property];
+				var current = element[property];
 				return function(){
 					fn();
-					console.log(value);
-					console.log(pseudo);
-					console.log(property);
-					console.log(element);
-					if (typeof value != 'undefined') element[property] = value;
+					if (typeof current != 'undefined') element[property] = current;
 				}
 			},
 			preventable: function(fn, value, pseudo){
@@ -95,7 +91,7 @@
 					this.src = this.getAttribute('src');
 				},
 				getters: {
-					'dataready:retain': function(fn){
+					'dataready:retain': function(){
 						return this.xtag.dataready;
 					}
 				},
@@ -185,8 +181,8 @@
 				element.xtag = {};
 				var options = xtag.getOptions(element);
 				for (var z in options.methods) xtag.bindMethods(element, z, options.methods[z]);
-				for (var z in options.getters) xtag.applyAccessor('get', element, z, options.getters[z]);
 				for (var z in options.setters) xtag.applyAccessor('set', element, z, options.setters[z]);
+				for (var z in options.getters) xtag.applyAccessor('get', element, z, options.getters[z]);
 				xtag.addEvents(element, options.events, options.eventMap);
 				if (options.content) element.innerHTML = options.content;
 				options.onCreate.call(element);

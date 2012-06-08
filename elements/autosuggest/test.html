@@ -28,19 +28,22 @@
 
 <script type="text/javascript">
 	
+	document.addEventListener('beforerequest', function(event){
+		
+		var element = event.target;
+		if (element.tagName == 'X-AUTOSUGGEST'){
+			console.log('AUTOSUGGEST', event);
+			element.xtag.request.url = element.xtag.request.url + '&q=' + element.value;
+		}
+	});
+	
 	document.getElementById('autosuggest').dataready = function(request){
+		console.log('dataready', request.responseText);
 		if (!request.responseText) return this;
 		request.responseText.movies.forEach(function(movie){
 			this.xtag.addSuggestion(movie.title, movie);
 		}, this);
 	};
-	
-	document.addEventListener('beforerequest', function(event){
-		var element = event.target;
-		if (element.tagName == 'X-AUTOSUGGEST'){
-			element.xtag.request.url = element.xtag.request.url + '&q=' + element.value;
-		}
-	});
 	
 </script>
 
