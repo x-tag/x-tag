@@ -36,7 +36,7 @@ xtag.register('pager', {
 
 			var pos = getNavPositions(data);
 			for (var z in pos){
-				if (this.dataset.pagerElement == z) var isNum = data.current_page = pos[z];
+				if (this.getAttribute('data-pager-element') == z) var isNum = data.current_page = pos[z];
 			}				
 			if (!isNum) data.current_page = Number(this.innerHTML) ;            
 			this.parentElement['data-current-page'] = data.current_page;		
@@ -66,7 +66,7 @@ xtag.register('pager', {
 		
 		var pos = getNavPositions(data);
 		xtag.query(this, '[data-pager-element]').forEach(function(element){
-			element.href = getUrl(pos[element.dataset.pagerElement]);
+			element.href = getUrl(pos[element.getAttribute('data-pager-element')]);
 		});
 		
 		data.padding = data.padding == -1 ? data.pages : data.padding;

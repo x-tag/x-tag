@@ -76,7 +76,11 @@
 				value = element[property];
 				return function(){
 					fn();
-					element[property] = value;
+					console.log(value);
+					console.log(pseudo);
+					console.log(property);
+					console.log(element);
+					if (typeof value != 'undefined') element[property] = value;
 				}
 			},
 			preventable: function(fn, value, pseudo){
@@ -209,10 +213,11 @@
 		},
 		
 		applyAccessor: function(accessor, element, key, value){
-			var accessor = accessor[0].toUpperCase();
+			var accessor = accessor[0].toUpperCase(),
+				property = key.split(':')[0];
 			xtag.applyPseudos(element, key, function(){
-				element['__define' + accessor + 'etter__'](key, value);
-			}, [key, element]);
+				element['__define' + accessor + 'etter__'](property, value);
+			}, [property, element]);
 		}, 
 		
 		applyPseudos: function(element, key, fn, args){
