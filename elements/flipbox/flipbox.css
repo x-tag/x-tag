@@ -17,9 +17,6 @@ x-card{
 	-o-transition: -o-transform 0.65s;  
 	transition: transform 0.65s;
 }
-x-card[data-transition-none="true"]{
-	-moz-transition: none !important;  
-}
 x-card > * {
 	display: block;
 	position: absolute;
