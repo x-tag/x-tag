@@ -1,31 +1,40 @@
 
 (function(){
 	
+	var printValue = function(event, element){
+		if (this.parentNode == element.lastElementChild){
+			element.firstElementChild.value = this.textContent;
+			element.firstElementChild.nextSibling.value = JSON.stringify(this.xtag.data);
+		}
+	}
+	
 	xtag.register('autosuggest', {
-		content: '<input type="text" /><ul></ul>',
+		content: '<input type="text" /><input type="hidden" /><ul></ul>',
 		mixins: ['request'],
 		getters: {
 			value: function(){
 				return this.firstElementChild.value;
 			}
 		},
+		setters: {
+			name: function(name){
+				this.firstElementChild.name = name;
+				this.firstElementChild.nextSibling.name = name;
+				this.setAttribute('name', name);
+			}
+		},
 		events: {
-			'dataready': function(){
+			'dataready:preventable': function(event){				
 				this.xtag.clearSuggestions();
 				this.xtag.showSuggestions();
 			},
-			'keyup:delegate(input)': function(event, element){	
-				if (~[9, 16, 17, 91].indexOf(event.keyCode)) return this;
+			'keyup:delegate(input):keystop(9, 13, 16, 17, 32, 91)': function(event, element){
 				var url = element.getAttribute('data-url'),
-					padding = element.getAttribute('data-padding');
-				if (url && (padding ? this.value.length >= padding : this.value.length > 2)) element.src = url;
+					padding = element.getAttribute('data-padding') || 1;
+				if (url && this.value.length >= padding) element.src = url;
 			},
-			'click:delegate(li)': function(event, element){
-				if (this.parentNode == element.lastElementChild){
-					element.firstElementChild.value = this.textContent;
-					element.firstElementChild.focus();
-				}
-			},
+			'keyup:delegate(li):keypass(13)': printValue,
+			'click:delegate(li)': printValue,
 			'focus': function(event){
 				this.xtag.showSuggestions();
 			},
@@ -48,10 +57,10 @@
 				this.lastElementChild.innerHTML = '';
 			},
 			showSuggestions: function(){
-				this.setAttribute('data-show-suggestions', true);
+				this.lastElementChild.setAttribute('data-show-suggestions', true);
 			},
 			hideSuggestions: function(){
-				this.removeAttribute('data-show-suggestions');
+				this.lastElementChild.removeAttribute('data-show-suggestions');
 			}
 		}
 	});

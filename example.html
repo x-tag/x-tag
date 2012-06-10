@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8" />
+		
+		<title>X-Tag - a cross-browser web components library</title>
+		
+		<link href="demo/images/shortcut.png" rel="shortcut icon" type="image/x-icon" />
+		
+		<link rel="stylesheet" type="text/css" href="demo/css/reset.css" />
+		<link href='http://fonts.googleapis.com/css?family=Days+One|Righteous' rel='stylesheet' type='text/css'>
+		<link rel="stylesheet" type="text/css" href="demo/highlight/styles/vs.css" />
+		<link rel="stylesheet" type="text/css" href="demo/css/global.css"/>
+		<link rel="stylesheet" type="text/css" href="example/css/example.css"/>
+		<link rel="stylesheet" type="text/css" href="elements/panel/panel.css"/>
+		<link rel="stylesheet" type="text/css" href="elements/tabbox/tabbox.css"/>
+		<link rel="stylesheet" type="text/css" href="elements/accordion/accordion.css"/>
+		<link rel="stylesheet" type="text/css" href="elements/slidebox/slidebox.css"/>
+		<link rel="stylesheet" type="text/css" href="elements/map/map.css"/>
+		<link rel="stylesheet" type="text/css" href="elements/autosuggest/autosuggest.css"/>
+		<link rel="stylesheet" type="text/css" href="elements/pager/pager.css"/>
+		<link rel="stylesheet" type="text/css" href="elements/flipbox/flipbox.css"/>
+		
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/mootools/1.4.5/mootools-yui-compressed.js"></script>
+		<script type="text/javascript" src="x-tag.js"></script>
+		<script type="text/javascript" src="elements/panel/panel.js"></script>
+		<script type="text/javascript" src="elements/tabbox/tabbox.js"></script>
+		<script type="text/javascript" src="elements/accordion/accordion.js"></script>
+		<script type="text/javascript" src="elements/slidebox/slidebox.js"></script>
+		<script type="text/javascript" src="elements/map/map.js"></script>
+		<script type="text/javascript" src="elements/autosuggest/autosuggest.js"></script>
+		<script type="text/javascript" src="elements/pager/pager.js"></script>
+		<script type="text/javascript" src="elements/flipbox/flipbox.js"></script>		
+	</head>
+
+
+<body>
+
+	<header>
+		<h1 id="logo">&lt;<span>x</span>&gt;</h1>
+		<nav>
+			<a href="#menu"><div>&#9552;</div><br /><div>&#9552;</div></a>
+		</nav>
+	</header>
+
+	
+	<x-flipbox id="flipbox">
+		<x-card>			
+			<x-slidebox id="slidebox" data-orientation='X'>
+				<x-slides>
+					<x-autosuggest id="autosuggest" data-padding="2" data-url="http://api.rottentomatoes.com/api/public/v1.0/movies.json?apikey=v695ukwehrcb5q8kwkrgjmbd&page_limit=10&page=1"></x-autosuggest>
+					<div id="detail_view">
+											
+					</div>
+				</x-slides>
+			</x-slidebox>			
+			<img class="back" src="demo/images/birnimal-settings.png"/>				
+		</x-card>
+	</x-flipbox>
+	
+
+	
+</body>
+
+<script type="text/javascript">
+	
+	document.getElementById('autosuggest').addEventListener('dataready', function(event){
+		event.preventDefault();
+		if (!this.xtag.request.responseText) return this;
+		this.xtag.request.responseText.movies.forEach(function(movie){
+			this.xtag.addSuggestion(movie.title, movie);
+		}, this);
+	});
+
+	document.getElementById('autosuggest').addEventListener('beforerequest', function(event){
+		var element = event.target;
+		if (element.tagName == 'X-AUTOSUGGEST'){
+			element.xtag.request.url = element.xtag.request.url + '&q=' + element.value;
+		}
+	});
+
+	document.getElementById('autosuggest').addEventListener('click', function(event){
+		
+		console.log(event.target, event.target.tagName);
+		if (event.target.tagName == 'LI'){
+			var movie = event.target.xtag.data;
+			movie['audience_rating'] = movie.ratings.audience_rating;
+			movie['critics_rating'] = movie.ratings.critics_rating;
+			var template = 	'<h2>{title} {year}</h2>' +
+							'<ul><li>Summary: {synopsis}</li>' +
+							'<ul><li>Rated: {mpaa_rating}</li>' +
+							'<li>Rating: {audience_rating} and {critics_rating}</li>' + 
+							'</ul>';
+			console.log(movie);
+			document.getElementById('detail_view').innerHTML = template.substitute(movie);
+			//var detailView = document.getElementById('detail_view').innerHTML = ;
+			document.getElementById('slidebox').xtag.slideNext();			
+		}
+		
+	});
+	
+</script>
+
+</html>

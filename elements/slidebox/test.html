@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8" />
+		
+		<title>X-Tag - a cross-browser web components library</title>
+		
+		
+		<link rel="stylesheet" type="text/css" href="slidebox.css"/>		
+		
+		<script type="text/javascript" src="../../x-tag.js"></script>		
+		<script type="text/javascript" src="slidebox.js"></script>		
+		<style type="text/css">
+			#slidebox_demo {
+				height: 300px;
+				width: 220px;
+			}
+			#slidebox_demo img{
+				height: 100%;
+				width: 100%;
+			}
+		</style>
+	</head>
+
+<body>
+
+<div id="tags" class="max-width">
+
+	<dl>
+	
+		<dt>Slide Box</dt>
+		<dd id="slidebox">
+			<p class="description">
+				A container that allows animated transitions between content panes. Slide Box supports horizontal and vertical transitions.
+			</p>
+			
+			<nav class="actions">				
+				<button data-action-type="slidePrevious"><- Previous Slide</button>
+				<button data-action-type="slideNext">Next Slide -></button>
+				<button data-action-type="slideTo">Slide To 3</button>
+				<button data-action-type="slideOrientation">Toggle orientation</button>
+			</nav>
+			
+			<x-slidebox id="slidebox_demo" data-orientation='x'>
+				<x-slides>
+					<x-slide><img src="../../demo/images/birnimal-calendar.png" /></x-slide>
+					<x-slide><img src="../../demo/images/birnimal-graph.png" /></x-slide>
+					<x-slide><img src="../../demo/images/birnimal-detail.png" /></x-slide>
+					<x-slide><img src="../../demo/images/birnimal-settings.png" /></x-slide>
+				</x-slides>
+			</x-slidebox>
+			
+		</dd>
+	</dl>
+</div>
+	
+
+</body>
+
+<script type="text/javascript">
+
+	
+	document.addEventListener('click', function(e){
+		
+		var action = e.target,
+			parent = action.parentNode,
+			actionType = action.getAttribute('data-action-type');
+	
+		if (actionType) {
+		
+			var tag = action.parentElement.parentElement.id,
+				demo = document.getElementById(tag + '_demo');
+			
+			switch(actionType) {
+				
+				case 'slideNext':			
+					demo.xtag.slideNext();
+					break;
+
+				case 'slidePrevious':
+					demo.xtag.slidePrevious();
+					break;
+
+				case 'slideTo':
+					demo.xtag.slideTo(2);
+					break;
+				case 'slideOrientation':
+					demo['data-orientation'] = demo.getAttribute('data-orientation') == 'x' ? 'y' : 'x';
+					break;
+
+			}
+			
+		}
+	});
+</script>
+
+</html>

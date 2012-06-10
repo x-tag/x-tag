@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8" />
+		
+		<title>X-Tag - a cross-browser web components library</title>
+		
+		
+		<link rel="stylesheet" type="text/css" href="flipbox.css"/>		
+		
+		<script type="text/javascript" src="../../x-tag.js"></script>		
+		<script type="text/javascript" src="flipbox.js"></script>		
+		<style type="text/css">
+			#flipbox_demo {
+				height: 300px;
+				width: 220px;
+			}
+		</style>
+	</head>
+
+<body>
+
+<div id="tags" class="max-width">
+
+	<dl>
+	
+		<dt>Flip Box</dt>
+		<dd id="flipbox">
+		
+			<p class="description">
+				This element allows you to place two elements back-to-back and then flip between them.
+			</p>
+			<nav class="actions">
+				<button data-action-type="toggleFlip">Flip</button>
+				<button data-action-type="toggleDirection">Switch Flip Direction (right)</button>				
+			</nav>
+			
+			<x-flipbox id="flipbox_demo">
+				<x-card>
+					<img src="../../demo/images/birnimal-graph.png"/>					
+					<img class="back" src="../../demo/images/birnimal-settings.png"/>
+				</x-card>
+			</x-flipbox>
+			
+		</dd>
+	</dl>
+</div>
+	
+
+</body>
+
+<script type="text/javascript">
+
+	
+	document.addEventListener('click', function(e){
+		
+		var action = e.target,
+			parent = action.parentNode,
+			actionType = action.getAttribute('data-action-type');
+	
+		if (actionType) {
+		
+			var tag = action.parentElement.parentElement.id,
+				demo = document.getElementById(tag + '_demo');
+
+			switch(actionType) {
+				
+				case 'toggleFlip':					
+					demo['data-flipped'] = demo.getAttribute('data-flipped') ? false : true;
+					break;
+
+				case 'toggleDirection':
+					var directions = ['right','left','up','down'];					
+					var idx = directions.indexOf(demo.getAttribute('data-flip-direction')) + 1;
+					idx = idx >= 4 ? 0 : idx;
+					action.innerHTML = action.innerHTML.replace(/\((\w+)\)/, function(){
+						return '(' + directions[idx] + ')';
+					});
+					demo['data-flip-direction'] = directions[idx];
+					break;
+
+			}
+			
+		}
+	});
+</script>
+
+</html>

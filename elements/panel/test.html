@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8" />
+		
+		<title>X-Tag - a cross-browser web components library</title>
+		
+		
+		<link rel="stylesheet" type="text/css" href="panel.css"/>		
+		
+		<script type="text/javascript" src="../../x-tag.js"></script>		
+		<script type="text/javascript" src="panel.js"></script>		
+	</head>
+
+<body>
+
+<div id="tags" class="max-width">
+
+	<h3>
+		Structural Elements
+		<span id="structural" class="anchor-id"></span>
+	</h3>
+	<dl>
+	
+		<dt>Panel<span feature="data-bound" title="This element has data request bindings"></span></dt>
+		<dd id="panel">
+			<p class="description">
+				A panel is a block element that has the ability to load data asycronously when a <code>src</code> attribute is set (same-origin policy restricted)
+			</p>
+			
+			<nav class="actions">
+				<button data-action-type="addSrc">Add <code>src</code> to Panel</button>
+				<button data-action-type="switchSrc">Switch <code>src</code></button>
+			</nav>
+			
+			<x-panel id="panel_demo" rel="panel.css"></x-panel>
+			
+		</dd>
+	</dl>
+</div>
+	
+
+</body>
+
+<script type="text/javascript">
+
+	
+	document.addEventListener('click', function(e){
+		
+		var action = e.target,
+			parent = action.parentNode,
+			actionType = action.getAttribute('data-action-type');
+	
+		if (actionType) {
+		
+			var tag = action.parentElement.parentElement.id,
+				demo = document.getElementById(tag + '_demo');
+
+			switch(actionType) {
+				
+				case 'addSrc':
+					var src = demo.getAttribute('rel');
+					demo.src = src;
+					break;
+					
+				case 'switchSrc':
+					var src = demo.getAttribute('src');
+					demo.src = src ? src.replace.apply(src, ~src.indexOf('2.html') ? ['2.html', '.html'] : ['.html', '2.html']) : demo.getAttribute('rel');
+					break;
+
+			}
+			
+		}
+	});
+</script>
+
+</html>

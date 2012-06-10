@@ -1,4 +1,8 @@
 
+h4 {
+	margin-top: 20px;
+}
+
 nav.actions {
 	margin-bottom: 20px;
 	overflow: hidden;
@@ -15,6 +19,26 @@ nav.actions button {
 	position: relative;
 	z-index: 1;
 }
+
+span[feature] {
+	display: inline-block;
+    float: right;
+    padding: 11px 9px;
+	background: no-repeat center center;
+}
+
+span[feature="data-bound"] {
+	background-image: url(http://cdn3.iconfinder.com/data/icons/fatcow/16x16_0340/database_link.png);
+}
+
+/* APPVIEW DEMO */
+
+#appview_demo {
+	height: 450px;
+	width: 300px;
+	border: 1px solid #bbb;
+}
+
 
 /* PANEL DEMO */
 
@@ -41,7 +65,11 @@ nav.actions button {
 		width: 300px;
 		text-shadow: 0 1px 0 #fff;
 	}
-
+	
+	#tabbox_demo p {
+		margin: 0;
+	}
+	
 	#tabbox_demo.style x-tabs {
 		position: relative;
 		z-index: 1;
@@ -117,7 +145,7 @@ nav.actions button {
 			-webkit-border-radius: 0px 3px 3px 0px !important;
 		}
 
-	#tabbox_demo.style x-panels {
+	#tabbox_demo.style x-tabpanels {
 		margin-top: -1px;
 		padding: 4px 6px;
 		border: 1px solid;
@@ -136,32 +164,61 @@ nav.actions button {
 		-webkit-box-shadow: 0 1px 7px -4px #000;
 	}
 	
-		#tabbox_demo.style[tab-orient="bottom"] x-panels {
+		#tabbox_demo.style[tab-orient="bottom"] x-tabpanels {
 			border-radius: 3px 3px 0 0;
 			-ms-border-radius: 3px 3px 0 0;
 			-moz-border-radius: 3px 3px 0 0;
 			-webkit-border-radius: 3px 3px 0 0;
 		}
 	
-	#tabbox_demo[tab-orient="left"] x-panels, #tabbox_demo[tab-orient="right"] x-panels {
+	#tabbox_demo[tab-orient="left"] x-tabpanels, #tabbox_demo[tab-orient="right"] x-tabpanels {
 		margin-top: 0px;
 	}
 
 /* SLIDEBOX DEMO */
 
 	#slidebox_demo {
-		height: 475px;
-		width: 300px;
+		height: 320px;
+		width: 220px;
+		margin-bottom: 15px;
 	}
 	
 	#slidebox_demo img {
 		width: 100%;
-		height: auto;
+		height: 100%;
 	}
 	
 	#painfully_obvious_disclaimer_for_metalab_and_metalab-esque_ambulance_chasers {
 		font-size: 9px;
 		color: #666;
+	}
+
+/* MODAL DEMO */
+	
+	#modal_demo {
+		display: none;
+		background: #fff;
+		z-index: 1000;
+	}
+
+	#modal_demo.show {
+		display: block;
+	}
+	
+	#modal_demo.style {
+		max-width: 500px;
+		background: #fff;
+		padding: 12px 14px;
+		border: 1px solid;
+		border-color: #aaa #999 #888;
+		border-radius: 3px;
+		-ms-border-radius: 3px;
+		-moz-border-radius: 3px;
+		-webkit-border-radius: 3px;
+		box-shadow: 0 4px 20px -4px #000;
+		-ms-box-shadow: 0 4px 20px -4px #000;
+		-moz-box-shadow: 0 4px 20px -4px #000;
+		-webkit-box-shadow: 0 4px 24px -4px #000;
 	}
 	
 /* ACCORDION DEMO */
@@ -210,5 +267,15 @@ nav.actions button {
 	#autosuggest_demo {
 		z-index: 1;
 	}
-	
-	
+
+/* FLIPBOX DEMO */
+
+	#flipbox_demo{
+		height: 320px;
+		width: 220px;
+		perspective: 1000px;
+		-o-perspective: 1000px;
+		-ms-perspective: 1000px;
+		-moz-perspective: 1000px;
+		-webkit-perspective: 1000px;
+	}

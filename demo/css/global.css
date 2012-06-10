@@ -95,7 +95,7 @@ button code {
 	background: #fff;
 }
 
-header {
+body > header {
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -139,12 +139,13 @@ header {
     margin: 0 2px;
 }
 
-header nav {
+#global_menu {
+	position: relative;
 	float: right;
-	margin: 16px 20px 0 0;
+	padding: 16px 20px 22px 20px;
 }
 
-header nav a {
+#global_menu > a {
 	display: block;
 	margin-left: 18px;
 	color: #fff;
@@ -154,23 +155,64 @@ header nav a {
 	line-height: 0;
 }
 
-header nav a:first-child {
+#global_menu > a:first-child {
 	margin-left: 0;
 }
 
-header nav a div {
+#global_menu > a div {
     position: relative;
 }
 
-header nav a div:last-child {
+#global_menu > a div:last-child {
     top: 8px;
 }
+
+#global_nav {
+	display: none;
+	position: absolute;
+	top: 100%;
+	right: 20px;
+	width: 175px;
+	background: #fff;
+	border: 1px solid;
+	border-color: #0E56A9;
+	border-radius: 3px;
+	-ms-border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	box-shadow: 0 1px 7px -2px #000;
+	-ms-box-shadow: 0 1px 7px -2px #000;
+	-moz-box-shadow: 0 1px 7px -2px #000;
+	-webkit-box-shadow: 0 1px 7px -2px #000;
+}
+
+#global_nav.small-nav {
+	width: 90px;
+}
+
+#global_nav a {
+	display: block;
+	padding: 0 8px 6px;
+	text-decoration: none;
+	color: #466EA6;
+	font-weight: bold;
+}
+
+#global_nav a:hover {
+	text-decoration: underline;
+}
+
+#global_menu:hover #global_nav {
+	display: block;
+}
+
 
 .max-width {
 	width: 90%;
 	min-width: 300px;
 	max-width: 600px;
 	margin: 0 auto;
+	overflow: hidden;
 }
 
 div.max-width > dl {

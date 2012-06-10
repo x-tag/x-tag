@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8" />
+		
+		<title>X-Tag - Autosuggest Test</title>
+		
+		<link href="demo/images/shortcut.png" rel="shortcut icon" type="image/x-icon" />
+		<link rel="stylesheet" type="text/css" href="../../demo/css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="autosuggest.css" />
+		<script type="text/javascript" src="../../x-tag.js"></script>
+		<script type="text/javascript" src="autosuggest.js"></script>
+		
+		<style>
+			#autosuggest {
+				width: 300px;
+				margin: 50px;
+			}
+		</style>
+	</head>
+	
+<body>
+	<x-autosuggest id="autosuggest" data-padding="2" data-url="http://api.rottentomatoes.com/api/public/v1.0/movies.json?apikey=v695ukwehrcb5q8kwkrgjmbd&page_limit=10&page=1"></x-autosuggest>
+</body>
+
+<script type="text/javascript">
+	
+	document.addEventListener('beforerequest', function(event){
+		var element = event.target;
+		if (element.tagName == 'X-AUTOSUGGEST'){
+			element.xtag.request.url = element.xtag.request.url + '&q=' + element.value;
+		}
+	});
+	
+	document.getElementById('autosuggest').dataready = function(request){
+		if (!request.responseText) return this;
+		request.responseText.movies.forEach(function(movie){
+			this.xtag.addSuggestion(movie.title, movie);
+		}, this);
+	};
+	
+</script>
+
+</html>

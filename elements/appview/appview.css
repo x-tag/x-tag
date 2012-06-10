@@ -1,0 +1,45 @@
+
+x-appview {
+	display: box;
+	display: -o-box;
+	display: -ms-box;
+	display: -moz-box;
+	display: -webkit-box;
+	box-orient: vertical;
+	-o-box-orient: vertical;
+	-ms-box-orient: vertical;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+}
+
+x-appview > header {
+	box-flex: 0;
+	-o-box-flex: 0;
+	-ms-box-flex: 0;
+	-moz-box-flex: 0;
+	-webkit-box-flex: 0;
+}
+
+x-appview > header > * {
+	float: left;
+}
+
+x-appview > header > x-actionbar {
+	float: right;
+}
+
+x-appview > *:nth-child(2) {
+	box-flex: 1;
+	-o-box-flex: 1;
+	-ms-box-flex: 1;
+	-moz-box-flex: 1;
+	-webkit-box-flex: 1;
+}
+
+x-appview > footer {
+	box-flex: 0;
+	-o-box-flex: 0;
+	-ms-box-flex: 0;
+	-moz-box-flex: 0;
+	-webkit-box-flex: 0;
+}

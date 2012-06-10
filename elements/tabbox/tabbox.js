@@ -14,11 +14,30 @@ xtag.register('tabbox', {
 	}
 });
 
+xtag.register('tabs', {
+	methods: {
+		getSelectedIndex: function(){
+			var tabs = xtag.query(this, 'x-tab');
+			return tabs.indexOf(this.xtag.getSelectedTab());
+		},
+		getSelectedTab: function(){
+			return xtag.query(this, 'x-tab[selected="true"]')[0];
+		},
+		nextTab: function(){
+			var tab = this.xtag.getSelectedTab();
+			if (tab) (tab.nextElementSibling || this.firstElementChild).xtag.selectTab();
+		},
+		previousTab: function(){
+			var tab = this.xtag.getSelectedTab();
+			if (tab) (tab.previousElementSibling || this.lastElementChild).xtag.selectTab();
+		}
+	}
+});
+
+
 xtag.register('tab', {
 	onInsert: function(){
-		xtag.query(this.parentNode, 'x-tab').forEach(function(tab, index){
-			tab.setAttribute('tabindex', index + 1);
-		});
+		this.setAttribute('tabindex', 0);
 	},
 	methods: {
 		selectTab: function(){
@@ -28,29 +47,9 @@ xtag.register('tab', {
 			tabs.forEach(function(el){
 				el.setAttribute('selected', el == this ? true : '');
 			}, this);
-			xtag.query(this.parentNode.nextElementSibling, 'x-panel').forEach(function(el, i, array){
+			xtag.query(this.parentNode.parentNode, 'x-tabpanels > *').forEach(function(el, i, array){
 				el.setAttribute('selected', el == array[index] ? true : '');
 			});
-		}
-	}
-});
-
-xtag.register('tabs', {
-	methods: {
-		getSelectedIndex: function(){
-			var tabs = xtag.query(this, 'x-tab');
-			return tabs.indexOf(xtag.query(this, 'x-tab[selected="true"]')[0]);
-		},
-		getSelectedTab: function(){
-			return xtag.query(this, 'x-tab[selected="true"]')[0];
-		},
-		nextTab: function(){
-			var tab = this.xtag.getSelectedTab();
-			(tab.nextElementSibling || this.firstElementChild).xtag.selectTab();
-		},
-		previousTab: function(){
-			var tab = this.xtag.getSelectedTab();
-			(tab.previousElementSibling || this.lastElementChild).xtag.selectTab();
 		}
 	}
 });

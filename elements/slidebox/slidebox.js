@@ -1,45 +1,77 @@
 
 (function(){
-	
-	var transitionend = function(e){
-			if (e.target.parentNode == this) {
-				e.target.removeAttribute('data-current-slide');
-				e.target.setAttribute('data-previous-slide', true);
+
+	var transform = xtag.prefix.js + 'Transform',
+		getState = function(el){
+			var selected = xtag.query(el, 'x-slides > x-slide[selected="true"]')[0] || 0;
+			return [selected ? xtag.query(el, 'x-slides > x-slide').indexOf(selected) : selected, el.firstElementChild.children.length - 1];
+		},
+		slide = function(el, index){
+			var slides = xtag.toArray(el.firstElementChild.children);
+			slides.forEach(function(slide){ slide.removeAttribute('selected'); });
+			slides[index || 0].setAttribute('selected', true);
+			el.firstElementChild.style[transform] = 'translate'+ (el.getAttribute('data-orientation') || 'x') + '(' + (index || 0) * (-100 / slides.length) + '%)';
+		},
+		init = function(orientation){
+			var slides = this.firstElementChild;
+			if (!slides || !slides.children.length || xtag.getTag(slides) != 'slides') return;
+			
+			var	children = xtag.toArray(slides.children),
+				size = 100 / (children.length || 1),
+				orient = this.getAttribute('data-orientation') || 'x',
+				style = orient == 'x' ? ['width', 'height'] : ['height', 'width'];
+			
+			xtag.skipTransition(slides, function(){
+				slides.style[style[1]] =  '100%';
+				slides.style[style[0]] = children.length * 100 + '%';
+				slides.style[transform] = 'translate' + orient + '(0%)';
+				children.forEach(function(slide){				
+					slide.style[style[0]] = size + '%';
+					slide.style[style[1]] = '100%';
+				});
+			});
+			
+			if (orientation) {
+				var selected = slides.querySelector('[selected="true"]');
+				if (selected) slide(this, children.indexOf(selected) || 0);
+			}
+		};
+
+	xtag.register('slidebox', {
+		onInsert: init,		
+		events:{
+			'transitionend': function(e){
+				if (e.target == this) xtag.fireEvent('slideend', this);
 			}
 		},
-		slide = function(side){
-			var previous = this.querySelector('[data-current-slide="true"]') || this.children[0],
-				next = previous[side + 'ElementSibling'] || this.children[side];
-			
-			if (!next) return this;
-			
-			var	axis = this.getAttribute('data-slide-axis'),
-				sideMap = { previous: ['left', 'up'], next: ['right', 'down'] };
-				
-			this.setAttribute('data-slide-direction', sideMap[side][(!axis || axis == 'x') ? 0 : 1]);
-			previous.removeAttribute('data-current-slide');
-			previous.setAttribute('data-previous-slide', true);
-			next.setAttribute('data-current-slide', true);
-		}
-	
-	xtag.register('slidebox', {
-		events: {
-			'transitionend': transitionend,
-			'oTransitionEnd': transitionend,
-			'MSTransitionEnd': transitionend,
-			'webkitTransitionEnd': transitionend
+		setters: {
+			'data-orientation': function(value){
+				this.setAttribute('data-orientation', value.toLowerCase());
+				init.call(this, true);
+			},
 		},
 		methods: {
 			slideTo: function(index){
-				slide.call(this, index);
+				slide(this, index);
 			},
 			slideNext: function(){
-				slide.call(this, 'next');
+				var shift = getState(this);
+					shift[0]++;
+				slide(this, shift[0] > shift[1] ? 0 : shift[0]);
 			},
 			slidePrevious: function(){
-				slide.call(this, 'previous');
+				var shift = getState(this);
+					shift[0]--;
+				slide(this, shift[0] < 0 ? shift[1] : shift[0]);
 			}
 		}
 	});
-
+	
+	xtag.register('slide', {
+		onInsert: function(){
+			var ancestor = this.parentNode.parentNode;
+			if (xtag.getTag(ancestor) == 'slidebox') init.call(ancestor);
+		}
+	});
+	
 })();
