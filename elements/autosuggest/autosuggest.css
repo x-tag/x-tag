@@ -27,7 +27,7 @@ x-autosuggest > ul {
 	background: #fff;
 }
 
-x-autosuggest[data-show-suggestions="true"] > ul {
+x-autosuggest ul[data-show-suggestions="true"] {
 	display: block;
 }
 

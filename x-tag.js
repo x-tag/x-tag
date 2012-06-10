@@ -13,13 +13,14 @@
 			prefix.css + 'animation-name: nodeInserted !important;' + 
 		'}';
 		
-	var styles = document.createElement('style'),
+	var head = document.getElementsByTagName('head')[0],
+		styles = document.createElement('style'),
 		cssText = document.createTextNode('@' + prefix.css + 'keyframes nodeInserted {' +
 			'from { clip: rect(1px, auto, auto, auto); } to { clip: rect(0px, auto, auto, auto); }' +
 		'}');
 		styles.type = "text/css";
 		styles.appendChild(cssText);
-		document.getElementsByTagName('head')[0].appendChild(styles);
+		head.appendChild(styles);
 	
 	var mergeOne = function(source, key, current){
 			switch (xtag.typeOf(current)){
@@ -150,7 +151,7 @@
 			var duration = xtag.prefix.js + 'TransitionDuration';
 			element.style[duration] = '0.001s';
 			fn.call(bind);
-			element.addEventListener('transitionend', function(){
+			xtag.addEvent(element, 'transitionend', function(){
 				element.style[duration] = '';
 			});
 		},
@@ -278,7 +279,7 @@
 					element.setAttribute('data-requeststatus', request.status = 400);
 					xtag.fireEvent('error', element, error);
 				}
-				document.head.appendChild(request.script);
+				head.appendChild(request.script);
 			}
 			element.xtag.request = request;
 		},
@@ -294,8 +295,8 @@
 		clearRequest: function(element){
 			var request = element.xtag.request;
 			if (!request) return xtag;
-			if (request.script && ~xtag.toArray(document.head.children).indexOf(request.script)) {
-				document.head.removeChild(request.script);
+			if (request.script && ~xtag.toArray(head.children).indexOf(request.script)) {
+				head.removeChild(request.script);
 			}
 			else if (request.abort) request.abort();
 		},
