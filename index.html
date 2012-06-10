@@ -71,7 +71,7 @@
 			<p>
 				In order to allow for the recognition and parsing of custom HTML tags, <span class="font">X-Tag</span> utilizes 
 				a special CSS event mechanism to listen for the creation/parsing of new custom elements (details <a target="_blank" href="http://www.backalleycoder.com/2012/04/25/i-want-a-damnodeinserted/">here</a>). 
-				This even is fired and processesed by x-tag regardless of whether the element is present 
+				This event is fired and processed by x-tag regardless of whether the element is present 
 				in the source of the document or if you use <code>document.createElement</code> to generate 
 				it dynamically. When the node is initially created x-tag adds events and calls the onCreate 
 				function on the node, if you've registered them for that tag. You can also specify an action  
