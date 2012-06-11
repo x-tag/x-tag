@@ -2,11 +2,11 @@
 (function(){
 
 	var changeFlipDirection = function(elem, dir){
-		var m = elem.className.match(/flip-direction-\w+/);	
+		var m = elem.className.match(/x-flip-direction-\w+/);	
 		if (m){
 			xtag.removeClass(elem, m[0])				
 		}
-		xtag.addClass(elem, 'flip-direction-'+dir);
+		xtag.addClass(elem, 'x-flip-direction-'+dir);
 	}
 
 	xtag.register('flipbox', {
@@ -17,7 +17,7 @@
 		},
 		setters: {
 			'flipDirection': function(value){
-				if (xtag.hasClass(this ,'card-flipped')){
+				if (xtag.hasClass(this ,'x-card-flipped')){
 					xtag.skipTransition(this.firstElementChild, function(){
 						changeFlipDirection(this, value);
 					}, this);
@@ -27,20 +27,20 @@
 				}				
 			},
 			'flipped': function(value){
-				xtag.toggleClass(this, 'card-flipped');
+				xtag.toggleClass(this, 'x-card-flipped');
 			}
 		},
 		getters:{
 			'flipDirection': function() {
-				var m = this.className.match(/flip-direction-(\w+)/);				
+				var m = this.className.match(/x-flip-direction-(\w+)/);				
 				return m[1];
 			}, 
 			'flipped': function() {
-				return xtag.hasClass(this, 'card-flipped');
+				return xtag.hasClass(this, 'x-card-flipped');
 			}
 		},
 		onCreate: function(){
-			xtag.addClass(this, 'flip-direction-right');
+			xtag.addClass(this, 'x-flip-direction-right');
 		}
 	});
 
