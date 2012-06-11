@@ -1,24 +1,47 @@
 
-xtag.register('flipbox', {
-	events:{
-		'transitionend': function(e){			
-			if (e.target == this) xtag.fireEvent('flipend', this);
+(function(){
+
+	var changeFlipDirection = function(elem, dir){
+		var m = elem.className.match(/flip-direction-\w+/);	
+		if (m){
+			xtag.removeClass(elem, m[0])				
 		}
-	},
-	setters: {
-		'data-flip-direction': function(value){
-			if (this.getAttribute('data-flipped') == "true"){
-				xtag.skipTransition(this.firstElementChild, function(){
-					this.setAttribute('data-flip-direction', value);
-				}, this);
-			}
-			else{
-				this.setAttribute('data-flip-direction', value);
+		xtag.addClass(elem, 'flip-direction-'+dir);
+	}
+
+	xtag.register('flipbox', {
+		events:{
+			'transitionend': function(e){			
+				if (e.target == this) xtag.fireEvent('flipend', this);
 			}
 		},
-	},
-	onCreate: function(){
-		this.setAttribute('data-flip-direction', this.getAttribute('data-flip-direction')||'right');
-		this.setAttribute('data-flipped', this.getAttribute('data-flipped')||'false');
-	}
-});
+		setters: {
+			'flipDirection': function(value){
+				if (xtag.hasClass(this ,'card-flipped')){
+					xtag.skipTransition(this.firstElementChild, function(){
+						changeFlipDirection(this, value);
+					}, this);
+				}
+				else{
+					changeFlipDirection(this, value);
+				}				
+			},
+			'flipped': function(value){
+				xtag.toggleClass(this, 'card-flipped');
+			}
+		},
+		getters:{
+			'flipDirection': function() {
+				var m = this.className.match(/flip-direction-(\w+)/);				
+				return m[1];
+			}, 
+			'flipped': function() {
+				return xtag.hasClass(this, 'card-flipped');
+			}
+		},
+		onCreate: function(){
+			xtag.addClass(this, 'flip-direction-right');
+		}
+	});
+
+})();

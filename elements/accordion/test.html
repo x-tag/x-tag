@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8" />
+		
+		<title>X-Tag - a cross-browser web components library</title>
+		
+		
+		<link rel="stylesheet" type="text/css" href="accordion.css"/>		
+		
+		<script type="text/javascript" src="../../x-tag.js"></script>		
+		<script type="text/javascript" src="accordion.js"></script>		
+		<style type="text/css">
+			
+		</style>
+	</head>
+
+<body>
+
+<div id="tags" class="max-width">
+
+	<dl>
+	
+		<dt>Accordion</dt>
+		<dd id="accordion">
+		
+			<p class="description">
+				An accordion is a collection of panels containing content seperated by toggler elements.
+			</p>
+			
+			<nav class="actions">
+				<button data-action-type="style">Unstyle</button>
+				<button data-action-type="addSection">Add Section</button>
+				<button data-action-type="previousToggler"><-- Select Previous Section</button>
+				<button data-action-type="nextToggler">Select Next Section --></button>
+			</nav>
+			
+			<x-accordion id="accordion_demo" class="style">
+				<x-toggler selected="true">Toggler 1</x-toggler>
+				<div>
+					<p>
+						Tabboxes are great for showing users only the conent they need to see, while providing users an easy way to access additional content on-demand
+					</p>
+				</div>
+				
+				<x-toggler>Toggler 2</x-toggler>
+				<div>
+					<p>
+						Examples of use-cases for tabboxes include: a set of step-wise directions, grouping like content elements together, or as a building block for a tabbed viewing interface in a mobile web app.
+					</p>
+				</div>
+				
+				<x-toggler>Toggler 3</x-toggler>
+				<div>
+					<p>
+						In short, tabboxes are pretty freaking cool, and when you pair them with CSS animations/transitions, you can do things with a few styles that used to take a ton of JavaScript and custom code.
+					</p>
+				</div>
+			</x-accordion>
+			
+		</dd>
+	</dl>
+</div>
+	
+
+</body>
+
+<script type="text/javascript">
+
+	document.addEventListener('click', function(e){
+		
+		var action = e.target,
+			parent = action.parentNode,
+			actionType = action.getAttribute('data-action-type');
+	
+		if (actionType) {
+		
+			var tag = action.parentElement.parentElement.id,
+				demo = document.getElementById(tag + '_demo');
+				
+			switch(actionType) {
+
+				case 'style':
+					action.textContent = demo.classList.contains('style') ? 'Style' : 'Unstyle';
+					demo.classList.toggle('style');
+					break;
+
+				case 'addSection':
+						toggler = document.createElement('x-toggler'),
+						div = document.createElement('div'),
+						length = xtag.query(demo, 'x-toggler').length;
+						
+					toggler.textContent = 'Toggler ' + (length + 1);
+					demo.appendChild(toggler);
+					
+					div.innerHTML = 'This panel was added dynamically, it shows when you click on the toggler element above entitled "Toggler ' + (length + 1) + '"';
+					demo.appendChild(div);
+					
+					toggler.xtag.selectToggler();
+					break;
+				
+				case 'previousToggler':
+					demo.xtag.previousToggler();
+					break;
+					
+				case 'nextToggler':
+					demo.xtag.nextToggler();
+					break;
+				}
+			}
+	});
+
+</script>
+
+</html>

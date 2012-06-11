@@ -122,6 +122,24 @@
 			var sliced = Array.prototype.slice.call(obj, 0);
 			return sliced.hasOwnProperty ? sliced : [obj];
 		},
+
+		hasClass: function(element, className){
+			return !!~element.className.split(' ').indexOf(className);
+		},
+
+		addClass: function(element, className){
+			if (!xtag.hasClass(element, className)) element.className = (element.className + ' ' + className);
+			return element;
+		},
+
+		removeClass: function(element, className){
+			element.className = element.className.replace(new RegExp('(^|\\s)' + className + '(?:\\s|$)'), '$1');
+			return element;
+		},
+
+		toggleClass: function(element, className){
+			return !xtag.hasClass(element, className) ? xtag.addClass(element,className) : xtag.removeClass(element, className);
+		},
 		
 		query: function(element, selector){
 			return xtag.toArray(element.querySelectorAll(selector));

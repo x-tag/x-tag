@@ -24,7 +24,7 @@
 <div id="tags" class="max-width">
 
 	<dl>
-	
+		
 		<dt>Flip Box</dt>
 		<dd id="flipbox">
 		
@@ -39,7 +39,7 @@
 			<x-flipbox id="flipbox_demo">
 				<x-card>
 					<img src="../../demo/images/birnimal-graph.png"/>					
-					<img class="back" src="../../demo/images/birnimal-settings.png"/>
+					<img src="../../demo/images/birnimal-settings.png"/>
 				</x-card>
 			</x-flipbox>
 			
@@ -50,7 +50,6 @@
 
 </body>
 
-<script type="text/javascript" src="demo/highlight/highlight.pack.js"></script>
 <script type="text/javascript">
 
 	
@@ -68,17 +67,17 @@
 			switch(actionType) {
 				
 				case 'toggleFlip':					
-					demo.setAttribute('data-flipped', demo.getAttribute('data-flipped') == 'true' ? 'false' : 'true');
+					demo.flipped = !demo.flipped;
 					break;
 
 				case 'toggleDirection':
 					var directions = ['right','left','up','down'];					
-					var idx = directions.indexOf(demo.getAttribute('data-flip-direction'))+1;
+					var idx = directions.indexOf(demo.flipDirection)+1;
 					idx = idx >= 4 ? 0 : idx;
 					action.innerHTML = action.innerHTML.replace(/\((\w+)\)/, function(){
 						return '(' + directions[idx] + ')';
 					});
-					demo['data-flip-direction'] = directions[idx];
+					demo.flipDirection = directions[idx];
 					break;
 
 			}
