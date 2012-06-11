@@ -57,10 +57,10 @@
 				this.lastElementChild.innerHTML = '';
 			},
 			showSuggestions: function(){
-				this.setAttribute('data-show-suggestions', true);
+				this.lastElementChild.setAttribute('data-show-suggestions', true);
 			},
 			hideSuggestions: function(){
-				this.removeAttribute('data-show-suggestions');
+				this.lastElementChild.removeAttribute('data-show-suggestions');
 			}
 		}
 	});
