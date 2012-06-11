@@ -4,6 +4,58 @@
 	<head>
 		<meta charset="utf-8" />
 		
+<<<<<<< HEAD
+		<title>X-Tag - Accordion Test</title>
+		
+		<link href="../../demo/images/shortcut.png" rel="shortcut icon" type="image/x-icon" />
+		<link rel="stylesheet" type="text/css" href="../../demo/css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="accordion.css" />
+		<script type="text/javascript" src="../../x-tag.js"></script>
+		<script type="text/javascript" src="accordion.js"></script>
+		
+		<style>
+			#accordion {
+				width: 300px;
+				margin: 50px;
+			}
+		</style>
+	</head>
+	
+<body>
+
+	
+	<nav class="actions">
+		<button data-action-type="addSection">Add Section</button>
+		<button data-action-type="previousToggler"><-- Select Previous Section</button>
+		<button data-action-type="nextToggler">Select Next Section --></button>
+	</nav>
+	
+	<x-accordion id="accordion" class="style">
+		<x-toggler selected="true">Toggler 1</x-toggler>
+		<div>
+			<p>
+				Tabboxes are great for showing users only the conent they need to see, while providing users an easy way to access additional content on-demand
+			</p>
+		</div>
+		
+		<x-toggler>Toggler 2</x-toggler>
+		<div>
+			<p>
+				Examples of use-cases for tabboxes include: a set of step-wise directions, grouping like content elements together, or as a building block for a tabbed viewing interface in a mobile web app.
+			</p>
+		</div>
+		
+		<x-toggler>Toggler 3</x-toggler>
+		<div>
+			<p>
+				In short, tabboxes are pretty freaking cool, and when you pair them with CSS animations/transitions, you can do things with a few styles that used to take a ton of JavaScript and custom code.
+			</p>
+		</div>
+	</x-accordion>
+</body>
+
+<script type="text/javascript">
+=======
 		<title>X-Tag - a cross-browser web components library</title>
 		
 		
@@ -68,6 +120,7 @@
 
 <script type="text/javascript">
 
+>>>>>>> 8254ef47d91c369a54c674285baa68b5edb43813
 	document.addEventListener('click', function(e){
 		
 		var action = e.target,
@@ -76,6 +129,12 @@
 	
 		if (actionType) {
 		
+<<<<<<< HEAD
+			var tag = action.parentElement.nextElementSibling.id,
+				demo = document.getElementById(tag);
+				
+			switch(actionType) {
+=======
 			var tag = action.parentElement.parentElement.id,
 				demo = document.getElementById(tag + '_demo');
 				
@@ -86,6 +145,7 @@
 					demo.classList.toggle('style');
 					break;
 
+>>>>>>> 8254ef47d91c369a54c674285baa68b5edb43813
 				case 'addSection':
 						toggler = document.createElement('x-toggler'),
 						div = document.createElement('div'),
@@ -107,10 +167,17 @@
 				case 'nextToggler':
 					demo.xtag.nextToggler();
 					break;
+<<<<<<< HEAD
+			}
+		}
+		
+	}, false);
+=======
 				}
 			}
 	});
 
+>>>>>>> 8254ef47d91c369a54c674285baa68b5edb43813
 </script>
 
 </html>
