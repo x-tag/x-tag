@@ -12,7 +12,7 @@
 			slides[index || 0].setAttribute('selected', true);
 			el.firstElementChild.style[transform] = 'translate'+ (el.getAttribute('data-orientation') || 'x') + '(' + (index || 0) * (-100 / slides.length) + '%)';
 		},
-		init = function(orientation){
+		init = function(toSelected){
 			var slides = this.firstElementChild;
 			if (!slides || !slides.children.length || xtag.getTag(slides) != 'slides') return;
 			
@@ -31,7 +31,7 @@
 				});
 			});
 			
-			if (orientation) {
+			if (toSelected) {
 				var selected = slides.querySelector('[selected="true"]');
 				if (selected) slide(this, children.indexOf(selected) || 0);
 			}
@@ -70,7 +70,7 @@
 	xtag.register('slide', {
 		onInsert: function(){
 			var ancestor = this.parentNode.parentNode;
-			if (xtag.getTag(ancestor) == 'slidebox') init.call(ancestor);
+			if (xtag.getTag(ancestor) == 'slidebox') init.call(ancestor, true);
 		}
 	});
 	
