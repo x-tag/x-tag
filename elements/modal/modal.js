@@ -1,16 +1,6 @@
 
 (function(){
 	
-	var escClose = false;
-	if (!escClose){
-		window.addEventListener('keyup', function(event){
-			if(event.keyCode == 27) xtag.query(document, 'x-modal').forEach(function(modal){
-				if (!modal.getAttribute('data-modal-hidden')) xtag.fireEvent('modalhide', modal);
-			});
-		})
-		escClose = true;
-	}
-
 	xtag.register('modal', {
 		mixins: ['request'],
 		onCreate: function(){
@@ -22,5 +12,14 @@
 			}
 		}
 	});
-	
+
+	if (!xtag.tags.modal.attachedEvent){
+		window.addEventListener('keyup', function(event){
+			if(event.keyCode == 27) xtag.query(document, 'x-modal').forEach(function(modal){
+				if (!modal.getAttribute('data-modal-hidden')) xtag.fireEvent('modalhide', modal);
+			});
+		})
+		xtag.tags.modal.attachedEvent = true;
+	}
+
 })();
