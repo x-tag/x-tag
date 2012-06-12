@@ -7,10 +7,12 @@
 		<title>X-Tag - a cross-browser web components library</title>
 		
 		
-		<link rel="stylesheet" type="text/css" href="modal.css"/>		
+		<link rel="stylesheet" type="text/css" href="modal.css"/>
+		<link rel="stylesheet" type="text/css" href="../overlay/overlay.css"/>
 		
 		<script type="text/javascript" src="../../x-tag.js"></script>		
 		<script type="text/javascript" src="modal.js"></script>		
+		<script type="text/javascript" src="../overlay/overlay.js"></script>		
 		<style type="text/css">
 			#modal_demo{
 				background-color: white;
@@ -43,6 +45,7 @@
 				<div><button data-action-type="toggleOverlay">Toggle Overlay</button><button data-action-type="closeModal">Close</button></div>
 				<div id="screen_numbers"></div>
 			</x-modal>
+			<x-overlay id="modal_overlay"></x-overlay>
 			
 		</dd>
 	</dl>
@@ -64,7 +67,6 @@ document.addEventListener('click', function(e){
 			var tag = action.parentElement.parentElement.id,
 				demo = document.getElementById(tag + '_demo');
 
-			console.log(actionType);	
 			switch(actionType) {
 
 				case 'showModal':
@@ -73,8 +75,14 @@ document.addEventListener('click', function(e){
 					break;
 				
 				case 'toggleOverlay':
-					var modal = document.getElementById('modal_demo');
-					modal.setAttribute('data-overlay', modal.getAttribute('data-overlay') == 'true' ? false : true);
+					var overlay = document.getElementById('modal_overlay');
+					if(!overlay){
+						overlay = document.createElement('x-overlay');
+						overlay.id = 'modal_overlay';
+						document.getElementById('modal_demo').parentElement.appendChild(overlay);
+					}else{
+						overlay.parentElement.removeChild(overlay);
+					}
 					break;
 				
 				case 'closeModal':
