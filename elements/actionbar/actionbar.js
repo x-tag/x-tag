@@ -26,7 +26,7 @@
 									xtag.fireEvent('command', action, { command: cmd });
 								}
 							});
-							e.stopProgation();
+							e.stopImmediatePropagation();
 						},
 						'modalhide': function(){
 							node.removeChild(overlay);
@@ -59,7 +59,7 @@
 		},
 		events: {
 			'tap': onCommand,
-			'keyup:keypass(13)': onCommand,			
+			'keyup:keypass(13)': onCommand,
 		},
 		setters: {
 			'src': function(src){
@@ -67,7 +67,7 @@
 				this.setAttribute('src', src);
 			},
 			'label': function(html){
-				this.lastElementChild.innerHTML = html; 
+				this.lastElementChild.innerHTML = html;
 				this.setAttribute('label', html);
 			}
 		}
