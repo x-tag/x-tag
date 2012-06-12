@@ -511,8 +511,8 @@
 					break;
 				
 				case 'showModal':
-					action.textContent = demo.classList.contains('show') ? 'Show' : 'Hide';
-					demo.classList.toggle('show');
+					action.textContent = xtag.hasClass(demo,'show') ? 'Show' : 'Hide';
+					xtag.toggleClass(demo, 'show');
 					break;
 				
 				case 'toggleOverlay':
@@ -528,14 +528,14 @@
 				
 				case 'closeModal':
 					document.querySelector('[data-action-type="showModal"]').textContent = 'Show';
-					document.getElementById('modal_demo').classList.toggle('show');
+					xtag.toggleClass(document.getElementById('modal_demo'), 'show');
 					var overlay = document.getElementById('modal_overlay');
 					if (overlay) overlay.parentElement.removeChild(overlay);
 					break;
 				
 				case 'style':
-					action.textContent = demo.classList.contains('style') ? 'Style' : 'Unstyle';
-					demo.classList.toggle('style');
+					action.textContent = xtag.hasClass(demo,'style') ? 'Style' : 'Unstyle';
+					xtag.toggleClass(demo, 'style');
 					break;
 					
 				case 'addTab':
