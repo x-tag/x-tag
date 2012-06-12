@@ -1,11 +1,16 @@
 
 x-autosuggest {
 	position: relative;
+	width: 100%;
 	display: box;
 	display: -o-box;
 	display: -ms-box;
 	display: -moz-box;
 	display: -webkit-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	-o-box-sizing: border-box;
 }
 
 x-autosuggest > input[type="text"] {

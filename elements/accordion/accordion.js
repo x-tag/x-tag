@@ -1,7 +1,7 @@
 
 xtag.register('accordion', {
 	events: {
-		'click:delegate(x-toggler)': function(event){
+		'tap:delegate(x-toggler)': function(event){
 			this.xtag.selectToggler();
 		}
 	},
@@ -24,6 +24,18 @@ xtag.register('accordion', {
 });
 
 xtag.register('toggler', {
+	onCreate: function(){
+		this.setAttribute('tabindex', 0);
+	},
+	events: {
+		'keydown': function(event){
+			switch(event.keyCode) {
+				case 13: this.xtag.selectToggler(); break;
+				case 37: this.parentNode.xtag.previousToggler(); break;
+				case 39: this.parentNode.xtag.nextToggler(); break;
+			}
+		}
+	},
 	methods: {
 		selectToggler: function(){
 			xtag.query(this.parentNode, 'x-toggler').forEach(function(el){
