@@ -23,9 +23,6 @@
 		<dd id="overlay_demo">
 			<div><button data-action-type="toggleOverlay">Toggle Overlay</button></div>
 
-
-			<x-overlay id="modal_overlay"></x-overlay>
-			
 		</dd>
 	</dl>
 </div>
@@ -52,6 +49,7 @@ document.addEventListener('click', function(e){
 					if(!overlay){
 						overlay = document.createElement('x-overlay');
 						overlay.id = 'modal_overlay';
+						overlay.setAttribute('data-click-remove', true);
 						document.getElementById('overlay_demo').appendChild(overlay);
 					}else{
 						overlay.parentElement.removeChild(overlay);

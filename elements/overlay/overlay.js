@@ -1,11 +1,16 @@
-xtag.register('overlay', {
-	events:{
-		'click': function(e){
-			if (e.target == this) {
-				this.parentElement.removeChild(this);
-			}
+(function(){
+
+	var closeOverlay = function(e){	
+		if (this.getAttribute('data-click-remove') == 'true'){
+			this.parentElement.removeChild(this);
+			xtag.fireEvent('overlayclosed', this);
 		}
-	},
-	onCreate: function(){	
 	}
-});
+
+	xtag.register('overlay', {
+		events:{			
+			'tap': closeOverlay,
+		}
+	});
+
+})();

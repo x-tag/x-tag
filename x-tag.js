@@ -54,19 +54,20 @@
 			getters: {}, 
 			setters: {},
 			onCreate: function(){},
-			onInsert: function(){}		
+			onInsert: function(){}
 		},
 		eventMap: {
 			//click: ['click', 'touchend'],
 			animationstart: ['animationstart', 'oAnimationStart', 'MSAnimationStart', 'webkitAnimationStart'],
-			transitionend: ['transitionend', 'oTransitionEnd', 'MSTransitionEnd', 'webkitTransitionEnd']
+			transitionend: ['transitionend', 'oTransitionEnd', 'MSTransitionEnd', 'webkitTransitionEnd'], 
+			tap: [ 'ontouchend' in document ? 'touchend' : 'click']
 		},
 		pseudos: {
 			delegate: function(fn, value, pseudo, event){
 				var target = xtag.query(this, value).filter(function(node){
 					return node == event.target || node.contains ? node.contains(event.target) : false;
 				})[0];
-				
+
 				return target ? function(){
 					fn.apply(target, xtag.toArray(arguments));
 				} : false;

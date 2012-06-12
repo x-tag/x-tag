@@ -24,6 +24,7 @@
 		<link rel="stylesheet" type="text/css" href="elements/autosuggest/autosuggest.css"/>
 		<link rel="stylesheet" type="text/css" href="elements/pager/pager.css"/>
 		<link rel="stylesheet" type="text/css" href="elements/flipbox/flipbox.css"/>
+		<link rel="stylesheet" type="text/css" href="elements/overlay/overlay.css"/>
 		
 		<script type="text/javascript" src="x-tag.js"></script>
 		<script type="text/javascript" src="elements/appview/appview.js"></script>
@@ -36,7 +37,8 @@
 		<script type="text/javascript" src="elements/map/map.js"></script>
 		<script type="text/javascript" src="elements/autosuggest/autosuggest.js"></script>
 		<script type="text/javascript" src="elements/pager/pager.js"></script>
-		<script type="text/javascript" src="elements/flipbox/flipbox.js"></script>		
+		<script type="text/javascript" src="elements/flipbox/flipbox.js"></script>
+		<script type="text/javascript" src="elements/overlay/overlay.js"></script>
 	</head>
 
 <body>
@@ -379,9 +381,38 @@
 			</p>
 			
 			<x-actionbar>
-				<x-action command="new-content" data-label="New" src="demo/images/action_icons/light/medium/plus.png"></x-action>
-				<x-action command="refresh-content" data-label="Refresh" src="demo/images/action_icons/light/medium/refresh.png"></x-action>
-				<x-action command="gridify-content" data-label="Grid" src="demo/images/action_icons/light/medium/grid.png"></x-action>
+				<x-action 
+					command="new-content" 
+					label="New" 
+					src="demo/images/action_icons/light/medium/plus.png">
+				</x-action>
+				<x-action 
+					command="refresh-content" 
+					label="Refresh" 
+					src="demo/images/action_icons/light/medium/refresh.png">
+				</x-action>
+				<x-action 
+					command="gridify-content" 
+					label="Grid" 
+					src="demo/images/action_icons/light/medium/grid.png">
+				</x-action>
+				<x-action 
+					for="more-actions" 
+					command="action-4" 
+					label="4th Action" 
+					src="demo/images/action_icons/light/medium/grid.png">
+				</x-action>
+				<x-action 
+					for="more-actions" 
+					command="action-5" 
+					label="5th Action" 
+					src="demo/images/action_icons/light/medium/grid.png">
+				</x-action>
+				<x-action 
+					group="more-actions" 
+					label="More" 
+					src="demo/images/action_icons/light/medium/more-actions.png">
+				</x-action>
 			</x-actionbar>
 
 		</dd>
@@ -529,13 +560,21 @@
 					break;
 				
 				case 'toggleOverlay':
-					var modal = document.getElementById('modal_demo');
-					modal.setAttribute('data-overlay', modal.getAttribute('data-overlay') == 'true' ? false : true);
+					var overlay = document.getElementById('modal_overlay');
+					if(!overlay){
+						overlay = document.createElement('x-overlay');
+						overlay.id = 'modal_overlay';
+						document.getElementById('modal_demo').parentElement.appendChild(overlay);
+					}else{
+						overlay.parentElement.removeChild(overlay);
+					}
 					break;
 				
 				case 'closeModal':
 					document.querySelector('[data-action-type="showModal"]').textContent = 'Show';
 					document.getElementById('modal_demo').classList.toggle('show');
+					var overlay = document.getElementById('modal_overlay');
+					if (overlay) overlay.parentElement.removeChild(overlay);
 					break;
 				
 				case 'style':
@@ -608,17 +647,17 @@
 					break;
 
 				case 'toggleFlip':					
-					demo.setAttribute('data-flipped', demo.getAttribute('data-flipped') == 'true' ? 'false' : 'true');
+					demo.flipped = !demo.flipped;
 					break;
 
 				case 'toggleDirection':
 					var directions = ['right','left','up','down'];					
-					var idx = directions.indexOf(demo.getAttribute('data-flip-direction'))+1;
+					var idx = directions.indexOf(demo.flipDirection)+1;
 					idx = idx >= 4 ? 0 : idx;
 					action.innerHTML = action.innerHTML.replace(/\((\w+)\)/, function(){
 						return '(' + directions[idx] + ')';
 					});
-					demo['data-flip-direction'] = directions[idx];
+					demo.flipDirection = directions[idx];
 					break;
 
 			}
