@@ -27,7 +27,7 @@ xtag.register('pager', {
 		}
 	},
 	events: {
-		'click:delegate(a)': function(e){
+		'tap:delegate(a)': function(e){
 			var data = getAttributes(this.parentElement);
 
 			if (!data.current_page && data.current_offset && data.page_size){              
