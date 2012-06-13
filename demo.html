@@ -450,7 +450,7 @@
 
 <script type="text/javascript" src="demo/highlight/highlight.pack.js"></script>
 <script type="text/javascript">
-
+	console.log('touchstart' in document, 'ontouchstart' in document);
 	xtag.query(document.body, 'code').forEach(function(el){
 		var text = el.innerHTML;
 		el.innerHTML = '';
