@@ -57,10 +57,9 @@
 			onInsert: function(){}
 		},
 		eventMap: {
-			//click: ['click', 'touchend'],
 			animationstart: ['animationstart', 'oAnimationStart', 'MSAnimationStart', 'webkitAnimationStart'],
 			transitionend: ['transitionend', 'oTransitionEnd', 'MSTransitionEnd', 'webkitTransitionEnd'], 
-			tap: [ 'ontouchend' in document ? 'touchend' : 'click']
+			tap: [ 'ontouchend' in document ? 'touchend' : 'mouseup']
 		},
 		pseudos: {
 			delegate: function(fn, value, pseudo, event){
