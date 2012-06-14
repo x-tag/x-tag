@@ -38,6 +38,14 @@
 				if (!!~value.match(/(\d+)/g).indexOf(String(event.keyCode)) == (pseudo == 'keypass')) fn.apply(this, xtag.toArray(arguments));
 			}
 		};
+
+	var detectPositionFixed = function(){
+		var e1 = document.createElement('div');
+			e2 = document.createElement('div');
+
+		e1.appendChild(e2);
+		document.body.appendChild(e1);
+	}
 	
 	xtag = {
 		namespace: 'x',
