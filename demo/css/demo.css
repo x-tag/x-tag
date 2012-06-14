@@ -194,7 +194,12 @@ span[feature="data-bound"] {
 	}
 
 /* MODAL DEMO */
-	
+	x-modal {
+		width: 80%;
+		height: 80%;
+		max-width: 400px;
+		overflow: auto;
+	}
 	#modal_demo {
 		display: none;
 		background: #fff;
@@ -205,8 +210,7 @@ span[feature="data-bound"] {
 		display: block;
 	}
 	
-	#modal_demo.style {
-		max-width: 500px;
+	#modal_demo.style {		
 		background: #fff;
 		padding: 12px 14px;
 		border: 1px solid;
