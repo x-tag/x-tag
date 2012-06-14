@@ -73,9 +73,9 @@
 				a special CSS event mechanism to listen for the creation/parsing of new custom elements (details <a target="_blank" href="http://www.backalleycoder.com/2012/04/25/i-want-a-damnodeinserted/">here</a>). 
 				This event is fired and processed by x-tag regardless of whether the element is present 
 				in the source of the document or if you use <code>document.createElement</code> to generate 
-				it dynamically. When the node is initially created x-tag adds events and calls the onCreate 
-				function on the node, if you've registered them for that tag. You can also specify an action  
-				should be run each time a specific type of element is inserted into the DOM with onInsert. 
+				it dynamically.  When the element is initially created, x-tag adds events and calls the onCreate 
+				function on the component.  This gives you full control over your custom components initialization
+				process.  We also provide an onInsert function that is ran when the element is injected into the DOM.
 				Here's an example with some comments for a bit more clarity:
 			</p>
 			
@@ -190,6 +190,22 @@ xtag.register('accordion', {
 			</p>
 		</dd>
 	</dl>
+
+	<h3>
+		Example Components
+		<span id="demo" class="anchor-id"></span>
+	</h3>
+	<dl>
+		<dt>Generic components for your consumption</dt>
+		<dd>
+			<p>
+				We've created a <a href="demo.html">few examples</a> that demonstrate the kinds of components that you can create.  
+				Check out our <a href="demo.html#accordion">Accordian</a>, <a href="demo.html#tabbox">Tabbox</a>
+				 or <a href="demo.html#flipbox">Flipbox</a> components.
+			</p>
+		</dd>
+	</dl>
+
 	
 </div>
 	
