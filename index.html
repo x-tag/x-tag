@@ -158,15 +158,15 @@ xtag.register('accordion', {
 				to your component. For example: if a user caches a component's value, 
 				<code>var value = element.value;</code> your 
 				getter would have the oppertunity to fetch that value from anywhere 
-				you'd like and even modify it before return
+				you'd like and even modify it before returning.
 			</p>
 		</dd>
 		
 		<dd>
 			<h4><code>setters</code><span>object</span></h4>
 			<p>
-				The setters object is a shortcut for easy attachements of JavaSript accessors to the DOM element of your
-				your component. For instance, when a user writes the code <code>element.src = "http://somesrc.com"</code>
+				The setters object is a shortcut for easy attachements of JavaSript accessors to the DOM element of
+				your component. For instance, when an user writes the code <code>element.src = "http://somesrc.com"</code>
 				your setter would be called with the provided string value giving you a chance to
 				manipulate the string or change properties on the element.
 			</p>
@@ -175,8 +175,8 @@ xtag.register('accordion', {
 		<dd>
 			<h4><code>events</code><span>object</span></h4>
 			<p>
-				The events object allows you to bind events to the component at the time of creation
-				pseudo events like delegation are supported, additional pseudos can be added to 
+				The events object allows you to bind events to the component at the time of creation.
+				Pseudo events like delegation are supported, additional pseudos can be added to 
 				the <code>pseudos</code> object on the global <code>xtag</code> variable.
 			</p>
 		</dd>
@@ -184,7 +184,7 @@ xtag.register('accordion', {
 		<dd>
 			<h4><code>mixins</code><span>array</span></h4>
 			<p>
-				The mixins array allows you to specify a key names that pull in collections of 
+				The mixins array allows you to specify key names that pull in collections of 
 				getters, setters, events, and lifecycle functions that are defined on the
 				<code>mixins</code> object of the global <code>xtag</code> variable.
 			</p>
