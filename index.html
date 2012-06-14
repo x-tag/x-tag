@@ -73,9 +73,9 @@
 				a special CSS event mechanism to listen for the creation/parsing of new custom elements (details <a target="_blank" href="http://www.backalleycoder.com/2012/04/25/i-want-a-damnodeinserted/">here</a>). 
 				This event is fired and processed by x-tag regardless of whether the element is present 
 				in the source of the document or if you use <code>document.createElement</code> to generate 
-				it dynamically. When the node is initially created x-tag adds events and calls the onCreate 
-				function on the node, if you've registered them for that tag. You can also specify an action  
-				should be run each time a specific type of element is inserted into the DOM with onInsert. 
+				it dynamically.  When the element is initially created, x-tag adds events and calls the onCreate 
+				function on the component.  This gives you full control over your custom components initialization
+				process.  We also provide an onInsert function that is ran when the element is injected into the DOM.
 				Here's an example with some comments for a bit more clarity:
 			</p>
 			
@@ -158,15 +158,15 @@ xtag.register('accordion', {
 				to your component. For example: if a user caches a component's value, 
 				<code>var value = element.value;</code> your 
 				getter would have the oppertunity to fetch that value from anywhere 
-				you'd like and even modify it before return
+				you'd like and even modify it before returning.
 			</p>
 		</dd>
 		
 		<dd>
 			<h4><code>setters</code><span>object</span></h4>
 			<p>
-				The setters object is a shortcut for easy attachements of JavaSript accessors to the DOM element of your
-				your component. For instance, when a user writes the code <code>element.src = "http://somesrc.com"</code>
+				The setters object is a shortcut for easy attachements of JavaSript accessors to the DOM element of
+				your component. For instance, when an user writes the code <code>element.src = "http://somesrc.com"</code>
 				your setter would be called with the provided string value giving you a chance to
 				manipulate the string or change properties on the element.
 			</p>
@@ -175,8 +175,8 @@ xtag.register('accordion', {
 		<dd>
 			<h4><code>events</code><span>object</span></h4>
 			<p>
-				The events object allows you to bind events to the component at the time of creation
-				pseudo events like delegation are supported, additional pseudos can be added to 
+				The events object allows you to bind events to the component at the time of creation.
+				Pseudo events like delegation are supported, additional pseudos can be added to 
 				the <code>pseudos</code> object on the global <code>xtag</code> variable.
 			</p>
 		</dd>
@@ -184,12 +184,28 @@ xtag.register('accordion', {
 		<dd>
 			<h4><code>mixins</code><span>array</span></h4>
 			<p>
-				The mixins array allows you to specify a key names that pull in collections of 
+				The mixins array allows you to specify key names that pull in collections of 
 				getters, setters, events, and lifecycle functions that are defined on the
 				<code>mixins</code> object of the global <code>xtag</code> variable.
 			</p>
 		</dd>
 	</dl>
+
+	<h3>
+		Example Components
+		<span id="demo" class="anchor-id"></span>
+	</h3>
+	<dl>
+		<dt>Generic components for your consumption</dt>
+		<dd>
+			<p>
+				We've created a <a href="demo.html">few examples</a> that demonstrate the kinds of components that you can create.  
+				Check out our <a href="demo.html#accordion">Accordian</a>, <a href="demo.html#tabbox">Tabbox</a>
+				 or <a href="demo.html#flipbox">Flipbox</a> components.
+			</p>
+		</dd>
+	</dl>
+
 	
 </div>
 	
