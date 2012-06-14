@@ -23,7 +23,7 @@
 							var cmd = this.getAttribute('command');
 							actions.forEach(function(action){
 								if(action.getAttribute('command') == cmd){
-									xtag.fireEvent('command', action, { command: cmd });
+									xtag.fireEvent(action, 'command', { command: cmd });
 								}
 							});
 							e.stopImmediatePropagation();
@@ -47,7 +47,7 @@
 	
 	
 	var onCommand = function(e){
-		xtag.fireEvent('command', this, { command: this.getAttribute('command') });
+		xtag.fireEvent(this, 'command', { command: this.getAttribute('command') });
 	}
 
 	xtag.register('action', {

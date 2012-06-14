@@ -41,7 +41,7 @@
 		onInsert: init,		
 		events:{
 			'transitionend': function(e){
-				if (e.target == this) xtag.fireEvent('slideend', this);
+				if (e.target == this) xtag.fireEvent(this, 'slideend');
 			}
 		},
 		setters: {

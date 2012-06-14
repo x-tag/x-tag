@@ -194,15 +194,19 @@ span[feature="data-bound"] {
 	}
 
 /* MODAL DEMO */
-	x-modal {
-		width: 80%;
-		height: 80%;
-		max-width: 400px;
-		overflow: auto;
+	
+	#modal_overlay {
+		z-index: 999;
 	}
+	
 	#modal_demo {
 		display: none;
+		width: 80%;
+		height: 80%;
+		max-height: 500px;
+		max-width: 400px;
 		background: #fff;
+		overflow: auto;	
 		z-index: 1000;
 	}
 

@@ -5,6 +5,9 @@
 		if (this.parentNode == element.lastElementChild){
 			element.firstElementChild.value = this.textContent;
 			element.firstElementChild.nextSibling.value = JSON.stringify(this.xtag.data);
+			element.xtag.hideSuggestions();
+			element.firstElementChild.focus();
+			xtag.fireEvent(element, 'change');
 		}
 	}
 	
@@ -19,30 +22,38 @@
 		setters: {
 			name: function(name){
 				this.firstElementChild.name = name;
-				this.firstElementChild.nextSibling.name = name;
+				this.firstElementChild.nextElementSibling.name = name;
 				this.setAttribute('name', name);
 			}
 		},
 		events: {
-			'dataready:preventable': function(event){				
+			'dataready:preventable': function(){				
 				this.xtag.clearSuggestions();
 				this.xtag.showSuggestions();
 			},
-			'keyup:delegate(input):keystop(9, 13, 16, 17, 32, 91)': function(event, element){
+			'keydown:keypass(38, 40)': function(event, element){
+				event.preventDefault();
+				this.xtag.showSuggestions();
+				
+				var first = element.lastElementChild.firstElementChild;	
+				if (!first) return element;
+				
+				var selected = xtag.query(element, '[selected="true"]')[0];
+				if (selected) (event.keyCode - 38 ? selected.nextElementSibling || first : selected.previousElementSibling || element.lastElementChild.lastElementChild).focus()
+				else first.focus();
+			},
+			'keyup:delegate(input):keystop(9, 13, 16, 17, 32, 37, 38, 39, 40, 91)': function(event, element){
 				var url = element.getAttribute('data-url'),
 					padding = element.getAttribute('data-padding') || 1;
 				if (url && this.value.length >= padding) element.src = url;
 			},
 			'keyup:delegate(li):keypass(13)': printValue,
 			'click:delegate(li)': printValue,
-			'focus': function(event){
-				this.xtag.showSuggestions();
-			},
-			'blur': function(event){
-				var element = this;
-				setTimeout(function(){
-					if (element != document.activeElement && !element.contains(document.activeElement)) element.xtag.hideSuggestions();
-				}, 1);
+			'focus:delegate(li)': function(){
+				xtag.query(this.parentNode, '[selected="true"]').forEach(function(li){
+					li.removeAttribute('selected');
+				});
+				this.setAttribute('selected', true);
 			}
 		},
 		methods: {

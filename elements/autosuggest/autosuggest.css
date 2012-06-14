@@ -1,26 +1,17 @@
 
 x-autosuggest {
+	display: inline-block;
 	position: relative;
 	width: 100%;
-	display: box;
-	display: -o-box;
-	display: -ms-box;
-	display: -moz-box;
-	display: -webkit-box;
+}
+
+x-autosuggest > input[type="text"] {
+	display: block;
+	width: 100%;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	-ms-box-sizing: border-box;
 	-o-box-sizing: border-box;
-}
-
-x-autosuggest > input[type="text"] {
-	width: 100%;
-	display: block;
-	box-flex: 1;
-	-o-box-flex: 1;
-	-ms-box-flex: 1;
-	-moz-box-flex: 1;
-	-webkit-box-flex: 1;
 }
 
 x-autosuggest > ul {
@@ -37,5 +28,9 @@ x-autosuggest ul[data-show-suggestions="true"] {
 }
 
 x-autosuggest > ul > li:hover {
+	text-decoration: underline;
+}
+
+x-autosuggest > ul > li[selected="true"] {
 	text-decoration: underline;
 }

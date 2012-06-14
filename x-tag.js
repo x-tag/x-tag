@@ -208,8 +208,8 @@
 				element.xtag = {};
 				var options = xtag.getOptions(element);
 				for (var z in options.methods) xtag.bindMethods(element, z, options.methods[z]);
-				for (var z in options.setters) xtag.applyAccessor('set', element, z, options.setters[z]);
-				for (var z in options.getters) xtag.applyAccessor('get', element, z, options.getters[z]);
+				for (var z in options.setters) xtag.applyAccessor(element, 'set', z, options.setters[z]);
+				for (var z in options.getters) xtag.applyAccessor(element, 'get', z, options.getters[z]);
 				xtag.addEvents(element, options.events, options.eventMap);
 				if (options.content) element.innerHTML = options.content;
 				options.onCreate.call(element);
@@ -236,7 +236,7 @@
 			return options;
 		},
 		
-		applyAccessor: function(accessor, element, key, value){
+		applyAccessor: function(element, accessor, key, value){
 			var accessor = accessor[0].toUpperCase(),
 				property = key.split(':')[0];
 			xtag.applyPseudos(element, key, function(){
@@ -263,7 +263,7 @@
 				element.xtag.request = options;
 			var request = element.xtag.request,
 				callbackKey = element.getAttribute('data-callback-key') || 'callback' + '=xtag.callbacks.';
-			if (xtag.fireEvent('beforerequest', element) === false) return false;
+			if (xtag.fireEvent(element, 'beforerequest') === false) return false;
 			if (last.url && !options.update && last.url.replace(new RegExp('\&?\(' + callbackKey + 'x[0-9]+)'), '') == element.xtag.request.url){
 				element.xtag.request = last;
 				return false;
@@ -279,7 +279,7 @@
 				['error', 'abort', 'load'].forEach(function(type){
 					request['on' + type] = function(event){
 						event.request = request;
-						xtag.fireEvent(type, element, event);
+						xtag.fireEvent(element, type, event);
 					}
 				});
 				request.open(request.method , request.url, true);
@@ -303,7 +303,7 @@
 				request.script.onerror = function(error){
 					element.setAttribute('data-readystate', request.readyState = 4);
 					element.setAttribute('data-requeststatus', request.status = 400);
-					xtag.fireEvent('error', element, error);
+					xtag.fireEvent(element, 'error', error);
 				}
 				head.appendChild(request.script);
 			}
@@ -314,7 +314,7 @@
 			if (request != element.xtag.request) return xtag;
 			element.setAttribute('data-readystate', request.readyState);
 			element.setAttribute('data-requeststatus', request.status);			
-			xtag.fireEvent('dataready', element, { request: request });
+			xtag.fireEvent(element, 'dataready', { request: request });
 			if (element.dataready) element.dataready.call(element, request);
 		},
 		
@@ -342,7 +342,7 @@
 			for (var z in events) xtag.addEvent(element, z, events[z], map);
 		},
 		
-		fireEvent: function(type, element, data){
+		fireEvent: function(element, type, data){
 			var event = document.createEvent('Event');
 			event.initEvent(type, true, true);
 			element.dispatchEvent(xtag.merge(event, data));

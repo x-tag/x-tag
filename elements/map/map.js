@@ -22,8 +22,17 @@
 	
 	xtag.register('map', {
 		onCreate: function(){
+			var element = this;
 			this.xtag.map = new L.Map(this);
 			this.xtag.setTileLayer();
+			['click','dblclick','mousedown','load','viewreset',
+			'movestart','move','moveend','dragstart','drag','dragend',
+			'zoomend','layeradd','layerremove','locationfound',
+			'locationerror','popupopen','popupclose'].forEach(function(type){
+				element.xtag.map.on(type, function(event){
+					xtag.fireEvent(element, type, event);
+				});
+			});
 		},
 		getters: {
 			'tileSet': function(){

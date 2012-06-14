@@ -5,7 +5,6 @@
 		gingerbread = /Android 2\.3.+AppleWebKit/.test(navigator.userAgent);
 
 	if(oldDroid || gingerbread){
-		//<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0; user-scalable=0;" />
 		var meta = document.createElement('meta');
 		meta.name = 'viewport';
 		meta.content = 'width=device-width; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0; user-scalable=0;';
@@ -24,7 +23,7 @@
 	var closeOverlay = function(e){	
 		if (this.getAttribute('data-click-remove') == 'true'){
 			this.parentElement.removeChild(this);
-			xtag.fireEvent('overlayclosed', this);
+			xtag.fireEvent(this, 'overlayclosed');
 		}
 	}
 
