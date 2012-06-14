@@ -82,7 +82,7 @@
 <h4>The Markup:</h4>		
 <pre>
 <code>
-<x-panel id="panel_demo" src="/foo/bar.html"></x-panel>
+<x-panel id="panel_demo" src="demo/html/panel-content.html"></x-panel>
 </code>
 </pre>
 		</dd>
@@ -152,6 +152,60 @@
 </x-tabbox>
 </code>
 </pre>
+	
+	<dt>Accordion</dt>
+	<dd id="accordion">
+	
+		<p class="description">
+			An accordion is a collection of panels containing content seperated by toggler elements.
+		</p>
+		
+		<nav class="actions">
+			<button data-action-type="style">Unstyle</button>
+			<button data-action-type="addSection">Add Section</button>
+			<button data-action-type="previousToggler"><-- Select Previous Section</button>
+			<button data-action-type="nextToggler">Select Next Section --></button>
+		</nav>
+		
+		<x-accordion id="accordion_demo" class="style">
+			<x-toggler selected="true">Toggler 1</x-toggler>
+			<div>
+				<p>
+					Tabboxes are great for showing users only the conent they need to see, while providing users an easy way to access additional content on-demand
+				</p>
+			</div>
+			
+			<x-toggler>Toggler 2</x-toggler>
+			<div>
+				<p>
+					Examples of use-cases for tabboxes include: a set of step-wise directions, grouping like content elements together, or as a building block for a tabbed viewing interface in a mobile web app.
+				</p>
+			</div>
+			
+			<x-toggler>Toggler 3</x-toggler>
+			<div>
+				<p>
+					In short, tabboxes are pretty freaking cool, and when you pair them with CSS animations/transitions, you can do things with a few styles that used to take a ton of JavaScript and custom code.
+				</p>
+			</div>
+		</x-accordion>
+<h4>The Markup:</h4>
+<pre>
+<code>
+<x-accordion>
+	<x-toggler selected="true">Toggler 1</x-toggler>
+	<div>Panel 1</div>
+	
+	<x-toggler>Toggler 2</x-toggler>
+	<div>Panel 2</div>
+	
+	<x-toggler>Toggler 3</x-toggler>
+	<div>Panel 3</div>
+</x-accordion>
+</code>
+</pre>	
+	</dd>
+
 		</dd>
 		
 		<dt>Slide Box</dt>
@@ -189,59 +243,6 @@
 </code>
 </pre>
 		</dd>
-		
-		<dt>Accordion</dt>
-		<dd id="accordion">
-		
-			<p class="description">
-				An accordion is a collection of panels containing content seperated by toggler elements.
-			</p>
-			
-			<nav class="actions">
-				<button data-action-type="style">Unstyle</button>
-				<button data-action-type="addSection">Add Section</button>
-				<button data-action-type="previousToggler"><-- Select Previous Section</button>
-				<button data-action-type="nextToggler">Select Next Section --></button>
-			</nav>
-			
-			<x-accordion id="accordion_demo" class="style">
-				<x-toggler selected="true">Toggler 1</x-toggler>
-				<div>
-					<p>
-						Tabboxes are great for showing users only the conent they need to see, while providing users an easy way to access additional content on-demand
-					</p>
-				</div>
-				
-				<x-toggler>Toggler 2</x-toggler>
-				<div>
-					<p>
-						Examples of use-cases for tabboxes include: a set of step-wise directions, grouping like content elements together, or as a building block for a tabbed viewing interface in a mobile web app.
-					</p>
-				</div>
-				
-				<x-toggler>Toggler 3</x-toggler>
-				<div>
-					<p>
-						In short, tabboxes are pretty freaking cool, and when you pair them with CSS animations/transitions, you can do things with a few styles that used to take a ton of JavaScript and custom code.
-					</p>
-				</div>
-			</x-accordion>
-<h4>The Markup:</h4>
-<pre>
-<code>
-<x-accordion>
-	<x-toggler selected="true">Toggler 1</x-toggler>
-	<div>Panel 1</div>
-	
-	<x-toggler>Toggler 2</x-toggler>
-	<div>Panel 2</div>
-	
-	<x-toggler>Toggler 3</x-toggler>
-	<div>Panel 3</div>
-</x-accordion>
-</code>
-</pre>	
-		</dd>
 
 		<dt>Flip Box</dt>
 		<dd id="flipbox">
@@ -277,7 +278,7 @@
 		<dt>Modal<span feature="data-bound" title="This element has data request bindings"></span></dt>
 		<dd id="modal">
 			<p class="description">
-				The <code>modal</code> element can be used to show notices or secondary content with the option of blocking interaction with the rest of the document using a background overlay.
+				The <code>modal</code> element can be used to show notices or secondary content above the z-level of the page.
 			</p>
 			
 			<nav class="actions">
@@ -288,7 +289,7 @@
 <h4>The Markup:</h4>
 <pre>
 <code>
-<x-modal data-overlay="true"> YOUR CONTENT HERE </x-modal>
+<x-modal> YOUR CONTENT HERE </x-modal>
 </code>
 </pre>	
 		</dd>
@@ -449,7 +450,7 @@
 
 <script type="text/javascript" src="demo/highlight/highlight.pack.js"></script>
 <script type="text/javascript">
-	console.log('touchstart' in document, 'ontouchstart' in document);
+	
 	xtag.query(document.body, 'code').forEach(function(el){
 		var text = el.innerHTML;
 		el.innerHTML = '';
