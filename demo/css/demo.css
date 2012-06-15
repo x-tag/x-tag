@@ -31,15 +31,6 @@ span[feature="data-bound"] {
 	background-image: url(http://cdn3.iconfinder.com/data/icons/fatcow/16x16_0340/database_link.png);
 }
 
-/* APPVIEW DEMO */
-
-#appview_demo {
-	height: 450px;
-	width: 300px;
-	border: 1px solid #bbb;
-}
-
-
 /* PANEL DEMO */
 
 #panel_demo {
@@ -195,9 +186,18 @@ span[feature="data-bound"] {
 
 /* MODAL DEMO */
 	
+	#modal_overlay {
+		z-index: 999;
+	}
+	
 	#modal_demo {
 		display: none;
+		width: 80%;
+		height: 80%;
+		max-height: 500px;
+		max-width: 400px;
 		background: #fff;
+		overflow: auto;	
 		z-index: 1000;
 	}
 
@@ -205,8 +205,7 @@ span[feature="data-bound"] {
 		display: block;
 	}
 	
-	#modal_demo.style {
-		max-width: 500px;
+	#modal_demo.style {		
 		background: #fff;
 		padding: 12px 14px;
 		border: 1px solid;

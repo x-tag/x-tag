@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8" />
+		
+		<title>X-Tag - a cross-browser web components library</title>		
+		<link rel="stylesheet" type="text/css" href="overlay.css"/>		
+		<script type="text/javascript" src="../../x-tag.js"></script>
+		<script type="text/javascript" src="overlay.js"></script>		
+		<style type="text/css">
+			
+		</style>
+	</head>
+
+<body>
+
+<div id="tags" class="max-width">
+
+	<dl>
+	
+		<dt>Overlay</dt>
+		<dd id="overlay_demo">
+			<div><button data-action-type="toggleOverlay">Toggle Overlay</button></div>
+
+		</dd>
+	</dl>
+</div>
+	
+
+</body>
+
+<script type="text/javascript">					
+
+document.addEventListener('click', function(e){
+		
+		var action = e.target,
+			parent = action.parentNode,
+			actionType = action.getAttribute('data-action-type');
+	
+		if (actionType) {
+		
+			var tag = action.parentElement.parentElement.id,
+				demo = document.getElementById(tag + '_demo');
+
+			switch(actionType) {				
+				case 'toggleOverlay':
+					var overlay = document.getElementById('modal_overlay');
+					if(!overlay){
+						overlay = document.createElement('x-overlay');
+						overlay.id = 'modal_overlay';
+						overlay.setAttribute('data-click-remove', true);
+						document.getElementById('overlay_demo').appendChild(overlay);
+					}else{
+						overlay.parentElement.removeChild(overlay);
+					}
+					break;
+				
+			}
+		}
+});
+
+
+</script>
+
+</html>

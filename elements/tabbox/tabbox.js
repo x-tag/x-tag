@@ -1,7 +1,7 @@
 
 xtag.register('tabbox', {
 	events: {
-		'click:delegate(x-tab)': function(event){
+		'tap:delegate(x-tab)': function(event){
 			this.xtag.selectTab();
 		},
 		'keydown:delegate(x-tab)': function(event){
@@ -36,7 +36,7 @@ xtag.register('tabs', {
 
 
 xtag.register('tab', {
-	onInsert: function(){
+	onCreate: function(){
 		this.setAttribute('tabindex', 0);
 	},
 	methods: {

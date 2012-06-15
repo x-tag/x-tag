@@ -13,7 +13,6 @@
 		<link rel="stylesheet" type="text/css" href="demo/highlight/styles/vs.css" />
 		<link rel="stylesheet" type="text/css" href="demo/css/global.css"/>
 		<link rel="stylesheet" type="text/css" href="demo/css/demo.css"/>
-		<link rel="stylesheet" type="text/css" href="elements/appview/appview.css"/>
 		<link rel="stylesheet" type="text/css" href="elements/actionbar/actionbar.css"/>
 		<link rel="stylesheet" type="text/css" href="elements/panel/panel.css"/>
 		<link rel="stylesheet" type="text/css" href="elements/tabbox/tabbox.css"/>
@@ -24,9 +23,9 @@
 		<link rel="stylesheet" type="text/css" href="elements/autosuggest/autosuggest.css"/>
 		<link rel="stylesheet" type="text/css" href="elements/pager/pager.css"/>
 		<link rel="stylesheet" type="text/css" href="elements/flipbox/flipbox.css"/>
+		<link rel="stylesheet" type="text/css" href="elements/overlay/overlay.css"/>
 		
 		<script type="text/javascript" src="x-tag.js"></script>
-		<script type="text/javascript" src="elements/appview/appview.js"></script>
 		<script type="text/javascript" src="elements/actionbar/actionbar.js"></script>
 		<script type="text/javascript" src="elements/panel/panel.js"></script>
 		<script type="text/javascript" src="elements/tabbox/tabbox.js"></script>
@@ -36,7 +35,8 @@
 		<script type="text/javascript" src="elements/map/map.js"></script>
 		<script type="text/javascript" src="elements/autosuggest/autosuggest.js"></script>
 		<script type="text/javascript" src="elements/pager/pager.js"></script>
-		<script type="text/javascript" src="elements/flipbox/flipbox.js"></script>		
+		<script type="text/javascript" src="elements/flipbox/flipbox.js"></script>
+		<script type="text/javascript" src="elements/overlay/overlay.js"></script>
 	</head>
 
 <body>
@@ -80,7 +80,7 @@
 <h4>The Markup:</h4>		
 <pre>
 <code>
-<x-panel id="panel_demo" src="/foo/bar.html"></x-panel>
+<x-panel src="demo/html/panel-content.html"></x-panel>
 </code>
 </pre>
 		</dd>
@@ -150,6 +150,60 @@
 </x-tabbox>
 </code>
 </pre>
+	
+	<dt>Accordion</dt>
+	<dd id="accordion">
+	
+		<p class="description">
+			An accordion is a collection of panels containing content seperated by toggler elements.
+		</p>
+		
+		<nav class="actions">
+			<button data-action-type="style">Unstyle</button>
+			<button data-action-type="addSection">Add Section</button>
+			<button data-action-type="previousToggler"><-- Select Previous Section</button>
+			<button data-action-type="nextToggler">Select Next Section --></button>
+		</nav>
+		
+		<x-accordion id="accordion_demo" class="style">
+			<x-toggler selected="true">Toggler 1</x-toggler>
+			<div>
+				<p>
+					Tabboxes are great for showing users only the conent they need to see, while providing users an easy way to access additional content on-demand
+				</p>
+			</div>
+			
+			<x-toggler>Toggler 2</x-toggler>
+			<div>
+				<p>
+					Examples of use-cases for tabboxes include: a set of step-wise directions, grouping like content elements together, or as a building block for a tabbed viewing interface in a mobile web app.
+				</p>
+			</div>
+			
+			<x-toggler>Toggler 3</x-toggler>
+			<div>
+				<p>
+					In short, tabboxes are pretty freaking cool, and when you pair them with CSS animations/transitions, you can do things with a few styles that used to take a ton of JavaScript and custom code.
+				</p>
+			</div>
+		</x-accordion>
+<h4>The Markup:</h4>
+<pre>
+<code>
+<x-accordion>
+	<x-toggler selected="true">Toggler 1</x-toggler>
+	<div>Panel 1</div>
+	
+	<x-toggler>Toggler 2</x-toggler>
+	<div>Panel 2</div>
+	
+	<x-toggler>Toggler 3</x-toggler>
+	<div>Panel 3</div>
+</x-accordion>
+</code>
+</pre>	
+	</dd>
+
 		</dd>
 		
 		<dt>Slide Box</dt>
@@ -187,59 +241,6 @@
 </code>
 </pre>
 		</dd>
-		
-		<dt>Accordion</dt>
-		<dd id="accordion">
-		
-			<p class="description">
-				An accordion is a collection of panels containing content seperated by toggler elements.
-			</p>
-			
-			<nav class="actions">
-				<button data-action-type="style">Unstyle</button>
-				<button data-action-type="addSection">Add Section</button>
-				<button data-action-type="previousToggler"><-- Select Previous Section</button>
-				<button data-action-type="nextToggler">Select Next Section --></button>
-			</nav>
-			
-			<x-accordion id="accordion_demo" class="style">
-				<x-toggler selected="true">Toggler 1</x-toggler>
-				<div>
-					<p>
-						Tabboxes are great for showing users only the conent they need to see, while providing users an easy way to access additional content on-demand
-					</p>
-				</div>
-				
-				<x-toggler>Toggler 2</x-toggler>
-				<div>
-					<p>
-						Examples of use-cases for tabboxes include: a set of step-wise directions, grouping like content elements together, or as a building block for a tabbed viewing interface in a mobile web app.
-					</p>
-				</div>
-				
-				<x-toggler>Toggler 3</x-toggler>
-				<div>
-					<p>
-						In short, tabboxes are pretty freaking cool, and when you pair them with CSS animations/transitions, you can do things with a few styles that used to take a ton of JavaScript and custom code.
-					</p>
-				</div>
-			</x-accordion>
-<h4>The Markup:</h4>
-<pre>
-<code>
-<x-accordion>
-	<x-toggler selected="true">Toggler 1</x-toggler>
-	<div>Panel 1</div>
-	
-	<x-toggler>Toggler 2</x-toggler>
-	<div>Panel 2</div>
-	
-	<x-toggler>Toggler 3</x-toggler>
-	<div>Panel 3</div>
-</x-accordion>
-</code>
-</pre>	
-		</dd>
 
 		<dt>Flip Box</dt>
 		<dd id="flipbox">
@@ -275,7 +276,7 @@
 		<dt>Modal<span feature="data-bound" title="This element has data request bindings"></span></dt>
 		<dd id="modal">
 			<p class="description">
-				The <code>modal</code> element can be used to show notices or secondary content with the option of blocking interaction with the rest of the document using a background overlay.
+				The <code>modal</code> element can be used to show notices or secondary content above the z-level of the page.
 			</p>
 			
 			<nav class="actions">
@@ -286,7 +287,7 @@
 <h4>The Markup:</h4>
 <pre>
 <code>
-<x-modal data-overlay="true"> YOUR CONTENT HERE </x-modal>
+<x-modal> YOUR CONTENT HERE </x-modal>
 </code>
 </pre>	
 		</dd>
@@ -379,69 +380,56 @@
 			</p>
 			
 			<x-actionbar>
-				<x-action command="new-content" data-label="New" src="demo/images/action_icons/light/medium/plus.png"></x-action>
-				<x-action command="refresh-content" data-label="Refresh" src="demo/images/action_icons/light/medium/refresh.png"></x-action>
-				<x-action command="gridify-content" data-label="Grid" src="demo/images/action_icons/light/medium/grid.png"></x-action>
+				<x-action 
+					command="new-content" 
+					label="New" 
+					src="demo/images/action_icons/light/medium/plus.png">
+				</x-action>
+				<x-action 
+					command="refresh-content" 
+					label="Refresh" 
+					src="demo/images/action_icons/light/medium/refresh.png">
+				</x-action>
+				<x-action 
+					command="gridify-content" 
+					label="Grid" 
+					src="demo/images/action_icons/light/medium/grid.png">
+				</x-action>
+				<x-action 
+					for="more-actions" 
+					command="action-4" 
+					label="4th Action" 
+					src="demo/images/action_icons/light/medium/grid.png">
+				</x-action>
+				<x-action 
+					for="more-actions" 
+					command="action-5" 
+					label="5th Action" 
+					src="demo/images/action_icons/light/medium/grid.png">
+				</x-action>
+				<x-action 
+					group="more-actions" 
+					label="More" 
+					src="demo/images/action_icons/light/medium/more-actions.png">
+				</x-action>
 			</x-actionbar>
 
 		</dd>
 	</dl>
+	
 	<!--
-	<h3>
-		Compositions
-		<span id="compositions" class="anchor-id"></span>
-	</h3>
-	<dl>
-		<dt>App View</dt>
-		<dd id="appview">
-			<p class="description">
-				The <code>appview</code> element is the container for arranging content a common app layout (similar to Android and iOS). 
-				The element responsively transitions the app to an optimal layout state based on orientation and screen size and manages 
-				the location of global menus and actions.
-			</p>
-			
-			<nav class="actions">
-				<button data-action-type="orientAppView">Orient Horizontal</button>
-			</nav>
-			
-			<x-appview id="appview_demo">
-				<header>
-					<img src="http://cdn5.iconfinder.com/data/icons/Aristocracy_WebDesignTuts/32/Download_Crate.png" /><h2>Some App</h2>
-				</header>
-				
-				<x-flipbox>
-					<x-card>
-						<x-slidebox>
-							<x-slides>
-								<div>LIST SLIDE</div>
-								<div>DETAIL SLIDE</div>
-							</x-slides>
-						</x-slidebox>
-						
-						<div>
-							SETTINGS PAGE!
-						</div>
-					</x-card>
-				</x-flipbox>
-				
-				<footer>
-					<x-actionbar data-action-count="3">
-						<x-action command="new-content" label="New" src="demo/images/action_icons/light/medium/plus.png"></x-action>
-						<x-action command="refresh-content" label="Refresh" src="demo/images/action_icons/light/medium/refresh.png"></x-action>
-						<x-action command="gridify-content" label="Grid" src="demo/images/action_icons/light/medium/grid.png"></x-action>
-						<x-action for="more-actions" command="action-4" label="4th Action" src="demo/images/action_icons/light/medium/grid.png"></x-action>
-						<x-action for="more-actions" command="action-5" label="5th Action" src="demo/images/action_icons/light/medium/grid.png"></x-action>
-						<x-action group="more-actions" label="More" src="demo/images/action_icons/light/medium/more-actions.png"></x-action>
-					</x-actionbar>
-				</footer>
-			</x-appview>
-
-		</dd>
-	</dl>-->
+		<h3>
+			Layouts
+			<span id="layouts" class="anchor-id"></span>
+		</h3>
+		<dl>
+		</dl>
+	-->
 
 </div>
 
 <x-modal id="modal_demo" class="style">
+	<div><button data-action-type="toggleOverlay">Toggle Overlay</button><button data-action-type="closeModal">Close</button></div>
 	<p>
 		All the railway lines north of the Thames and the South-Eastern people at Cannon Street had been warned by midnight on Sunday, and trains were being filled. 
 		People were fighting savagely for standing-room in the carriages even at two o'clock.  By three, people were being trampled and crushed even in Bishopsgate Street, 
@@ -455,15 +443,13 @@
 		the Thames and across the flats of Lambeth, cutting off all escape over the bridges in its sluggish advance.  Another bank drove over Ealing, and surrounded a little 
 		island of survivors on Castle Hill, alive, but unable to escape.
 	</p>
-	<div><button data-action-type="toggleOverlay">Toggle Overlay</button><button data-action-type="closeModal">Close</button></div>
-	<div id="screen_numbers"></div>
 </x-modal>
 
 </body>
 
 <script type="text/javascript" src="demo/highlight/highlight.pack.js"></script>
 <script type="text/javascript">
-
+	
 	xtag.query(document.body, 'code').forEach(function(el){
 		var text = el.innerHTML;
 		el.innerHTML = '';
@@ -524,23 +510,31 @@
 					break;
 				
 				case 'showModal':
-					action.textContent = demo.classList.contains('show') ? 'Show' : 'Hide';
-					demo.classList.toggle('show');
+					action.textContent = xtag.hasClass(demo,'show') ? 'Show' : 'Hide';
+					xtag.toggleClass(demo, 'show');
 					break;
 				
 				case 'toggleOverlay':
-					var modal = document.getElementById('modal_demo');
-					modal.setAttribute('data-overlay', modal.getAttribute('data-overlay') == 'true' ? false : true);
+					var overlay = document.getElementById('modal_overlay');
+					if(!overlay){
+						overlay = document.createElement('x-overlay');
+						overlay.id = 'modal_overlay';
+						document.getElementById('modal_demo').parentElement.appendChild(overlay);
+					}else{
+						overlay.parentElement.removeChild(overlay);
+					}
 					break;
 				
 				case 'closeModal':
 					document.querySelector('[data-action-type="showModal"]').textContent = 'Show';
-					document.getElementById('modal_demo').classList.toggle('show');
+					xtag.toggleClass(document.getElementById('modal_demo'), 'show');
+					var overlay = document.getElementById('modal_overlay');
+					if (overlay) overlay.parentElement.removeChild(overlay);
 					break;
 				
 				case 'style':
-					action.textContent = demo.classList.contains('style') ? 'Style' : 'Unstyle';
-					demo.classList.toggle('style');
+					action.textContent = xtag.hasClass(demo,'style') ? 'Style' : 'Unstyle';
+					xtag.toggleClass(demo, 'style');
 					break;
 					
 				case 'addTab':
@@ -608,17 +602,17 @@
 					break;
 
 				case 'toggleFlip':					
-					demo.setAttribute('data-flipped', demo.getAttribute('data-flipped') == 'true' ? 'false' : 'true');
+					demo.flipped = !demo.flipped;
 					break;
 
 				case 'toggleDirection':
 					var directions = ['right','left','up','down'];					
-					var idx = directions.indexOf(demo.getAttribute('data-flip-direction'))+1;
+					var idx = directions.indexOf(demo.flipDirection)+1;
 					idx = idx >= 4 ? 0 : idx;
 					action.innerHTML = action.innerHTML.replace(/\((\w+)\)/, function(){
 						return '(' + directions[idx] + ')';
 					});
-					demo['data-flip-direction'] = directions[idx];
+					demo.flipDirection = directions[idx];
 					break;
 
 			}

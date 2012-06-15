@@ -283,6 +283,34 @@ div.max-width > dl > dd:last-child p:last-child {
 	border-bottom-color: #ddd;
 }
 
+#browser_logos {
+	display: table;
+	width: 100%;
+	margin: 20px auto
+}
+
+#browser_logos a {
+    display: table-cell;
+	width: 20%;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    color: #466EA6;
+}
+
+#browser_logos a img {
+	display: block;
+	width: 75%;
+	max-width: 61px;
+	margin: 0 auto;
+}
+
+#browser_logos a span {
+	display: block;
+    font-size: 10px;
+	color: #999;
+}
+
 #doc_list dd {
 	margin-bottom: 12px;
 	border-bottom: 1px dashed #bbb;

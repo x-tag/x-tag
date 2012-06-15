@@ -17,7 +17,10 @@ pre .javadoc {
 }
 
 pre .keyword,
-pre .ruby .function .keyword {
+pre .ruby .function .keyword,
+pre .request,
+pre .status,
+pre .nginx .title {
   color: #E28964;
 }
 
@@ -47,20 +50,19 @@ pre .regexp {
   color: #E9C062;
 }
 
-pre .function .title,
+pre .title,
 pre .sub .identifier,
 pre .pi,
 pre .tag,
 pre .tag .keyword,
 pre .decorator,
-pre .ini .title,
 pre .shebang,
 pre .input_number {
   color: #89BDFF;
 }
 
 pre .class .title,
-pre .haskell .label,
+pre .haskell .type,
 pre .smalltalk .class,
 pre .javadoctag,
 pre .yardoctag,

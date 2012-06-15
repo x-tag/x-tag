@@ -2,7 +2,7 @@ x-flipbox {
 	display: block;
 	position: relative;
 }
-x-card{ 
+x-card { 
 	height: 100%;
 	width: 100%;
 	position: absolute;
@@ -31,24 +31,24 @@ x-card > * {
 }
 
 
-x-flipbox[data-flip-direction="right"] x-card > *:last-child, 
-x-flipbox[data-flip-direction="left"] x-card > *:last-child, 
-x-card > *:last-child{  
+x-flipbox.x-flip-direction-right x-card > *:last-child, 
+x-flipbox.x-flip-direction-left x-card > *:last-child, 
+x-card > *:last-child {  
 	-webkit-transform: rotateY(180deg);
 	-moz-transform: rotateY(180deg);
 	-ms-transform: rotateY(180deg);
 	-o-transform: rotateY(180deg);
 	transform: rotateY(180deg);
 }
-x-flipbox[data-flipped="true"][data-flip-direction="right"] > x-card, 
-x-flipbox[data-flipped="true"] > x-card{
+x-flipbox.x-card-flipped.x-flip-direction-right > x-card, 
+x-flipbox.x-card-flipped > x-card {
 	-webkit-transform: rotateY(180deg);
 	-moz-transform: rotateY(180deg);
 	-ms-transform: rotateY(180deg);
 	-o-transform: rotateY(180deg);
 	transform: rotateY(180deg);
 }
-x-flipbox[data-flipped="true"][data-flip-direction="left"]> x-card{
+x-flipbox.x-card-flipped.x-flip-direction-left > x-card {
 	-webkit-transform: rotateY(-180deg);
 	-moz-transform: rotateY(-180deg);
 	-ms-transform: rotateY(-180deg);
@@ -57,22 +57,22 @@ x-flipbox[data-flipped="true"][data-flip-direction="left"]> x-card{
 }
 
 
-x-flipbox[data-flip-direction="up"] x-card > *:last-child, 
-x-flipbox[data-flip-direction="down"] x-card > *:last-child{  
+x-flipbox.x-flip-direction-up x-card > *:last-child, 
+x-flipbox.x-flip-direction-down x-card > *:last-child {  
 	-webkit-transform: rotateX(180deg);
 	-moz-transform: rotateX(180deg);
 	-ms-transform: rotateX(180deg);
 	-o-transform: rotateX(180deg);
 	transform: rotateX(180deg);
 }
-x-flipbox[data-flipped="true"][data-flip-direction="up"] > x-card{
+x-flipbox.x-card-flipped.x-flip-direction-up > x-card {
 	-webkit-transform: rotateX(180deg);
 	-moz-transform: rotateX(180deg);
 	-ms-transform: rotateX(180deg);
 	-o-transform: rotateX(180deg);
 	transform: rotateX(180deg);
 }
-x-flipbox[data-flipped="true"][data-flip-direction="down"] > x-card{
+x-flipbox.x-card-flipped.x-flip-direction-down > x-card {
 	-webkit-transform: rotateX(-180deg);
 	-moz-transform: rotateX(-180deg);
 	-ms-transform: rotateX(-180deg);
