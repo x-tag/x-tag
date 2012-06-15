@@ -112,6 +112,11 @@ body > header {
 	z-index: 2;
 }
 
+body > header > iframe, body > header > a {
+	float: right;
+	margin-top: 13px;
+}
+
 .anchor-id {
 	position: absolute;
 	top: -75px;
