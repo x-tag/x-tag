@@ -54,6 +54,11 @@
 					li.removeAttribute('selected');
 				});
 				this.setAttribute('selected', true);
+			},
+			'blur': function(event, element){
+				setTimeout(function(){
+					if (element != document.activeElement && !element.contains(document.activeElement)) element.xtag.hideSuggestions();
+				}, 1);
 			}
 		},
 		methods: {
