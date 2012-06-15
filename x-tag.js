@@ -48,7 +48,7 @@
 	}
 	
 	xtag = {
-		namespace: 'x',
+		namespace: 'x-',
 		prefix: prefix, 
 		tags: {},
 		callbacks: {},
@@ -183,7 +183,7 @@
 		},
 		
 		tagCheck: function(element){
-			return element.tagName.match(new RegExp(xtag.namespace + '-', 'i'));
+			return element.tagName.match(new RegExp(xtag.namespace, 'i'));
 		},
 		
 		getTag: function(element){
@@ -195,7 +195,7 @@
 		},
 		
 		register: function(tag, options){
-			xtag.attachKeyframe('nodeInserted', xtag.namespace + '-' + tag);
+			xtag.attachKeyframe('nodeInserted', xtag.namespace + tag);
 			xtag.tags[tag] = xtag.merge({}, xtag.tagOptions, xtag.applyMixins(options));
 		},
 		
