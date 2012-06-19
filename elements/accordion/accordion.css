@@ -1,10 +1,13 @@
 
 x-accordion, x-accordion x-toggler, x-accordion > *  {
+	display: block;
 	display: box;
+	display: -o-box;
 	display: -ms-box;
 	display: -moz-box;
 	display: -webkit-box;
 	box-orient: vertical;
+	-o-box-orient: vertical;
 	-ms-box-orient: vertical;
 	-moz-box-orient: vertical;
 	-webkit-box-orient: vertical;
@@ -23,7 +26,9 @@ x-accordion > * {
 }
 
 x-accordion x-toggler[selected="true"] + * {
+	display: block;
 	display: box;
+	display: -o-box;
 	display: -ms-box;
 	display: -moz-box;
 	display: -webkit-box;
