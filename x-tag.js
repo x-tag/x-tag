@@ -1,28 +1,8 @@
 (function(){
- 
-	var prefix = {
-			js: ['', 'O', 'MS', 'Moz', 'WebKit'].filter(function(prefix){
-				return window[prefix + 'CSSKeyframesRule'];
-			})[0]
-		};
-		prefix.lowercase = prefix.js.toLowerCase();
- 		if (prefix.js == 'WebKit') prefix.js = prefix.lowercase ;
-		prefix.css = prefix.js ? '-' + prefix.lowercase  + '-' : prefix.js;
-		prefix.properties = '{' + 
-			prefix.css + 'animation-duration: 0.0001s;' +
-			prefix.css + 'animation-name: nodeInserted !important;' + 
-		'}';
-		
-	var head = document.getElementsByTagName('head')[0],
-		styles = document.createElement('style'),
-		cssText = document.createTextNode('@' + prefix.css + 'keyframes nodeInserted {' +
-			'from { clip: rect(1px, auto, auto, auto); } to { clip: rect(0px, auto, auto, auto); }' +
-		'}');
-		styles.type = "text/css";
-		styles.appendChild(cssText);
-		head.appendChild(styles);
 	
-	var mergeOne = function(source, key, current){
+	var prefix = {},
+		head = document.getElementsByTagName('head')[0],
+		mergeOne = function(source, key, current){
 			switch (xtag.typeOf(current)){
 				case 'object':
 					if (xtag.typeOf(source[key]) == 'object') xtag.merge(source[key], current);
@@ -39,12 +19,19 @@
 			}
 		};
 	
+	prefix.keyframes = ['', 'O', 'MS', 'Moz', 'WebKit', 'webkit'].filter(function(pre){
+		for (var style in document.documentElement.style) if(!style.indexOf(pre)) {
+			prefix.js = pre;
+			prefix.css = '-' + pre.toLowerCase()  + '-';
+			break; 
+		}
+		return window[pre + 'CSSKeyframesRule'];
+	})[0];
+	
 	xtag = {
-		namespace: 'x-',
-		prefix: prefix, 
 		tags: {},
 		callbacks: {},
-		sheet: styles.sheet,	
+		prefix: prefix,
 		anchor: document.createElement('a'),
 		tagOptions: {
 			content: '',
@@ -142,6 +129,16 @@
 			return xtag.toArray(element.querySelectorAll(selector));
 		},
 		
+		defineProperty: function(element, property, accessor, value){
+			return document.documentElement.__defineGetter__ ? function(element, property, accessor, value){
+				element['__define' + accessor[0].toUpperCase() + 'etter__'](property, value);
+			} : function(element, property, accessor, value){
+				var obj = { configurable: true };
+				obj[accessor] = value;
+				Object.defineProperty(element, property, obj);
+			};
+		}(),
+		
 		clone: function(obj) {
 			var F = function(){};
 			F.prototype = obj;
@@ -166,7 +163,7 @@
 		},
 
 		skipTransition: function(element, fn, bind){
-			var duration = xtag.prefix.js + 'TransitionDuration';
+			var duration = prefix.js + 'TransitionDuration';
 			element.style[duration] = '0.001s';
 			fn.call(bind);
 			xtag.addEvent(element, 'transitionend', function(){
@@ -175,24 +172,21 @@
 		},
 		
 		tagCheck: function(element){
-			return element.tagName.match(new RegExp(xtag.namespace, 'i'));
-		},
-		
-		getTag: function(element){
-			return (element.tagName ? element.tagName.split('-')[1] : '').toLowerCase();
+			return element.tagName ? xtag.tags[element.tagName.toLowerCase()] : false;
 		},
 		
 		getOptions: function(element){
-			return xtag.tags[xtag.getTag(element)] || xtag.tagOptions;
+			return xtag.tagCheck(element) || xtag.tagOptions;
 		},
 		
 		register: function(tag, options){
-			xtag.attachKeyframe('nodeInserted', xtag.namespace + tag);
+			tag = tag.toLowerCase();
+			if (prefix.keyframes) xtag.attachKeyframe(tag);
 			xtag.tags[tag] = xtag.merge({}, xtag.tagOptions, xtag.applyMixins(options));
 		},
 		
-		attachKeyframe: function(event, selector){
-			xtag.sheet.insertRule(selector + prefix.properties, 0);
+		attachKeyframe: function(tag){
+			xtag.sheet.insertRule(tag + prefix.properties, 0);
 		},
 		
 		extendElement: function(element){
@@ -200,8 +194,8 @@
 				element.xtag = {};
 				var options = xtag.getOptions(element);
 				for (var z in options.methods) xtag.bindMethods(element, z, options.methods[z]);
-				for (var z in options.setters) xtag.applyAccessor(element, 'set', z, options.setters[z]);
-				for (var z in options.getters) xtag.applyAccessor(element, 'get', z, options.getters[z]);
+				for (var z in options.setters) xtag.applyAccessor(element, z, 'set', options.setters[z]);
+				for (var z in options.getters) xtag.applyAccessor(element, z, 'get', options.getters[z]);
 				xtag.addEvents(element, options.events, options.eventMap);
 				if (options.content) element.innerHTML = options.content;
 				options.onCreate.call(element);
@@ -228,11 +222,10 @@
 			return options;
 		},
 		
-		applyAccessor: function(element, accessor, key, value){
-			var accessor = accessor[0].toUpperCase(),
-				property = key.split(':')[0];
-			xtag.applyPseudos(element, key, function(){
-				element['__define' + accessor + 'etter__'](property, value);
+		applyAccessor: function(element, pseudo, accessor, value){
+			var property = pseudo.split(':')[0];
+			xtag.applyPseudos(element, pseudo, function(){
+				xtag.defineProperty(element, property, accessor, value);
 			}, [property, element]);
 		}, 
 		
@@ -341,22 +334,49 @@
 		}
 	};
 	
+	var styles = document.createElement('style'),
+		nodeInserted = function(event){
+			if (event.animationName == 'nodeInserted' && xtag.tagCheck(event.target)){
+				xtag.extendElement(event.target);
+				xtag.getOptions(event.target).onInsert.call(event.target);
+			}
+		};	
+		styles.type = "text/css";
+		
+	if (typeof prefix.keyframes == 'string') {
+		var duration = 'animation-duration: 0.0001s;',
+			name = 'animation-name: nodeInserted !important;';
+		prefix.properties = '{' + duration + name + prefix.css + duration + prefix.css + name + '}';
+		xtag.eventMap.animationstart.forEach(function(event){
+			document.addEventListener(event, nodeInserted, false);
+		});
+		styles.appendChild(document.createTextNode('@' + (prefix.keyframes ? prefix.css : '') + 'keyframes nodeInserted {' +
+			'from { clip: rect(1px, auto, auto, auto); } to { clip: rect(0px, auto, auto, auto); }' +
+		'}'));
+	}
+	else {
+		document.addEventListener('DOMContentLoaded', function(event){
+			var selector = '';
+			for (var tag in xtag.tags) selector += ', ' + tag;
+			xtag.query(document, selector.slice(2)).forEach(function(element){
+				nodeInserted({ target: element, animationName: 'nodeInserted' });
+			});
+		}, false);
+		
+		document.addEventListener('DOMNodeInserted', function(event){
+			event.animationName = 'nodeInserted';
+			nodeInserted(event);
+		}, false);
+	}
+	
+	head.appendChild(styles);
+	xtag.sheet = styles.sheet;
+	
 	var createElement = document.createElement;
 	document.createElement = function(tag){
 		var element = createElement.call(this, tag);
 		if (xtag.tagCheck(element)) xtag.extendElement(element);
 		return element;
 	};
-	
-	var nodeInserted = function(event){
-			if (event.animationName == 'nodeInserted' && xtag.tagCheck(event.target)){
-				xtag.extendElement(event.target);
-				xtag.getOptions(event.target).onInsert.call(event.target);
-			}
-		};
-	
-	xtag.eventMap.animationstart.forEach(function(event){
-		document.addEventListener(event, nodeInserted, false);
-	});
 	
 })();
