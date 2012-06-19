@@ -19,7 +19,7 @@
                         This element creates a formatted code snippet.
                     </p>
                     
-                    <x-code>function() {
+                    <x-code data-lang="javascript">function() {
     console.log('hi');
 }</x-code>
 
@@ -38,7 +38,9 @@
             e.preventDefault();
 
             var code = document.createElement('x-code');
-            code.innerHTML = document.getElementById('input').value;
+            code.text = document.getElementById('input').value;
+
+            console.log(code.text);
 
             document.getElementById('output').appendChild(code);
         });
