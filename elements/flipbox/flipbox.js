@@ -7,7 +7,7 @@
 		xtag.addClass(elem, 'x-flip-direction-' + dir);
 	}
 
-	xtag.register('flipbox', {
+	xtag.register('x-flipbox', {
 		events:{
 			'transitionend': function(e){			
 				if (e.target == this) xtag.fireEvent(this, 'flipend');
