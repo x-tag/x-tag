@@ -1,7 +1,7 @@
 
 (function(){
 
-	xtag.register('actionbar', {
+	xtag.register('x-actionbar', {
 		events: {
 			'command:delegate(x-action)': function(e){
 				var group = this.getAttribute('group'),
@@ -50,7 +50,7 @@
 		xtag.fireEvent(this, 'command', { command: this.getAttribute('command') });
 	}
 
-	xtag.register('action', {
+	xtag.register('x-action', {
 		content: '<img /><label></label>',
 		onCreate: function(){
 			this.setAttribute('tabindex', 0);

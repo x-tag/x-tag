@@ -14,7 +14,7 @@
 		},
 		init = function(toSelected){
 			var slides = this.firstElementChild;
-			if (!slides || !slides.children.length || xtag.getTag(slides) != 'slides') return;
+			if (!slides || !slides.children.length || slides.tagName.toLowerCase() != 'x-slides') return;
 			
 			var	children = xtag.toArray(slides.children),
 				size = 100 / (children.length || 1),
@@ -37,7 +37,7 @@
 			}
 		};
 
-	xtag.register('slidebox', {
+	xtag.register('x-slidebox', {
 		onInsert: init,		
 		events:{
 			'transitionend': function(e){
@@ -67,10 +67,10 @@
 		}
 	});
 	
-	xtag.register('slide', {
+	xtag.register('x-slide', {
 		onInsert: function(){
 			var ancestor = this.parentNode.parentNode;
-			if (xtag.getTag(ancestor) == 'slidebox') init.call(ancestor, true);
+			if (ancestor.tagName.toLowerCase() == 'x-slidebox') init.call(ancestor, true);
 		}
 	});
 	

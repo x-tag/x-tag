@@ -20,6 +20,7 @@
 	});
 
 	if (oldiOS || oldDroid) {
+		console.log('OLD');
 		window.addEventListener('scroll', function(event){
 			var modals = xtag.query(document, 'body > x-modal');
 			modals.forEach(function(m){
@@ -28,7 +29,7 @@
 		});
 	}
 
-	xtag.register('modal', {
+	xtag.register('x-modal', {
 		mixins: ['request'],
 		onCreate: function(){
 			this.setAttribute('tabindex',0);

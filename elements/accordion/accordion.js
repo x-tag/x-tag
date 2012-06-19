@@ -1,5 +1,5 @@
 
-xtag.register('accordion', {
+xtag.register('x-accordion', {
 	events: {
 		'tap:delegate(x-toggler)': function(event){
 			this.xtag.selectToggler();
@@ -23,7 +23,7 @@ xtag.register('accordion', {
 	}
 });
 
-xtag.register('toggler', {
+xtag.register('x-toggler', {
 	onCreate: function(){
 		this.setAttribute('tabindex', 0);
 	},

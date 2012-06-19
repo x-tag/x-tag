@@ -16,11 +16,11 @@
 		if (element.location == 'auto') element.xtag.map.locate({ setView: true, maxZoom: element.zoom });
 		else {
 			var location = (element.location).replace(' ', '').split(',');
-			element.xtag.map.setView(new L.LatLng(location[0] * 1, location[1] * 1), element.zoom);
+			element.xtag.map.setView(new L.LatLng(Number(location[0]), Number(location[1])), element.zoom);
 		}
 	};
 	
-	xtag.register('map', {
+	xtag.register('x-map', {
 		onCreate: function(){
 			var element = this;
 			this.xtag.map = new L.Map(this);
