@@ -1,7 +1,7 @@
 
 (function(){
 	
-	xtag.register('panel', {
+	xtag.register('x-panel', {
 		mixins: ['request'],
 		onCreate: function(){
 			this.dataready = this.dataready || function(request){

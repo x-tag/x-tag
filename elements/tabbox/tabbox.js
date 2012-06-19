@@ -1,5 +1,5 @@
 
-xtag.register('tabbox', {
+xtag.register('x-tabbox', {
 	events: {
 		'tap:delegate(x-tab)': function(event){
 			this.xtag.selectTab();
@@ -14,7 +14,7 @@ xtag.register('tabbox', {
 	}
 });
 
-xtag.register('tabs', {
+xtag.register('x-tabs', {
 	methods: {
 		getSelectedIndex: function(){
 			var tabs = xtag.query(this, 'x-tab');
@@ -35,7 +35,7 @@ xtag.register('tabs', {
 });
 
 
-xtag.register('tab', {
+xtag.register('x-tab', {
 	onCreate: function(){
 		this.setAttribute('tabindex', 0);
 	},
