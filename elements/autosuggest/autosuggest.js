@@ -11,7 +11,7 @@
 		}
 	}
 	
-	xtag.register('autosuggest', {
+	xtag.register('x-autosuggest', {
 		content: '<input type="text" /><input type="hidden" /><ul></ul>',
 		mixins: ['request'],
 		getters: {
