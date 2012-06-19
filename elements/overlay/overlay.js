@@ -27,7 +27,7 @@
 		}
 	}
 
-	xtag.register('overlay', {
+	xtag.register('x-overlay', {
 		events:{			
 			'tap': closeOverlay,
 		},

@@ -15,7 +15,7 @@ var getNavPositions = function(data){
 		}
 	};
 
-xtag.register('pager', {
+xtag.register('x-pager', {
 	content: '<a data-pager-element="first">first</a>' +
 				'<a data-pager-element="prev">previous</a>' +			
 				'<a data-pager-element="next">next</a>' +
@@ -23,7 +23,7 @@ xtag.register('pager', {
 	setters:{
 		'data-current-page': function(value){
 			this.setAttribute('data-current-page', value);
-			xtag.tags.pager.onInsert.call(this);
+			xtag.tags['x-pager'].onInsert.call(this);
 		}
 	},
 	events: {
