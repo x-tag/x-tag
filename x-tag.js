@@ -1,7 +1,18 @@
 (function(){
 	
-	var prefix = {},
-		head = document.getElementsByTagName('head')[0],
+	var head = document.getElementsByTagName('head')[0],
+		prefix = (function() {
+			var styles = window.getComputedStyle(document.documentElement, ''),
+				pre = (Array.prototype.slice.call(styles).join('').match(/moz|webkit|ms/)||(styles.OLink===''&&['o']))[0],
+				dom = ('WebKit|Moz|MS|O').match(new RegExp('(' + pre + ')', 'i'))[1];
+			return {
+				dom: dom,
+				lowercase: pre,
+				css: '-' + pre + '-',
+				js: pre[0].toUpperCase() + pre.substr(1),
+				keyframes: !!(window.CSSKeyframesRule || window[dom + 'CSSKeyframesRule'])
+			};
+		})(),
 		mergeOne = function(source, key, current){
 			switch (xtag.typeOf(current)){
 				case 'object':
@@ -19,17 +30,9 @@
 			}
 		};
 	
-	prefix.keyframes = ['', 'O', 'MS', 'Moz', 'WebKit', 'webkit'].filter(function(pre){
-		for (var style in document.documentElement.style) if(!style.indexOf(pre)) {
-			prefix.js = pre;
-			prefix.css = '-' + pre.toLowerCase()  + '-';
-			break; 
-		}
-		return window[pre + 'CSSKeyframesRule'];
-	})[0];
-	
 	xtag = {
 		tags: {},
+		tagList: [],
 		callbacks: {},
 		prefix: prefix,
 		anchor: document.createElement('a'),
@@ -180,9 +183,12 @@
 		},
 		
 		register: function(tag, options){
-			tag = tag.toLowerCase();
-			if (prefix.keyframes) xtag.attachKeyframe(tag);
+			xtag.tagList.push(tag);
 			xtag.tags[tag] = xtag.merge({}, xtag.tagOptions, xtag.applyMixins(options));
+			if (prefix.keyframes) xtag.attachKeyframe(tag);
+			else if (xtag.domready) xtag.query(document, tag).forEach(function(element){
+				nodeInserted({ target: element, animationName: 'nodeInserted' });
+			});
 		},
 		
 		attachKeyframe: function(tag){
@@ -343,7 +349,7 @@
 		};	
 		styles.type = "text/css";
 		
-	if (typeof prefix.keyframes == 'string') {
+	if (prefix.keyframes) {
 		var duration = 'animation-duration: 0.0001s;',
 			name = 'animation-name: nodeInserted !important;';
 		prefix.properties = '{' + duration + name + prefix.css + duration + prefix.css + name + '}';
@@ -356,9 +362,8 @@
 	}
 	else {
 		document.addEventListener('DOMContentLoaded', function(event){
-			var selector = '';
-			for (var tag in xtag.tags) selector += ', ' + tag;
-			xtag.query(document, selector.slice(2)).forEach(function(element){
+			xtag.domready = true;
+			if (xtag.tagList[0]) xtag.query(document, xtag.tagList).forEach(function(element){
 				nodeInserted({ target: element, animationName: 'nodeInserted' });
 			});
 		}, false);
