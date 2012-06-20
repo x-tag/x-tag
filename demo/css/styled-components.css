@@ -43,7 +43,7 @@ nav.actions button {
 		position: relative;
 		z-index: 1;
 	}
-	
+
 		#tabbox_demo.style[tab-orient="bottom"] x-tabs {
 			margin-top: -1px;
 		}
@@ -75,7 +75,7 @@ nav.actions button {
 		text-decoration: none;
 		cursor: default;
 	}
-		
+
 		#tabbox_demo.style[tab-orient="bottom"] x-tab {
 			border-top-color: #A0A0A0;
 			border-bottom-width: 1px !important;
@@ -88,12 +88,12 @@ nav.actions button {
 			-moz-border-radius: 0 0 3px 3px !important;
 			-webkit-border-radius: 0 0 3px 3px !important;
 		}
-		
+
 		#tabbox_demo.style[tab-orient="bottom"] x-tab[selected="true"] {
 			background: #CFDBEC;
 			border-top-width: 0px !important;
 		}
-		
+
 		#tabbox_demo.style[tab-orient="left"] x-tab {
 			border-right-width: 0px !important;
 			margin-bottom: 4px;
@@ -103,7 +103,7 @@ nav.actions button {
 			-moz-border-radius: 3px 0px 0px 3px !important;
 			-webkit-border-radius: 3px 0px 0px 3px !important;
 		}
-		
+
 		#tabbox_demo.style[tab-orient="right"] x-tab {
 			border-left-width: 0px !important;
 			margin-bottom: 4px;
@@ -132,14 +132,14 @@ nav.actions button {
 		-moz-box-shadow: 0 1px 4px -4px #000;
 		-webkit-box-shadow: 0 1px 7px -4px #000;
 	}
-	
+
 		#tabbox_demo.style[tab-orient="bottom"] x-panels {
 			border-radius: 3px 3px 0 0;
 			-ms-border-radius: 3px 3px 0 0;
 			-moz-border-radius: 3px 3px 0 0;
 			-webkit-border-radius: 3px 3px 0 0;
 		}
-	
+
 	#tabbox_demo[tab-orient="left"] x-panels, #tabbox_demo[tab-orient="right"] x-panels {
 		margin-top: 0px;
 	}
@@ -149,7 +149,7 @@ nav.actions button {
 	#accordion_demo.style {
 		width: 300px;
 	}
-	
+
 	#accordion_demo.style x-toggler {
 		margin-top: 4px;
 		padding: 0 4px 2px;
@@ -166,7 +166,7 @@ nav.actions button {
 		-webkit-border-radius: 3px;
 		cursor: pointer;
 	}
-	
+
 	#accordion_demo.style x-toggler[selected="true"] {
 		color: #000;
 		background: linear-gradient(top, #E7EDF6, #CFDBEC);
@@ -182,8 +182,8 @@ nav.actions button {
 	#accordion_demo.style {
 		width: 300px;
 	}
-	
-	
+
+
 /* STACK DEMO */
 
 	#stack_demo.style > img {
@@ -196,4 +196,3 @@ nav.actions button {
 		-moz-box-shadow: 0 1px 10px -6px #000;
 		-webkit-box-shadow: 0 1px 10px -6px #000;
 	}
-	

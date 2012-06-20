@@ -2,14 +2,14 @@
 (function(){
 
 	var changeFlipDirection = function(elem, dir){
-		var current = elem.className.match(/x-flip-direction-\w+/);	
-		if (current) xtag.removeClass(elem, current[0])				
+		var current = elem.className.match(/x-flip-direction-\w+/);
+		if (current) xtag.removeClass(elem, current[0])
 		xtag.addClass(elem, 'x-flip-direction-' + dir);
 	}
 
 	xtag.register('x-flipbox', {
 		events:{
-			'transitionend': function(e){			
+			'transitionend': function(e){
 				if (e.target == this) xtag.fireEvent(this, 'flipend');
 			}
 		},
@@ -22,7 +22,7 @@
 				}
 				else{
 					changeFlipDirection(this, value);
-				}				
+				}
 			},
 			'flipped': function(value){
 				xtag.toggleClass(this, 'x-card-flipped');
@@ -30,9 +30,9 @@
 		},
 		getters:{
 			'flipDirection': function() {
-				var current = this.className.match(/x-flip-direction-(\w+)/);				
+				var current = this.className.match(/x-flip-direction-(\w+)/);
 				return current[1];
-			}, 
+			},
 			'flipped': function() {
 				return xtag.hasClass(this, 'x-card-flipped');
 			}

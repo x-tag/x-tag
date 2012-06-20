@@ -1,6 +1,6 @@
 
 (function(){
-	
+
 	var printValue = function(event, element){
 		if (this.parentNode == element.lastElementChild){
 			element.firstElementChild.value = this.textContent;
@@ -10,7 +10,7 @@
 			xtag.fireEvent(element, 'change');
 		}
 	}
-	
+
 	xtag.register('x-autosuggest', {
 		content: '<input type="text" /><input type="hidden" /><ul></ul>',
 		mixins: ['request'],
@@ -27,17 +27,17 @@
 			}
 		},
 		events: {
-			'dataready:preventable': function(){				
+			'dataready:preventable': function(){
 				this.xtag.clearSuggestions();
 				this.xtag.showSuggestions();
 			},
 			'keydown:keypass(38, 40)': function(event, element){
 				event.preventDefault();
 				this.xtag.showSuggestions();
-				
-				var first = element.lastElementChild.firstElementChild;	
+
+				var first = element.lastElementChild.firstElementChild;
 				if (!first) return element;
-				
+
 				var selected = xtag.query(element, '[selected="true"]')[0];
 				if (selected) (event.keyCode - 38 ? selected.nextElementSibling || first : selected.previousElementSibling || element.lastElementChild.lastElementChild).focus()
 				else first.focus();
@@ -67,7 +67,7 @@
 					li.setAttribute('tabindex', 0);
 					li.innerHTML = content;
 					li.xtag = { data: data };
-				this.lastElementChild.appendChild(li);	
+				this.lastElementChild.appendChild(li);
 			},
 			clearSuggestions: function(){
 				this.lastElementChild.innerHTML = '';
@@ -80,5 +80,5 @@
 			}
 		}
 	});
-	
+
 })();

@@ -3,16 +3,16 @@
 
 	<head>
 		<meta charset="utf-8" />
-		
+
 		<title>X-Tag - a cross-browser web components library</title>
-		
-		
+
+
 		<link rel="stylesheet" type="text/css" href="modal.css"/>
 		<link rel="stylesheet" type="text/css" href="../overlay/overlay.css"/>
-		
-		<script type="text/javascript" src="../../x-tag.js"></script>		
-		<script type="text/javascript" src="modal.js"></script>		
-		<script type="text/javascript" src="../overlay/overlay.js"></script>		
+
+		<script type="text/javascript" src="../../x-tag.js"></script>
+		<script type="text/javascript" src="modal.js"></script>
+		<script type="text/javascript" src="../overlay/overlay.js"></script>
 		<style type="text/css">
 			#modal_demo{
 				background-color: white;
@@ -25,45 +25,45 @@
 <div id="tags" class="max-width">
 
 	<dl>
-	
+
 		<dt>Modal</dt>
 		<dd>
 			<x-modal id="modal_demo" class="style">
 				<p>
-					All the railway lines north of the Thames and the South-Eastern people at Cannon Street had been warned by midnight on Sunday, and trains were being filled. 
-					People were fighting savagely for standing-room in the carriages even at two o'clock.  By three, people were being trampled and crushed even in Bishopsgate Street, 
-					a couple of hundred yards or more from Liverpool Street station; revolvers were fired, people stabbed, and the policemen who had been sent to direct the traffic, 
+					All the railway lines north of the Thames and the South-Eastern people at Cannon Street had been warned by midnight on Sunday, and trains were being filled.
+					People were fighting savagely for standing-room in the carriages even at two o'clock.  By three, people were being trampled and crushed even in Bishopsgate Street,
+					a couple of hundred yards or more from Liverpool Street station; revolvers were fired, people stabbed, and the policemen who had been sent to direct the traffic,
 					exhausted and infuriated, were breaking the heads of the people they were called out to protect.
 				</p>
 
 				<p>
-					And as the day advanced and the engine drivers and stokers refused to return to London, the pressure of the flight drove the people in an ever-thickening multitude 
-					away from the stations and along the northward-running roads.  By midday a Martian had been seen at Barnes, and a cloud of slowly sinking black vapour drove along 
-					the Thames and across the flats of Lambeth, cutting off all escape over the bridges in its sluggish advance.  Another bank drove over Ealing, and surrounded a little 
+					And as the day advanced and the engine drivers and stokers refused to return to London, the pressure of the flight drove the people in an ever-thickening multitude
+					away from the stations and along the northward-running roads.  By midday a Martian had been seen at Barnes, and a cloud of slowly sinking black vapour drove along
+					the Thames and across the flats of Lambeth, cutting off all escape over the bridges in its sluggish advance.  Another bank drove over Ealing, and surrounded a little
 					island of survivors on Castle Hill, alive, but unable to escape.
 				</p>
 				<div><button data-action-type="toggleOverlay">Toggle Overlay</button><button data-action-type="closeModal">Close</button></div>
 				<div id="screen_numbers"></div>
 			</x-modal>
 			<x-overlay id="modal_overlay"></x-overlay>
-			
+
 		</dd>
 	</dl>
 </div>
-	
+
 
 </body>
 
-<script type="text/javascript">					
+<script type="text/javascript">
 
 document.addEventListener('click', function(e){
-		
+
 		var action = e.target,
 			parent = action.parentNode,
 			actionType = action.getAttribute('data-action-type');
-	
+
 		if (actionType) {
-		
+
 			var tag = action.parentElement.parentElement.id,
 				demo = document.getElementById(tag + '_demo');
 
@@ -73,7 +73,7 @@ document.addEventListener('click', function(e){
 					action.textContent = demo.classList.contains('show') ? 'Show' : 'Hide';
 					demo.classList.toggle('show');
 					break;
-				
+
 				case 'toggleOverlay':
 					var overlay = document.getElementById('modal_overlay');
 					if(!overlay){
@@ -84,7 +84,7 @@ document.addEventListener('click', function(e){
 						overlay.parentElement.removeChild(overlay);
 					}
 					break;
-				
+
 				case 'closeModal':
 					document.querySelectorAll('[data-action-type="showModal"]').textContent = 'Show';
 					document.getElementById('modal_demo').classList.toggle('show');

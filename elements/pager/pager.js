@@ -4,7 +4,7 @@ var getNavPositions = function(data){
 		return { 'first': 1, 'prev': data.current_page - 1, 'next': data.current_page + 1, 'last': data.pages };
 	},
 	getAttributes = function(elem){
-		return { 
+		return {
 			current_page: Number(elem.getAttribute('data-current-page')),
 			current_offset: Number(elem.getAttribute('data-current-offset')),
 			page_size: Number(elem.getAttribute('data-page-size')),
@@ -17,7 +17,7 @@ var getNavPositions = function(data){
 
 xtag.register('x-pager', {
 	content: '<a data-pager-element="first">first</a>' +
-				'<a data-pager-element="prev">previous</a>' +			
+				'<a data-pager-element="prev">previous</a>' +
 				'<a data-pager-element="next">next</a>' +
 				'<a data-pager-element="last">last</a>',
 	setters:{
@@ -30,24 +30,24 @@ xtag.register('x-pager', {
 		'tap:delegate(a)': function(e){
 			var data = getAttributes(this.parentElement);
 
-			if (!data.current_page && data.current_offset && data.page_size){              
+			if (!data.current_page && data.current_offset && data.page_size){
 				data.current_page = data.current_offset / data.page_size;
 			}
 
 			var pos = getNavPositions(data);
 			for (var z in pos){
 				if (this.getAttribute('data-pager-element') == z) var isNum = data.current_page = pos[z];
-			}				
-			if (!isNum) data.current_page = Number(this.innerHTML) ;            
-			this.parentElement['data-current-page'] = data.current_page;		
+			}
+			if (!isNum) data.current_page = Number(this.innerHTML) ;
+			this.parentElement['data-current-page'] = data.current_page;
 		}
 	},
-	onInsert: function(){           
+	onInsert: function(){
 		var self = this,
 			data = getAttributes(this),
 			populated = this.children.length > 4;
 
-		if (!data.current_page && data.current_offset && data.page_size){              
+		if (!data.current_page && data.current_offset && data.page_size){
 			data.current_page = data.current_offset / data.page_size;
 		}
 
@@ -55,30 +55,30 @@ xtag.register('x-pager', {
 			var url = self.getAttribute('data-url');
 			return (!url) ? '#' : url.replace('{current-page}', itr_page).replace('{current-offset}', data.page_size * itr_page);
 		}
-		
+
 		var createPageItem = function(page, selected, txt){
-				var elem = document.createElement('a');  
+				var elem = document.createElement('a');
 				elem.setAttribute('href', getUrl(page));
 				elem.innerHTML = txt || page;
 			if (selected) elem.setAttribute('selected', true);
 			return elem;
 		}
-		
+
 		var pos = getNavPositions(data);
 		xtag.query(this, '[data-pager-element]').forEach(function(element){
 			element.href = getUrl(pos[element.getAttribute('data-pager-element')]);
 		});
-		
+
 		data.padding = data.padding == -1 ? data.pages : data.padding;
-		var startIdx = data.current_page-data.padding < 1 ? 
-			1 : 
-				data.current_page + data.padding > data.pages ? 
-				data.pages - (data.padding*2) : 
+		var startIdx = data.current_page-data.padding < 1 ?
+			1 :
+				data.current_page + data.padding > data.pages ?
+				data.pages - (data.padding*2) :
 				data.current_page-data.padding;
 
-		var endIdx = data.current_page+data.padding > data.pages ? 
-			data.pages : 
-				data.current_page-data.padding < 1 ? 
+		var endIdx = data.current_page+data.padding > data.pages ?
+			data.pages :
+				data.current_page-data.padding < 1 ?
 				(data.padding * 2) + 1 :
 				data.current_page+data.padding;
 
