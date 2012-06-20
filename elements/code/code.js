@@ -5,26 +5,13 @@ var hljs=new function(){function m(p){return p.replace(/&/gm,"&amp;").replace(/<
 
     xtag.register('x-code', {
         onCreate: function() {
-            var text = this.innerHTML;
-
-            this.innerHTML = '<pre><code></code></pre>';
-
-            if (text) {
-                this.text = text;
-            }
+            this.text = this.innerHTML;
         },
 
         setters: {
             text: function(code) {
-                var lang = this.getAttribute('data-lang'),
-                    el = xtag.query(this, 'pre code')[0];
-
-                if (lang) {
-                    el.className = lang;
-                }
-
-                el.innerHTML = code;
-                hljs.highlightBlock(el);
+                this.innerHTML = '<pre><code class="' + (this.getAttribute('data-lang') || '') + '">' + code + '</code></pre>';
+                hljs.highlightBlock(xtag.query(this, 'pre code')[0]);
             }
         },
 
