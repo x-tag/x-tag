@@ -1,5 +1,5 @@
 (function(){
-	
+
 	var prefix = {},
 		head = document.getElementsByTagName('head')[0],
 		mergeOne = function(source, key, current){
@@ -14,20 +14,20 @@
 			return source;
 		},
 		keypseudo = function(fn, value, pseudo){
-			return function(event){	
+			return function(event){
 				if (!!~value.match(/(\d+)/g).indexOf(String(event.keyCode)) == (pseudo == 'keypass')) fn.apply(this, xtag.toArray(arguments));
 			}
 		};
-	
+
 	prefix.keyframes = ['', 'O', 'MS', 'Moz', 'WebKit', 'webkit'].filter(function(pre){
 		for (var style in document.documentElement.style) if(!style.indexOf(pre)) {
 			prefix.js = pre;
 			prefix.css = '-' + pre.toLowerCase()  + '-';
-			break; 
+			break;
 		}
 		return window[pre + 'CSSKeyframesRule'];
 	})[0];
-	
+
 	xtag = {
 		tags: {},
 		callbacks: {},
@@ -38,14 +38,14 @@
 			mixins: [],
 			events: {},
 			methods: {},
-			getters: {}, 
+			getters: {},
 			setters: {},
 			onCreate: function(){},
 			onInsert: function(){}
 		},
 		eventMap: {
 			animationstart: ['animationstart', 'oAnimationStart', 'MSAnimationStart', 'webkitAnimationStart'],
-			transitionend: ['transitionend', 'oTransitionEnd', 'MSTransitionEnd', 'webkitTransitionEnd'], 
+			transitionend: ['transitionend', 'oTransitionEnd', 'MSTransitionEnd', 'webkitTransitionEnd'],
 			tap: [ 'ontouchend' in document ? 'touchend' : 'mouseup']
 		},
 		pseudos: {
@@ -97,11 +97,11 @@
 				}
 			}
 		},
-		
+
 		typeOf: function(obj) {
 		  return ({}).toString.call(obj).match(/\s([a-zA-Z]+)/)[1].toLowerCase();
 		},
-		
+
 		toArray: function(obj){
 			var sliced = Array.prototype.slice.call(obj, 0);
 			return sliced.hasOwnProperty ? sliced : [obj];
@@ -124,11 +124,11 @@
 		toggleClass: function(element, className){
 			return !xtag.hasClass(element, className) ? xtag.addClass(element,className) : xtag.removeClass(element, className);
 		},
-		
+
 		query: function(element, selector){
 			return xtag.toArray(element.querySelectorAll(selector));
 		},
-		
+
 		defineProperty: function(element, property, accessor, value){
 			return document.documentElement.__defineGetter__ ? function(element, property, accessor, value){
 				element['__define' + accessor[0].toUpperCase() + 'etter__'](property, value);
@@ -138,13 +138,13 @@
 				Object.defineProperty(element, property, obj);
 			};
 		}(),
-		
+
 		clone: function(obj) {
 			var F = function(){};
 			F.prototype = obj;
 			return new F();
 		},
-		
+
 		merge: function(source, k, v){
 			if (xtag.typeOf(k) == 'string') return mergeOne(source, k, v);
 			for (var i = 1, l = arguments.length; i < l; i++){
@@ -153,7 +153,7 @@
 			}
 			return source;
 		},
-		
+
 		wrap: function(original, fn){
 			return function(){
 				var args = xtag.toArray(arguments);
@@ -170,25 +170,25 @@
 				element.style[duration] = '';
 			});
 		},
-		
+
 		tagCheck: function(element){
 			return element.tagName ? xtag.tags[element.tagName.toLowerCase()] : false;
 		},
-		
+
 		getOptions: function(element){
 			return xtag.tagCheck(element) || xtag.tagOptions;
 		},
-		
+
 		register: function(tag, options){
 			tag = tag.toLowerCase();
 			if (prefix.keyframes) xtag.attachKeyframe(tag);
 			xtag.tags[tag] = xtag.merge({}, xtag.tagOptions, xtag.applyMixins(options));
 		},
-		
+
 		attachKeyframe: function(tag){
 			xtag.sheet.insertRule(tag + prefix.properties, 0);
 		},
-		
+
 		extendElement: function(element){
 			if (!element.xtag){
 				element.xtag = {};
@@ -201,11 +201,11 @@
 				options.onCreate.call(element);
 			}
 		},
-		
+
 		bindMethods: function(element, key, method){
 			element.xtag[key] = function(){ return method.apply(element, xtag.toArray(arguments)) };
 		},
-		
+
 		applyMixins: function(options){
 			if (options.mixins) options.mixins.forEach(function(name){
 				var mixin = xtag.mixins[name];
@@ -221,14 +221,14 @@
 			});
 			return options;
 		},
-		
+
 		applyAccessor: function(element, pseudo, accessor, value){
 			var property = pseudo.split(':')[0];
 			xtag.applyPseudos(element, pseudo, function(){
 				xtag.defineProperty(element, property, accessor, value);
 			}, [property, element]);
-		}, 
-		
+		},
+
 		applyPseudos: function(element, key, fn, args){
 			var	action = fn, args = xtag.toArray(args);
 			if (key.match(':')) key.replace(/:(\w*)(?:\(([^\)]*)\))?/g, function(match, pseudo, value){
@@ -241,7 +241,7 @@
 			});
 			if (action) action.apply(element, args);
 		},
-		
+
 		request: function(element, options){
 			xtag.clearRequest(element);
 			var last = element.xtag.request || {};
@@ -294,15 +294,15 @@
 			}
 			element.xtag.request = request;
 		},
-		
+
 		requestCallback: function(element, request){
 			if (request != element.xtag.request) return xtag;
 			element.setAttribute('data-readystate', request.readyState);
-			element.setAttribute('data-requeststatus', request.status);			
+			element.setAttribute('data-requeststatus', request.status);
 			xtag.fireEvent(element, 'dataready', { request: request });
 			if (element.dataready) element.dataready.call(element, request);
 		},
-		
+
 		clearRequest: function(element){
 			var request = element.xtag.request;
 			if (!request) return xtag;
@@ -311,38 +311,38 @@
 			}
 			else if (request.abort) request.abort();
 		},
-		
+
 		addEvent: function(element, type, fn, map){
 			var eventKey = type.split(':')[0],
 				eventMap = (map || xtag.eventMap || {})[eventKey] || [eventKey];
-				
+
 			eventMap.forEach(function(name){
 				element.addEventListener(name, function(event){
 					xtag.applyPseudos(element, type, fn, [event, element]);
 				}, !!~['focus', 'blur'].indexOf(name));
 			});
 		},
-		
+
 		addEvents: function(element, events, map){
 			for (var z in events) xtag.addEvent(element, z, events[z], map);
 		},
-		
+
 		fireEvent: function(element, type, data){
 			var event = document.createEvent('Event');
 			event.initEvent(type, true, true);
 			element.dispatchEvent(xtag.merge(event, data));
 		}
 	};
-	
+
 	var styles = document.createElement('style'),
 		nodeInserted = function(event){
 			if (event.animationName == 'nodeInserted' && xtag.tagCheck(event.target)){
 				xtag.extendElement(event.target);
 				xtag.getOptions(event.target).onInsert.call(event.target);
 			}
-		};	
+		};
 		styles.type = "text/css";
-		
+
 	if (typeof prefix.keyframes == 'string') {
 		var duration = 'animation-duration: 0.0001s;',
 			name = 'animation-name: nodeInserted !important;';
@@ -362,21 +362,21 @@
 				nodeInserted({ target: element, animationName: 'nodeInserted' });
 			});
 		}, false);
-		
+
 		document.addEventListener('DOMNodeInserted', function(event){
 			event.animationName = 'nodeInserted';
 			nodeInserted(event);
 		}, false);
 	}
-	
+
 	head.appendChild(styles);
 	xtag.sheet = styles.sheet;
-	
+
 	var createElement = document.createElement;
 	document.createElement = function(tag){
 		var element = createElement.call(this, tag);
 		if (xtag.tagCheck(element)) xtag.extendElement(element);
 		return element;
 	};
-	
+
 })();

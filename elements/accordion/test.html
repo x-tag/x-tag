@@ -5,13 +5,13 @@
 		<meta charset="utf-8" />
 
 		<title>X-Tag - Accordion Test</title>
-		
+
 		<link href="../../demo/images/shortcut.png" rel="shortcut icon" type="image/x-icon" />
 		<link rel="stylesheet" type="text/css" href="../../demo/css/reset.css" />
 		<link rel="stylesheet" type="text/css" href="accordion.css" />
 		<script type="text/javascript" src="../../x-tag.js"></script>
 		<script type="text/javascript" src="accordion.js"></script>
-		
+
 		<style>
 			#accordion {
 				width: 300px;
@@ -19,16 +19,16 @@
 			}
 		</style>
 	</head>
-	
+
 <body>
 
-	
+
 	<nav class="actions">
 		<button data-action-type="addSection">Add Section</button>
 		<button data-action-type="previousToggler"><-- Select Previous Section</button>
 		<button data-action-type="nextToggler">Select Next Section --></button>
 	</nav>
-	
+
 	<x-accordion id="accordion" class="style">
 		<x-toggler selected="true">Toggler 1</x-toggler>
 		<div>
@@ -36,14 +36,14 @@
 				Tabboxes are great for showing users only the conent they need to see, while providing users an easy way to access additional content on-demand
 			</p>
 		</div>
-		
+
 		<x-toggler>Toggler 2</x-toggler>
 		<div>
 			<p>
 				Examples of use-cases for tabboxes include: a set of step-wise directions, grouping like content elements together, or as a building block for a tabbed viewing interface in a mobile web app.
 			</p>
 		</div>
-		
+
 		<x-toggler>Toggler 3</x-toggler>
 		<div>
 			<p>
@@ -56,43 +56,43 @@
 <script type="text/javascript">
 
 	document.addEventListener('click', function(e){
-		
+
 		var action = e.target,
 			parent = action.parentNode,
 			actionType = action.getAttribute('data-action-type');
-	
+
 		if (actionType) {
-		
+
 
 			var tag = action.parentElement.nextElementSibling.id,
 				demo = document.getElementById(tag);
-				
+
 			switch(actionType) {
 
 				case 'addSection':
 						toggler = document.createElement('x-toggler'),
 						div = document.createElement('div'),
 						length = xtag.query(demo, 'x-toggler').length;
-						
+
 					toggler.textContent = 'Toggler ' + (length + 1);
 					demo.appendChild(toggler);
-					
+
 					div.innerHTML = 'This panel was added dynamically, it shows when you click on the toggler element above entitled "Toggler ' + (length + 1) + '"';
 					demo.appendChild(div);
-					
+
 					toggler.xtag.selectToggler();
 					break;
-				
+
 				case 'previousToggler':
 					demo.xtag.previousToggler();
 					break;
-					
+
 				case 'nextToggler':
 					demo.xtag.nextToggler();
 					break;
 			}
 		}
-		
+
 	}, false);
 
 </script>

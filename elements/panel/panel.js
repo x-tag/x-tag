@@ -1,6 +1,6 @@
 
 (function(){
-	
+
 	xtag.register('x-panel', {
 		mixins: ['request'],
 		onCreate: function(){
@@ -9,5 +9,5 @@
 			}
 		}
 	});
-	
+
 })();

@@ -1,6 +1,6 @@
 
 (function(){
-	
+
 	var oldiOS = /OS [1-4]_\d like Mac OS X/i.test(navigator.userAgent),
 		oldDroid = /Android 2.\d.+AppleWebKit/.test(navigator.userAgent),
 		gingerbread = /Android 2\.3.+AppleWebKit/.test(navigator.userAgent);
@@ -24,7 +24,7 @@
 		window.addEventListener('scroll', function(event){
 			var modals = xtag.query(document, 'body > x-modal');
 			modals.forEach(function(m){
-				m.style.top = (window.pageYOffset + window.innerHeight * 0.5) + 'px';	
+				m.style.top = (window.pageYOffset + window.innerHeight * 0.5) + 'px';
 			});
 		});
 	}
