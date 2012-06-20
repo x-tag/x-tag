@@ -1,4 +1,3 @@
-
 xtag.register('x-accordion', {
 	events: {
 		'tap:delegate(x-toggler)': function(event){

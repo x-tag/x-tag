@@ -1,4 +1,3 @@
-
 xtag.register('x-tabbox', {
 	events: {
 		'tap:delegate(x-tab)': function(event){
@@ -33,7 +32,6 @@ xtag.register('x-tabs', {
 		}
 	}
 });
-
 
 xtag.register('x-tab', {
 	onCreate: function(){

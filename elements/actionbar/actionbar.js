@@ -1,6 +1,4 @@
-
 (function(){
-
 	xtag.register('x-actionbar', {
 		events: {
 			'command:delegate(x-action)': function(e){
@@ -10,7 +8,7 @@
 					command = this.getAttribute('command'),
 					node = (document.getElementById(this.getAttribute('data-modal-target')) || document.body);
 
-				if (actions && !modal){			
+				if (actions && !modal){
 					var overlay = document.createElement('x-overlay');
 					overlay.setAttribute('data-click-remove', true);
 					node.appendChild(overlay);
@@ -36,16 +34,14 @@
 						modal.appendChild(action.cloneNode(false));
 					});
 					overlay.appendChild(modal);
-				} 
+				}
 				else if (modal) {
-					node.removeChild(modal.parentNode);					
-				}			
+					node.removeChild(modal.parentNode);
+				}
 			}
 		}
 	});
-	
-	
-	
+
 	var onCommand = function(e){
 		xtag.fireEvent(this, 'command', { command: this.getAttribute('command') });
 	}
@@ -63,7 +59,7 @@
 		},
 		setters: {
 			'src': function(src){
-				this.firstElementChild.src = src; 
+				this.firstElementChild.src = src;
 				this.setAttribute('src', src);
 			},
 			'label': function(html){
@@ -72,5 +68,4 @@
 			}
 		}
 	});
-	
 })();
