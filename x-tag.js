@@ -1,4 +1,7 @@
+/*global window: true, document: true, xtag: true, XMLHttpRequest: true*/
 (function() {
+    "use strict";
+
     var head = document.getElementsByTagName('head')[0];
 
     /**
