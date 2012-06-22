@@ -450,6 +450,8 @@
 <script type="text/javascript" src="demo/highlight/highlight.pack.js"></script>
 <script type="text/javascript">
 	
+	
+	
 	xtag.query(document.body, 'code').forEach(function(el){
 		var text = el.innerHTML;
 		el.innerHTML = '';
@@ -459,13 +461,17 @@
 	hljs.tabReplace = '    ';
 	hljs.initHighlightingOnLoad();
 	
-	document.getElementById('autosuggest_demo').dataready = function(request){
-		if (!request.responseText) return this;
-		request.responseText.movies.forEach(function(movie){
-			this.xtag.addSuggestion(movie.title, movie);
-		}, this);
-	};
+	document.addEventListener('DOMComponentsLoaded', function(){
+		console.log('DOMComponentsLoaded');
 	
+		document.getElementById('autosuggest_demo').dataready = function(request){
+			if (!request.responseText) return this;
+			request.responseText.movies.forEach(function(movie){
+				this.xtag.addSuggestion(movie.title, movie);
+			}, this);
+		};
+	
+	}, false);
 	document.addEventListener('beforerequest', function(event){
 		var element = event.target;
 		if (element.tagName == 'X-AUTOSUGGEST'){
