@@ -463,10 +463,21 @@
             }
         },
 
+        /**
+         * Attaches a keyframe to the specified tag.
+         *
+         * @param {string} tag The name of the tag to attach the keyframe to.
+         */
         attachKeyframe: function(tag) {
             xtag.sheet.insertRule(tag + prefix.properties, 0);
         },
 
+        /**
+         * Extends an element by adding various x-tag related getters, setters
+         * and other properties to it.
+         *
+         * @param {element} element The element to extend.
+         */
         extendElement: function(element) {
             if (!element.xtag) {
                 element.xtag = {};
@@ -496,6 +507,14 @@
             }
         },
 
+        /**
+         * Binds a method to the specified element under the given key.
+         *
+         * @param {element} element The element to bind the method to.
+         * @param {string} key The name of the key in which to store the
+         *  method.
+         * @param {function} method The method/function to bind to the element.
+         */
         bindMethods: function(element, key, method) {
             element.xtag[key] = function() {
                 return method.apply(element, xtag.toArray(arguments));
@@ -524,7 +543,8 @@
                                 );
                                 break;
 
-                            default: options[z] = mixin[z];
+                            default:
+                                options[z] = mixin[z];
                         }
                     }
                 });
@@ -574,13 +594,12 @@
         request: function(element, options) {
             xtag.clearRequest(element);
 
-            var last = element.xtag.request || {};
-
             element.xtag.request = options;
 
-            var request = element.xtag.request,
-                callbackKey = element.getAttribute('data-callback-key') ||
-                    'callback' + '=xtag.callbacks.';
+            var last = element.xtag.request || {};
+            var request = element.xtag.request;
+            var callbackKey = element.getAttribute('data-callback-key') ||
+                    'callback=xtag.callbacks.';
 
             if (xtag.fireEvent(element, 'beforerequest') === false) {
                 return false;
