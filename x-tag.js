@@ -61,20 +61,13 @@
 					fn.apply(target, xtag.toArray(arguments));
 				} : false;
 			},
-			keystop: keypseudo,
-			keypass: keypseudo,
-			retain: function(fn, value, pseudo, property, element){
-				var current = element[property];
-				return function(){
-					fn();
-					if (typeof current != 'undefined') element[property] = current;
-				}
-			},
 			preventable: function(fn, value, pseudo){
 				return function(event){
 					if (!event.defaultPrevented) fn.apply(this, xtag.toArray(arguments));
 				}
-			}
+			},
+			keystop: keypseudo,
+			keypass: keypseudo
 		},
 		mixins: {
 			request: {
@@ -82,7 +75,7 @@
 					this.src = this.getAttribute('src');
 				},
 				getters: {
-					'dataready:retain': function(){
+					dataready: function(){
 						return this.xtag.dataready;
 					}
 				},
@@ -93,7 +86,7 @@
 							xtag.request(this, { url: src, method: 'GET' });
 						}
 					},
-					'dataready:retain': function(fn){
+					dataready: function(fn){
 						this.xtag.dataready = fn;
 						if (this.xtag.request && this.xtag.request.readyState == 4) fn.call(this, this.xtag.request);
 					}
@@ -184,10 +177,10 @@
 		
 		register: function(tag, options){
 			xtag.tagList.push(tag);
-			xtag.tags[tag] = xtag.merge({}, xtag.tagOptions, xtag.applyMixins(options));
+			xtag.tags[tag] = xtag.merge({ tagName: tag }, xtag.tagOptions, xtag.applyMixins(options));
 			if (prefix.keyframes) xtag.attachKeyframe(tag);
 			else if (xtag.domready) xtag.query(document, tag).forEach(function(element){
-				nodeInserted({ target: element, animationName: 'nodeInserted' });
+				nodeInserted({ target: element, animationName: 'XTagNodeInserted' });
 			});
 		},
 		
@@ -195,10 +188,16 @@
 			xtag.sheet.insertRule(tag + prefix.properties, 0);
 		},
 		
-		extendElement: function(element){
+		extendElement: function(element, insert){
 			if (!element.xtag){
-				element.xtag = {};
 				var options = xtag.getOptions(element);
+				if (options.tagName == 'x-components-loaded'){
+					if (!insert) return false;
+					element.parentNode.removeChild(element);
+					xtag.fireEvent(document, 'DOMComponentsLoaded');
+					return false;
+				}
+				element.xtag = {};
 				for (var z in options.methods) xtag.bindMethods(element, z, options.methods[z]);
 				for (var z in options.setters) xtag.applyAccessor(element, z, 'set', options.setters[z]);
 				for (var z in options.getters) xtag.applyAccessor(element, z, 'get', options.getters[z]);
@@ -342,21 +341,26 @@
 	
 	var styles = document.createElement('style'),
 		nodeInserted = function(event){
-			if (event.animationName == 'nodeInserted' && xtag.tagCheck(event.target)){
-				xtag.extendElement(event.target);
+			if (event.animationName == 'XTagNodeInserted'){
+				xtag.extendElement(event.target, true);
 				xtag.getOptions(event.target).onInsert.call(event.target);
 			}
 		};	
 		styles.type = "text/css";
 		
+	document.addEventListener('DOMContentLoaded', function(event){
+		xtag.register('x-components-loaded', {});
+		document.body.appendChild(document.createElement('x-components-loaded'));
+	}, false);
+	
 	if (prefix.keyframes) {
 		var duration = 'animation-duration: 0.0001s;',
-			name = 'animation-name: nodeInserted !important;';
+			name = 'animation-name: XTagNodeInserted !important;';
 		prefix.properties = '{' + duration + name + prefix.css + duration + prefix.css + name + '}';
 		xtag.eventMap.animationstart.forEach(function(event){
 			document.addEventListener(event, nodeInserted, false);
 		});
-		styles.appendChild(document.createTextNode('@' + (prefix.keyframes ? prefix.css : '') + 'keyframes nodeInserted {' +
+		styles.appendChild(document.createTextNode('@' + (prefix.keyframes ? prefix.css : '') + 'keyframes XTagNodeInserted {' +
 			'from { clip: rect(1px, auto, auto, auto); } to { clip: rect(0px, auto, auto, auto); }' +
 		'}'));
 	}
@@ -364,12 +368,12 @@
 		document.addEventListener('DOMContentLoaded', function(event){
 			xtag.domready = true;
 			if (xtag.tagList[0]) xtag.query(document, xtag.tagList).forEach(function(element){
-				nodeInserted({ target: element, animationName: 'nodeInserted' });
+				nodeInserted({ target: element, animationName: 'XTagNodeInserted' });
 			});
 		}, false);
 		
 		document.addEventListener('DOMNodeInserted', function(event){
-			event.animationName = 'nodeInserted';
+			event.animationName = 'XTagNodeInserted';
 			nodeInserted(event);
 		}, false);
 	}
