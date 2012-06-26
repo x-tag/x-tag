@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />        
+        <title>X-Tag - a cross-browser web components library</title>
+        <link rel="stylesheet" type="text/css" href="code.css"/>     
+        <script type="text/javascript" src="../../x-tag.js"></script>       
+        <script type="text/javascript" src="code.js"></script>       
+        <style type="text/css">
+        form textarea {display: block; width: 400px; height: 100px;}
+        </style>
+    </head>
+    <body>
+        <div id="tags" class="max-width">
+            <dl>
+                <dt>Code</dt>
+                <dd>
+                    <p class="description">
+                        This element creates a formatted code snippet.
+                    </p>
+                    
+                    <x-code data-lang="javascript">function() {
+    console.log('hi');
+}</x-code>
+
+                    <form>
+                        <textarea id="input"></textarea>
+                        <input type="submit" value="Add code" />
+                    </form>
+                    <div id="output">
+                    </div>
+                </dd>
+            </dl>
+        </div>
+
+        <script type="text/javascript">
+        document.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            var code = document.createElement('x-code');
+            code.text = document.getElementById('input').value;
+
+            console.log(code.text);
+
+            document.getElementById('output').appendChild(code);
+        });
+        </script>
+    </body>
+</html>
