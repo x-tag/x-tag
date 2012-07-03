@@ -1,15 +1,11 @@
-
-body
-{
-	padding-top: 80px;
-	font-family: Segoe UI, Trebuchet MS, Helvetica, Arial;
-	font-size: 14px;
+body {
+	font: 14px/1.7 "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Helvetica, Arial, Sans-Serif;
 	background: url(../images/spatter.jpg);
 }
 
-h1, h2, h3, h4 , dt, .font {
+h1, h2, h3, h4, dt {
 	position: relative;
-	font-family: 'Days One', san-serif;
+	font-family: Georgia, Cambria, "Times New Roman", Times, Serif;
 	font-weight: normal;
 }
 
@@ -22,46 +18,69 @@ h2 {
 }
 
 h3 {
-	float: left;
-	margin-bottom: 10px;
-	padding: 4px 9px;
+	position: absolute;
+	left: 0;
+	display: inline;
+	padding: 8px 9px 4px 9px;
 	font-size: 135%;
 	color: #fff;
 	text-decoration: none;
 	background: url("../images/header-bk.png");
-	border-radius: 5px;
+	border-top-left-radius: 5px;
+	border-bottom-right-radius: 5px;
 	border: 1px solid #226AB3;
 	border-bottom: 1px solid #003474;
 	box-shadow: 0px 1px 3px -2px #000;
 	-ms-box-shadow: 0px 1px 3px -2px #000;
 	-moz-box-shadow: 0px 1px 3px -2px #000;
 	-webkit-box-shadow: 0px 1px 3px -2px #000;
+	letter-spacing: 1px;
+	text-shadow: 1px 1px #333;
+}
+
+h3, #tag_line, #logo {
+	font-family: "Josefin Sans", "Trebuchet MS", Helvetica, Arial, Sans-Serif;
+	text-transform: uppercase;
 }
 
 p {
 	margin: 0 0 10px;
 }
 
+a {
+	color: #3366bb;
+	text-decoration: none;
+	border-bottom: 1px solid;
+}
+
+a:hover {
+	border-bottom: none;
+}
+
 code {
-	padding: 0 2px 1px;
+	font: 13px/1.7 Monaco, "Courier New", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", monospace;
+	padding: 2px 4px;
 	border: 1px solid;
 	border-color: #dfdfdf #dadada #d0d0d0;
-	font-size: 80%;
 	border-radius: 3px;
 	-ms-border-radius: 3px;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 }
 
+pre {
+	margin: 0 -15px;
+}
+
 pre code {
-	padding: 0 1em 1em;
+	padding: 10px 20px;
 	background: #fafafa;
 	border: 1px solid #eee;
 }
 
 p code {
 	position: relative;
-    top: -1px;
+	top: -1px;
 	margin: 0 2px;
 	background: linear-gradient(top, #fafafa, #efefef);
 	background: -ms-linear-gradient(top, #fafafa, #efefef);
@@ -70,46 +89,27 @@ p code {
 }
 
 h4 {
-	margin: 14px 0 4px;
+	margin: 14px 0 10px;
 }
 
 h4 code {
-	padding: 0 3px;
 	background: url("../images/header-bk.png") left -10px;
-	border: 1px solid #226AB3;
-    border-bottom: 1px solid #003474;
-    border-radius: 5px;
+	border: 1px solid #335c8f;
+	border-radius: 5px;
 	color: #fff;
 	font-size: 90%;
 }
 
 h4 span {
 	padding-left: 6px;
-	font-family: Segoe UI, Trebuchet MS, Helvetica, Arial;
-	font-style: italic;
+	font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Helvetica, Arial, Sans-Serif;
+	color: #999;
+	text-transform: lowercase;
 }
 
-button code {
-	position: relative;
-    top: -1px;
-	background: #fff;
-}
-
-body > header {
-	position: fixed;
-	top: 0;
-	left: 0;
-	height: 46px;
-	width: 100%;
-	border-top: 1px solid #003576;
-	border-bottom: 2px solid #003474;
-	background: url(../images/header-bk.png);
-	box-shadow: 0 1px 4px -2px #000;
-	-ms-box-shadow: 0 1px 4px -2px #000;
-	-moz-box-shadow: 0 1px 4px -2px #000;
-	-webkit-box-shadow: 0 1px 4px -2px #000;
-	opacity: 0.95;
-	z-index: 2;
+header.container {
+	margin-bottom: 20px;
+	padding-top: 10px;
 }
 
 body > header > iframe, body > header > a {
@@ -124,108 +124,73 @@ body > header > iframe, body > header > a {
 }
 
 .font {
-	color: #555;
-	font-size: 90%;
+	font-style: italic;
 }
 
 #logo {
 	float: left;
-	margin-left: 8px;
-	font-family: 'Righteous';
-	font-size: 275%;
-	color: #F3F3F3;
-	text-shadow: 0 1px 0 #fff, 0 -1px 0 rgba(0,52,116, 0.7);
+	font-size: 170%;
+	padding: 5px 0;
+	color: #000;
+	font-weight: bold;
+	text-shadow: 0 1px 0 #fff, 0 -1px 0 rgba(0, 0, 0, 0.3);
 }
 
-#logo span {
-	position: relative;
-    top: -6px;
-    font-size: 90%;
-    margin: 0 2px;
+#logo code {
+	border: none;
+	font-size: 80%;
 }
 
 #global_menu {
-	position: relative;
+	overflow: hidden;
+}
+
+#global_menu ul {
 	float: right;
-	padding: 16px 20px 22px 20px;
 }
 
-#global_menu > a {
+#global_menu li {
+	float: left;
+	display: inline;
+}
+
+#global_menu a {
 	display: block;
-	margin-left: 18px;
-	color: #fff;
-	font-size: 23px;
-	font-weight: bold;
+	height: 50px;
+	line-height: 50px;
 	text-decoration: none;
-	line-height: 0;
+	padding: 0 10px;
+	border-bottom: 0;
+	text-shadow: 1px 1px #eee;
 }
 
-#global_menu > a:first-child {
-	margin-left: 0;
+#global_menu a:hover {
+	color: #222;
+	background-color: rgba(255, 255, 255, 0.1);
 }
 
-#global_menu > a div {
-    position: relative;
+.twitter-share-button {
+	margin: 16px 0 0 10px;
 }
 
-#global_menu > a div:last-child {
-    top: 8px;
-}
-
-#global_nav {
-	display: none;
-	position: absolute;
-	top: 100%;
-	right: 20px;
-	width: 175px;
-	background: #fff;
-	border: 1px solid;
-	border-color: #0E56A9;
-	border-radius: 3px;
-	-ms-border-radius: 3px;
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	box-shadow: 0 1px 7px -2px #000;
-	-ms-box-shadow: 0 1px 7px -2px #000;
-	-moz-box-shadow: 0 1px 7px -2px #000;
-	-webkit-box-shadow: 0 1px 7px -2px #000;
-}
-
-#global_nav.small-nav {
-	width: 90px;
-}
-
-#global_nav a {
-	display: block;
-	padding: 0 8px 6px;
-	text-decoration: none;
-	color: #466EA6;
-	font-weight: bold;
-}
-
-#global_nav a:hover {
-	text-decoration: underline;
-}
-
-#global_menu:hover #global_nav {
-	display: block;
-}
-
-
-.max-width {
+.container {
 	width: 90%;
 	min-width: 300px;
-	max-width: 600px;
+	max-width: 700px;
 	margin: 0 auto;
 	overflow: hidden;
 }
 
+.max-width {
+	position: relative;
+}
+
 div.max-width > dl {
 	margin-bottom: 40px;
-	padding: 12px 10px;
+	padding: 50px 25px 20px 25px;
 	background: #fff;
 	border: 1px solid;
-	border-color: #bbb #ccc #ddd;
+	border-color: #bbb #ccc;
 	border-radius: 4px;
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
@@ -234,29 +199,25 @@ div.max-width > dl {
 
 div.max-width > dl dt {
 	font-size: 120%;
-	background: linear-gradient(top, #F3F3F3, #E6E6E6);
-	background: -ms-linear-gradient(top, #F3F3F3, #E6E6E6);
-	background: -moz-linear-gradient(top, #F3F3F3, #E6E6E6);
-	background: -webkit-linear-gradient(top, #F3F3F3, #E6E6E6);
-	border: 1px solid;
-	border-color: #E6E6E6 #dadada #d0d0d0;
-	margin-bottom: 8px;
-	padding: 2px 6px;
+	background-color: #e9e9e9;
+	border-top: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+	padding: 10px 25px;
 	text-shadow: 0 1px 0 #fff;
-	border-radius: 3px;
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
+	margin: 0 -25px 8px -25px;
 }
 
 div.max-width > dl dd {
 	margin: 0 10px 20px;
 }
 
-div.max-width > dl dd ol {
+div.max-width > dl ol {
 	margin: 0 15px 10px;
 	padding: 6px 6px 6px 26px;
-	background: #fafafa;
-	border: 1px solid #eee;
+}
+
+div.max-width > dl li {
+	padding: 1px 0;
 }
 
 div.max-width > dl > dd:last-child p:last-child {
@@ -265,27 +226,11 @@ div.max-width > dl > dd:last-child p:last-child {
 
 #tag_line {
 	position: relative;
-	margin-bottom: 50px;
-    padding-bottom: 20px;
-	color: #ccc;
-    text-shadow: 0 1px 0 #fff, 0 -1px 0 rgba(0, 0, 0, 0.3);
+	margin-bottom: 30px;
+	color: #444;
+	text-shadow: 0 1px 0 #fff, 0 -1px 0 rgba(0, 0, 0, 0.3);
 	text-align: center;
-}
-
-#tag_line:before, #tag_line:after {
-	display: block;
-	content: " ";
-	position: absolute;
-	top: 100%;
-	left: 50%;
-	width: 66px;
-	margin-left: -33px;
-	border-bottom: 8px dotted #fff;
-}
-
-#tag_line:after {
-	margin-top: -1px;
-	border-bottom-color: #ddd;
+	letter-spacing: 1px;
 }
 
 #browser_logos {
@@ -295,12 +240,12 @@ div.max-width > dl > dd:last-child p:last-child {
 }
 
 #browser_logos a {
-    display: table-cell;
+	display: table-cell;
 	width: 20%;
-    font-weight: bold;
-    text-align: center;
-    text-decoration: none;
-    color: #466EA6;
+	font-weight: bold;
+	text-align: center;
+	color: #466EA6;
+	border: none;
 }
 
 #browser_logos a img {
@@ -312,13 +257,14 @@ div.max-width > dl > dd:last-child p:last-child {
 
 #browser_logos a span {
 	display: block;
-    font-size: 10px;
+	font-size: 10px;
 	color: #999;
 }
 
 #doc_list dd {
 	margin-bottom: 12px;
-	border-bottom: 1px dashed #bbb;
+	padding-bottom: 12px;
+	border-bottom: 1px dotted #bbb;
 }
 
 #doc_list dd:last-child {
