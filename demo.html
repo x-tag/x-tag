@@ -9,7 +9,7 @@
 		<link href="demo/images/shortcut.png" rel="shortcut icon" type="image/x-icon" />
 		
 		<link rel="stylesheet" type="text/css" href="demo/css/reset.css" />
-		<link href='http://fonts.googleapis.com/css?family=Days+One|Righteous' rel='stylesheet' type='text/css'>
+		<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Josefin+Sans:600" />
 		<link rel="stylesheet" type="text/css" href="demo/highlight/styles/vs.css" />
 		<link rel="stylesheet" type="text/css" href="demo/css/global.css"/>
 		<link rel="stylesheet" type="text/css" href="demo/css/demo.css"/>
@@ -41,22 +41,32 @@
 
 <body>
 
-<header>
-	<h1 id="logo">&lt;<span>x</span>&gt;</h1>
+<header class="container">
+	<h1 id="logo">X-Tag <code>&lt;X&gt;</code></h1>
+	
 	<nav id="global_menu">
-		<a href="#menu">
-			<div>&#9552;</div><br /><div>&#9552;</div>
-			<nav id="global_nav">
-				<a href="#structural">Structural Elements</a>
-				<a href="#media">Media Elements</a>
-				<a href="#input">Input Elements</a>
-				<a href="#navigation">Navigation Elements</a>
-			</nav>
-		</a>
+		<ul>
+			<li>
+				<a href="#structural">Structural</a>
+			</li>
+			<li>
+				<a href="#media">Media</a>
+			</li>
+			<li>
+				<a href="#input">Input</a>
+			</li>
+			<li>
+				<a href="#navigation">Navigation</a>
+			</li>
+			<li>
+				<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://mozilla.github.com/x-tag/" data-via="csuwldcat" data-hashtags="WebComponents">Tweet</a>
+			</li>
+		</ul>
 	</nav>
 </header>
 
-<div id="tags" class="max-width">
+<div id="tags" class="container max-width">
+	<h2 id="tag_line">Demos that put X-Tag in action.</h2>
 
 	<h3>
 		Structural Elements
@@ -78,11 +88,7 @@
 			<x-panel id="panel_demo" rel="demo/html/panel-content.html"></x-panel>
 			
 <h4>The Markup:</h4>		
-<pre>
-<code>
-<x-panel src="demo/html/panel-content.html"></x-panel>
-</code>
-</pre>
+<pre><code><x-panel src="demo/html/panel-content.html"></x-panel></code></pre>
 		</dd>
 		
 		<dt>Tab Box</dt>
@@ -134,9 +140,7 @@
 			</x-tabbox>
 			
 <h4>The Markup:</h4>
-<pre>
-<code>
-<x-tabbox>
+<pre><code><x-tabbox>
 	<x-tabs>
 		<x-tab>Tab 1</x-tab>
 		<x-tab>Tab 2</x-tab>
@@ -147,9 +151,7 @@
 		<x-tabpanel>Panel 2</x-tabpanel>
 		<x-tabpanel>Panel 3</x-tabpanel>
 	</x-tabpanels>
-</x-tabbox>
-</code>
-</pre>
+</x-tabbox></code></pre>
 	
 	<dt>Accordion</dt>
 	<dd id="accordion">
@@ -188,9 +190,7 @@
 			</div>
 		</x-accordion>
 <h4>The Markup:</h4>
-<pre>
-<code>
-<x-accordion>
+<pre><code><x-accordion>
 	<x-toggler selected="true">Toggler 1</x-toggler>
 	<div>Panel 1</div>
 	
@@ -199,9 +199,7 @@
 	
 	<x-toggler>Toggler 3</x-toggler>
 	<div>Panel 3</div>
-</x-accordion>
-</code>
-</pre>	
+</x-accordion></code></pre>	
 	</dd>
 
 		</dd>
@@ -229,17 +227,13 @@
 			</x-slidebox>
 			
 <h4>The Markup:</h4>
-<pre>
-<code>
-<x-slidebox>
+<pre><code><x-slidebox>
 	<x-slides>
 		<x-slide>Slide 1</x-slide>
 		<x-slide>Slide 2</x-slide>
 		<x-slide>Slide 3</x-slide>
 	</x-slides>
-</x-slidebox>
-</code>
-</pre>
+</x-slidebox></code></pre>
 		</dd>
 
 		<dt>Flip Box</dt>
@@ -261,16 +255,12 @@
 			</x-flipbox>
 			
 <h4>The Markup:</h4>
-<pre>
-<code>
-<x-flipbox>
+<pre><code><x-flipbox>
 	<x-card>
 		<div>Side 1</div>
 		<div>Side 2</div>
 	</x-card>
-</x-flipbox>
-</code>
-</pre>	
+</x-flipbox></code></pre>	
 		</dd>
 		
 		<dt>Modal<span feature="data-bound" title="This element has data request bindings"></span></dt>
@@ -285,11 +275,7 @@
 			</nav>
 			
 <h4>The Markup:</h4>
-<pre>
-<code>
-<x-modal> YOUR CONTENT HERE </x-modal>
-</code>
-</pre>	
+<pre><code><x-modal> YOUR CONTENT HERE </x-modal></code></pre>	
 		</dd>
 	</dl>
 	
@@ -308,11 +294,7 @@
 			<x-map id="map_demo" data-key="39d2b66f0d5d49dbb52a5b7ad87aea9b"></x-map>
 			
 <h4>The Markup:</h4>
-<pre>
-<code>
-<x-map data-key="Cloudmade/OpenStreetMaps-API-Key"></x-map>
-</code>
-</pre>	
+<pre><code><x-map data-key="Cloudmade/OpenStreetMaps-API-Key"></x-map></code></pre>	
 		</dd>
 	</dl>
 	
@@ -330,11 +312,7 @@
 			<x-autosuggest id="autosuggest_demo" data-padding="2" data-url="http://api.rottentomatoes.com/api/public/v1.0/movies.json?apikey=v695ukwehrcb5q8kwkrgjmbd&page_limit=10&page=1"></x-autosuggest>
 
 <h4>The Markup:</h4>
-<pre>
-<code>
-<x-autosuggest data-url="SOME-API-URL-HERE"></x-autosuggest>
-</code>
-</pre>	
+<pre><code><x-autosuggest data-url="SOME-API-URL-HERE"></x-autosuggest></code></pre>	
 		</dd>
 	</dl>
 	
@@ -366,11 +344,7 @@
 			</x-pager>
 			
 <h4>The Markup:</h4>
-<pre>
-<code>
-<x-pager data-pages="10" data-url="/posts?p={current-page}"></x-pager>
-</code>
-</pre>
+<pre><code><x-pager data-pages="10" data-url="/posts?p={current-page}"></x-pager></code></pre>
 		</dd>
 		
 		<dt>Action Bar</dt>
@@ -449,13 +423,12 @@
 
 <script type="text/javascript" src="demo/highlight/highlight.pack.js"></script>
 <script type="text/javascript">
-	
-	
-	
 	xtag.query(document.body, 'code').forEach(function(el){
-		var text = el.innerHTML;
-		el.innerHTML = '';
-		el.textContent = text;
+		if (el.parentNode.id != 'logo') {
+			var text = el.innerHTML;
+			el.innerHTML = '';
+			el.textContent = text;
+		}
 	});
 	
 	hljs.tabReplace = '    ';
@@ -626,5 +599,7 @@
 		}
 	});
 </script>
+
+<script id="twitter-wjs" type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
 
 </html>

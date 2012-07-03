@@ -6,7 +6,7 @@
 		<title>X-Tag - a cross-browser web components library</title>
 		<link href="demo/images/shortcut.png" rel="shortcut icon" type="image/x-icon" />
 		<link rel="stylesheet" type="text/css" href="demo/css/reset.css" />
-		<link href='http://fonts.googleapis.com/css?family=Days+One|Righteous' rel='stylesheet' type='text/css'>
+		<link href="http://fonts.googleapis.com/css?family=Josefin+Sans:600" rel='stylesheet' type='text/css'>
 		<link rel="stylesheet" type="text/css" href="demo/highlight/styles/vs.css" />
 		<link rel="stylesheet" type="text/css" href="demo/css/global.css"/>
 		
@@ -14,28 +14,33 @@
 
 <body>
 
-<header>
-	<h1 id="logo">&lt;<span>x</span>&gt;</h1>
+<header class="container">
+	<h1 id="logo">X-Tag <code>&lt;X&gt;</code></h1>
 	
 	<nav id="global_menu">
-		<a href="#menu">
-			<div>&#9552;</div><br /><div>&#9552;</div>
-			<nav id="global_nav" class="small-nav">
-				<a href="#intro">Intro</a>
-				<a href="#docs">Docs</a>
+		<ul>
+			<li>
+				<a href="#intro">Introduction</a>
+			</li>
+			<li>
+				<a href="#docs">Documentation</a>
+			</li>
+			<li>
 				<a href="#examples">Examples</a>
-			</nav>
-		</a>
+			</li>
+			<li>
+				<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://mozilla.github.com/x-tag/" data-via="csuwldcat" data-hashtags="WebComponents">Tweet</a>
+			</li>
+		</ul>
 	</nav>
 	
-	<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://mozilla.github.com/x-tag/" data-via="csuwldcat" data-hashtags="WebComponents">Tweet</a>
 </header>
 
-<div class="max-width">
+<div class="container max-width">
 	<h2 id="tag_line">Custom HTML elements for modern browsers.</h2>
 	
 	<h3>
-		Intro
+		Introduction
 		<span id="intro" class="anchor-id"></span>
 	</h3>
 	<dl>
@@ -83,9 +88,7 @@
 				the element is injected into the DOM. Here's an example with some comments for a bit more clarity:
 			</p>
 			
-<pre>
-<code>
-xtag.register('accordion', {
+<pre><code>xtag.register('accordion', {
 	onCreate: function(){
 		// fired once at the time a component 
 		// is initially created or parsed
@@ -115,9 +118,7 @@ xtag.register('accordion', {
 			// activate the previous toggler
 		}
 	}
-});
-</code>
-</pre>
+});</code></pre>
 		</dd>
 		
 		<dt>Browser Support</dt>
@@ -161,7 +162,7 @@ xtag.register('accordion', {
 	</dl>
 	
 	<h3>
-		Docs
+		Documentation
 		<span id="docs" class="anchor-id"></span>
 	</h3>
 	<dl id="doc_list">
@@ -174,13 +175,9 @@ xtag.register('accordion', {
 				in the W3 Web Components draft.
 			</p>
 			
-<pre>
-<code>
-xtag.register('superinput', {
+<pre><code>xtag.register('superinput', {
 	content: '<input type="text" />'
-});
-</code>
-</pre>
+});</code></pre>
 
 		</dd>
 		
@@ -191,16 +188,12 @@ xtag.register('superinput', {
 				<code>document.createElement</code>, an onCreate function is called 
 				allowing you to modify the element before any other code is applied to it.
 			</p>
-<pre>
-<code>
-xtag.register('superinput', {
+<pre><code>xtag.register('superinput', {
 	onCreate: function(){
 		// superinputs begin life knowing they're super.
 		this.value = 'super';
 	}
-});
-</code>
-</pre>
+});</code></pre>
 
 		</dd>	
 		
@@ -213,16 +206,12 @@ xtag.register('superinput', {
 				component accordingly.
 			</p>
 			
-<pre>
-<code>
-xtag.register('superinput', {
+<pre><code>xtag.register('superinput', {
 	onInsert: function(){
 		// superinputs announce their arrival in the DOM like a boss!
 		alert("Yeah, that's right, superinput comin' thro'!");
 	}
-});
-</code>
-</pre>
+});</code></pre>
 
 		</dd>
 		
@@ -235,18 +224,14 @@ xtag.register('superinput', {
 				getter would have the oppertunity to fetch that value from anywhere 
 				you'd like and even modify it before returning.
 			</p>
-<pre>
-<code>
-xtag.register('superinput', {
+<pre><code>xtag.register('superinput', {
 	getters: {
 		value: function(){
 			// everything superinputs do has a little super mixed in ;)
 			return this.value + '  is super';
 		}
 	}
-});
-</code>
-</pre>
+});</code></pre>
 
 		</dd>
 		
@@ -258,9 +243,7 @@ xtag.register('superinput', {
 				your setter would be called with the provided string value giving you a chance to
 				manipulate the string or change properties on the element.
 			</p>
-<pre>
-<code>
-xtag.register('superinput', {
+<pre><code>xtag.register('superinput', {
 	setters: {
 		value: function(value){
 			// boy, these superinputs sure are loud little buggers.
@@ -268,9 +251,7 @@ xtag.register('superinput', {
 			this.value = value;
 		}
 	}
-});
-</code>
-</pre>
+});</code></pre>
 
 		</dd>
 		
@@ -281,17 +262,13 @@ xtag.register('superinput', {
 				Pseudo events like delegation are supported, additional pseudos can be added to 
 				the <code>pseudos</code> object on the global <code>xtag</code> variable.
 			</p>
-<pre>
-<code>
-xtag.register('superinput', {
+<pre><code>xtag.register('superinput', {
 	events: {
 		focus: function(){
 			// what should superinputs do when they're in the spotlight?
 		}
 	}
-});
-</code>
-</pre>			
+});</code></pre>			
 			
 		</dd>
 		
@@ -304,13 +281,9 @@ xtag.register('superinput', {
 				you can add your own mixins there too!
 			</p>
 
-<pre>
-<code>
-xtag.register('superinput', {
+<pre><code>xtag.register('superinput', {
 	mixins: ['superdefaults']
-});
-</code>
-</pre>
+});</code></pre>
 		</dd>
 	</dl>
 

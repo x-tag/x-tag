@@ -11,8 +11,32 @@ nav.actions {
 nav.actions button {
 	float: left;
 	margin: 4px 4px 4px 0;
-	padding-bottom: 1px;
+	padding: 6px 8px;
 	cursor: pointer;
+	border: 1px solid #ddd;
+	background: #eee;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	background: linear-gradient(top, #fafafa, #eee);
+	background: -o-linear-gradient(top, #fafafa, #eee);
+	background: -ms-linear-gradient(top, #fafafa, #eee);
+	background: -moz-linear-gradient(top, #fafafa, #eee);
+	background: -webkit-linear-gradient(top, #fafafa, #eee);
+}
+
+nav.actions button:active, x-pager a:active {
+	background: linear-gradient(top, #eee, #fafafa);
+	background: -o-linear-gradient(top, #eee, #fafafa);
+	background: -ms-linear-gradient(top, #eee, #fafafa);
+	background: -moz-linear-gradient(top, #eee, #fafafa);
+	background: -webkit-linear-gradient(top, #eee, #fafafa);
+}
+
+nav.actions code {
+	border: none;
+	padding: 0;
+	font-size: 100%;
 }
 
 #tags {
@@ -22,8 +46,8 @@ nav.actions button {
 
 span[feature] {
 	display: inline-block;
-    float: right;
-    padding: 11px 9px;
+	float: right;
+	padding: 11px 9px;
 	background: no-repeat center center;
 }
 
@@ -71,7 +95,8 @@ span[feature="data-bound"] {
 		}
 
 	#tabbox_demo.style x-tab {
-		padding: 0 4px 1px;
+		outline: none;
+		padding: 3px 10px;
 		border: 1px solid;
 		border-color: #cacaca #b0b0b0 #b0b0b0;
 		background: #fafafa;
@@ -89,10 +114,8 @@ span[feature="data-bound"] {
 	}
 
 	#tabbox_demo.style x-tab[selected="true"] {
-		padding-bottom: 2px;
 		color: #000;
 		border-bottom-width: 0;
-		background: linear-gradient(top, #fefefe, #E7EDF6);
 		background: -o-linear-gradient(top, #fefefe, #E7EDF6);
 		background: -ms-linear-gradient(top, #fefefe, #E7EDF6);
 		background: -moz-linear-gradient(top, #fefefe, #E7EDF6);
@@ -145,7 +168,7 @@ span[feature="data-bound"] {
 
 	#tabbox_demo.style x-tabpanels {
 		margin-top: -1px;
-		padding: 4px 6px;
+		padding: 10px 15px;
 		border: 1px solid;
 		border-color: #b0b0b0 #b0b0b0 #a0a0a0;
 		background: linear-gradient(top, #E7EDF6, #CFDBEC);
@@ -241,8 +264,9 @@ span[feature="data-bound"] {
 	}
 	
 	#accordion_demo.style x-toggler {
+		outline: none;
 		margin-top: 4px;
-		padding: 0 4px 2px;
+		padding: 4px 10px;
 		border: 1px solid;
 		border-color: #cacaca #afafaf #a0a0a0;
 		background: linear-gradient(top, #fafafa, #dadada);
@@ -269,6 +293,10 @@ span[feature="data-bound"] {
 		cursor: default;
 	}
 
+	#accordion_demo div {
+		padding: 5px 10px;
+	}
+
 /* MAP DEMO */
 
 	#map_demo {
@@ -282,6 +310,35 @@ span[feature="data-bound"] {
 		z-index: 1;
 	}
 
+	#autosuggest_demo input {
+		padding: 6px 8px;
+		border: 1px solid #ddd;
+		border-radius: 2px;
+		outline: none;
+		background: linear-gradient(top, #efefef, #fafafa);
+		background: -o-linear-gradient(top, #efefef, #fafafa);
+		background: -ms-linear-gradient(top, #efefef, #fafafa);
+		background: -moz-linear-gradient(top, #efefef, #fafafa);
+		background: -webkit-linear-gradient(top, #efefef, #fafafa);
+	}
+
+	#autosuggest_demo ul {
+		border-right: 1px solid #ddd;
+		border-left: 1px solid #ddd;
+		border-bottom: 1px solid #ddd;
+	}
+
+	#autosuggest_demo li {
+		padding: 5px 10px;
+		border-bottom: 1px dotted #ddd;
+		outline: none;
+	}
+
+	#autosuggest_demo li[selected] {
+		background-color: #5b84c8;
+		color: #fff;
+	}
+
 /* FLIPBOX DEMO */
 
 	#flipbox_demo{
@@ -293,3 +350,37 @@ span[feature="data-bound"] {
 		-moz-perspective: 1000px;
 		-webkit-perspective: 1000px;
 	}
+
+/* PAGER DEMO */
+
+	x-pager {
+		margin-bottom: 10px;
+	}
+
+	x-pager a {
+		padding: 4px 7px;
+		border: 1px solid #ddd;
+		border-radius: 5px;
+		-webkit-border-radius: 5px;
+		-moz-border-radius: 5px;
+		background: linear-gradient(top, #fafafa, #eee);
+		background: -o-linear-gradient(top, #fafafa, #eee);
+		background: -ms-linear-gradient(top, #fafafa, #eee);
+		background: -moz-linear-gradient(top, #fafafa, #eee);
+		background: -webkit-linear-gradient(top, #fafafa, #eee);
+	}
+
+	x-pager a[selected="true"] {
+		color: #333;
+	}
+
+	x-pager a:hover {
+		border-bottom: 1px solid #ddd;
+	}
+
+/* NAVIGATION DEMO */
+
+	x-action label {
+		padding-right: 10px;
+	}
+
