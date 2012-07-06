@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8" />
+		
+		<title>X-Tag - App Layout</title>
+		
+		<link href="demo/images/shortcut.png" rel="shortcut icon" type="image/x-icon" />
+		
+		<link rel="stylesheet" type="text/css" href="demo/css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="demo/css/app.css"/>
+		
+		<link rel="stylesheet" type="text/css" href="elements/actionbar/actionbar.css"/>
+		<link rel="stylesheet" type="text/css" href="elements/accordion/accordion.css"/>
+		<link rel="stylesheet" type="text/css" href="elements/slidebox/slidebox.css"/>
+		<link rel="stylesheet" type="text/css" href="elements/modal/modal.css"/>
+		<link rel="stylesheet" type="text/css" href="elements/flipbox/flipbox.css"/>
+		<link rel="stylesheet" type="text/css" href="elements/overlay/overlay.css"/>
+		
+		<script type="text/javascript" src="x-tag.js"></script>
+		<script type="text/javascript" src="elements/actionbar/actionbar.js"></script>
+		<script type="text/javascript" src="elements/flipbox/flipbox.js"></script>
+		<script type="text/javascript" src="elements/slidebox/slidebox.js"></script>
+		<script type="text/javascript" src="elements/modal/modal.js"></script>
+		<script type="text/javascript" src="elements/overlay/overlay.js"></script>
+	</head>
+
+<body>
+
+<header>
+	<x-action id="title"
+		command="home"
+		label="MozMail"
+		src="demo/images/mail-icon.png">
+	</x-action>
+	
+	<x-actionbar id="actions">
+		<x-action 
+			command="new-content" 
+			label="New" 
+			src="demo/images/action_icons/light/medium/plus.png">
+		</x-action>
+		<x-action 
+			command="refresh-content" 
+			label="Refresh" 
+			src="demo/images/action_icons/light/medium/refresh.png">
+		</x-action>
+		<x-action 
+			command="gridify-content" 
+			label="Grid" 
+			src="demo/images/action_icons/light/medium/grid.png">
+		</x-action>
+		<x-action 
+			for="more-actions" 
+			command="action-4" 
+			label="4th Action" 
+			src="demo/images/action_icons/light/medium/grid.png">
+		</x-action>
+		<x-action 
+			for="more-actions" 
+			command="action-5" 
+			label="5th Action" 
+			src="demo/images/action_icons/light/medium/grid.png">
+		</x-action>
+		<x-action 
+			group="more-actions" 
+			label="More" 
+			src="demo/images/action_icons/light/medium/more-actions.png">
+		</x-action>
+	</x-actionbar>
+</header>
+
+<section>
+	
+	<x-flipbox>
+		<x-card>
+			<div id="content">
+				<x-slidebox id="list" data-orientation='x'>
+					<x-slides>
+						<x-slide><img src="demo/images/birnimal-calendar.png" /></x-slide>
+						<x-slide><img src="demo/images/birnimal-graph.png" /></x-slide>
+						<x-slide><img src="demo/images/birnimal-detail.png" /></x-slide>
+						<x-slide><img src="demo/images/birnimal-settings.png" /></x-slide>
+					</x-slides>
+				</x-slidebox>
+				
+				<x-slidebox id="detail" data-orientation='x'>
+					<x-slides>
+						<x-slide><img src="demo/images/birnimal-calendar.png" /></x-slide>
+						<x-slide><img src="demo/images/birnimal-graph.png" /></x-slide>
+						<x-slide><img src="demo/images/birnimal-detail.png" /></x-slide>
+						<x-slide><img src="demo/images/birnimal-settings.png" /></x-slide>
+					</x-slides>
+				</x-slidebox>
+			</div>
+			<div>
+				<x-slidebox id="settings" data-orientation='x'>
+					<x-slides>
+						<x-slide><img src="demo/images/birnimal-calendar.png" /></x-slide>
+						<x-slide><img src="demo/images/birnimal-graph.png" /></x-slide>
+						<x-slide><img src="demo/images/birnimal-detail.png" /></x-slide>
+						<x-slide><img src="demo/images/birnimal-settings.png" /></x-slide>
+					</x-slides>
+				</x-slidebox>
+			</div>
+		</x-card>
+	</x-flipbox>
+	
+</section>
+
+<footer>
+	
+</footer>
+
+</body>
+
+<script type="text/javascript">
+
+	
+
+</script>
+
+</html>
