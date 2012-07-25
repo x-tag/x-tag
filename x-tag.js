@@ -339,6 +339,10 @@
 		}
 	};
 	
+	if (typeof define === 'function' && define.amd) {
+		define(xtag);
+	}
+	
 	var styles = document.createElement('style'),
 		nodeInserted = function(event){
 			if (event.animationName == 'XTagNodeInserted'){
