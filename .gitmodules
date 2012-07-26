@@ -1,0 +1,3 @@
+[submodule "elements"]
+	path = elements
+	url = git://github.com/csuwldcat/moz-x-tags.git
