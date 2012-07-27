@@ -1,0 +1,95 @@
+
+body
+{
+	font-family: Segoe UI, Trebuchet MS, Helvetica, Arial;
+	font-size: 14px;
+	background: url(../images/spatter.jpg);
+}
+
+body {
+	width: 100%;
+	display: box;
+	display: -o-box;
+	display: -ms-box;
+	display: -moz-box;
+	display: -webkit-box;
+	box-orient: vertical;
+	-o-box-orient: vertical;
+	-ms-box-orient: vertical;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+}
+
+body > header {
+	display: box;
+	display: -o-box;
+	display: -ms-box;
+	display: -moz-box;
+	display: -webkit-box;
+}
+
+#title {
+	display: box;
+	display: -o-box;
+	display: -ms-box;
+	display: -moz-box;
+	display: -webkit-box;
+	box-flex: 1;
+	-o-box-flex: 1;
+	-ms-box-flex: 1;
+	-moz-box-flex: 1;
+	-webkit-box-flex: 1;
+	box-align: center;
+	-o-box-align: center;
+	-ms-box-align: center;
+	-moz-box-align: center;
+	-webkit-box-align: center;
+}
+
+#title img, #title label {
+	display: box;
+	display: -o-box;
+	display: -ms-box;
+	display: -moz-box;
+	display: -webkit-box;
+	margin: 0 0 0 10px;
+	box-align: center;
+	-o-box-align: center;
+	-ms-box-align: center;
+	-moz-box-align: center;
+	-webkit-box-align: center;
+}
+
+body > header > x-actionbar {
+	box-flex: 0;
+	-o-box-flex: 0;
+	-ms-box-flex: 0;
+	-moz-box-flex: 0;
+	-webkit-box-flex: 0;
+}
+
+#list {
+	float: left;
+	width: 35%;
+}
+
+#detail {
+	width: 65%;
+}
+
+
+
+/*** DEMO-SPECIFIC STYLES ***/
+
+body > header {
+	background: #fff;
+	border-bottom: 2px solid #ddd;
+}
+
+#title label {
+	font-size: 135%;
+	font-weight: bold;
+}
+
+
+    
