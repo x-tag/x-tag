@@ -1,8 +1,18 @@
 (function(){
 	
-	var head = document.getElementsByTagName('head')[0],
+	var keyframeEvents = {},
+		keyframeSelectors = {},
+		head = document.getElementsByTagName('head')[0],
+		selectorSheet = document.createElement('style'),
+		keyframeSheet = document.createElement('style'),
+		nodeInserted = function(event){
+			xtag.extendElement(event.target, true);
+			xtag.getOptions(event.target).onInsert.call(event.target);
+		},
 		prefix = (function() {
 			var styles = window.getComputedStyle(document.documentElement, ''),
+				duration = 'animation-duration: 0.01s;',
+				name = 'animation-name: CSSEventKeyframe !important;',
 				pre = (Array.prototype.slice.call(styles).join('').match(/moz|webkit|ms/)||(styles.OLink===''&&['o']))[0],
 				dom = ('WebKit|Moz|MS|O').match(new RegExp('(' + pre + ')', 'i'))[1];
 			return {
@@ -10,7 +20,8 @@
 				lowercase: pre,
 				css: '-' + pre + '-',
 				js: pre[0].toUpperCase() + pre.substr(1),
-				keyframes: !!(window.CSSKeyframesRule || window[dom + 'CSSKeyframesRule'])
+				keyframes: !!(window.CSSKeyframesRule || window[dom + 'CSSKeyframesRule']),
+				properties: '{' + duration + name + '-' + pre + '-' + duration + '-' + pre + '-' + name + '}'
 			};
 		})(),
 		mergeOne = function(source, key, current){
@@ -29,6 +40,11 @@
 				if (!!~value.match(/(\d+)/g).indexOf(String(event.keyCode)) == (pseudo == 'keypass')) fn.apply(this, xtag.toArray(arguments));
 			}
 		};
+	
+	selectorSheet.type = "text/css";
+	keyframeSheet.type = "text/css";
+	head.appendChild(selectorSheet);
+	head.appendChild(keyframeSheet);
 	
 	xtag = {
 		tags: {},
@@ -178,14 +194,37 @@
 		register: function(tag, options){
 			xtag.tagList.push(tag);
 			xtag.tags[tag] = xtag.merge({ tagName: tag }, xtag.tagOptions, xtag.applyMixins(options));
-			if (prefix.keyframes) xtag.attachKeyframe(tag);
+			if (prefix.keyframes) xtag.addCSSEvent(tag, nodeInserted, 'XTagNodeInserted');
 			else if (xtag.domready) xtag.query(document, tag).forEach(function(element){
-				nodeInserted({ target: element, animationName: 'XTagNodeInserted' });
+				nodeInserted({ target: element });
 			});
 		},
 		
-		attachKeyframe: function(tag){
-			xtag.sheet.insertRule(tag + prefix.properties, 0);
+		addCSSEvent: function(selector, fn, name){
+			if (!keyframeSelectors[selector]) {
+				var index = selectorSheet.sheet.cssRules.length,
+					key = name || 'CSSEventKeyframe-' + index;
+				keyframeSelectors[selector] = key;
+				if (!keyframeEvents[key]){
+					keyframeEvents[key] = { index: index, listeners: [fn] };
+					keyframeSheet.appendChild(document.createTextNode('@' + (xtag.prefix.keyframes ? xtag.prefix.css : '') + 'keyframes ' + key + ' {'
+						+'from { clip: rect(1px, auto, auto, auto); } to { clip: rect(0px, auto, auto, auto); }'
+					+ '}'));
+				}
+				selectorSheet.sheet.insertRule(selector + xtag.prefix.properties.replace(/CSSEventKeyframe/g, key), index);
+			}
+			else keyframeEvents[keyframeSelectors[selector]].listeners.push(fn);
+		},
+		
+		removeCSSEvent: function(selector, fn){
+			var event = keyframeEvents[keyframeSelectors[selector]];
+			if (event){
+				event.listeners.splice(event.listeners.indexOf(fn), 1);
+				if (!event.listeners.length){
+					selectorSheet.sheet.deleteRule(event.index);
+					keyframeSheet.removeChild(keyframeSheet.childNodes[event.index]);
+				}
+			}
 		},
 		
 		extendElement: function(element, insert){
@@ -338,48 +377,30 @@
 			element.dispatchEvent(xtag.merge(event, data));
 		}
 	};
-	
-	var styles = document.createElement('style'),
-		nodeInserted = function(event){
-			if (event.animationName == 'XTagNodeInserted'){
-				xtag.extendElement(event.target, true);
-				xtag.getOptions(event.target).onInsert.call(event.target);
-			}
-		};	
-		styles.type = "text/css";
 		
 	document.addEventListener('DOMContentLoaded', function(event){
 		xtag.register('x-components-loaded', {});
 		document.body.appendChild(document.createElement('x-components-loaded'));
 	}, false);
 	
-	if (prefix.keyframes) {
-		var duration = 'animation-duration: 0.01s;',
-			name = 'animation-name: XTagNodeInserted !important;';
-		prefix.properties = '{' + duration + name + prefix.css + duration + prefix.css + name + '}';
-		xtag.eventMap.animationstart.forEach(function(event){
-			document.addEventListener(event, nodeInserted, false);
-		});
-		styles.appendChild(document.createTextNode('@' + (prefix.keyframes ? prefix.css : '') + 'keyframes XTagNodeInserted {' +
-			'from { clip: rect(1px, auto, auto, auto); } to { clip: rect(0px, auto, auto, auto); }' +
-		'}'));
-	}
+	if (prefix.keyframes) xtag.eventMap.animationstart.forEach(function(name){
+		document.addEventListener(name, function(event){
+			if (keyframeEvents[event.animationName]){
+				keyframeEvents[event.animationName].listeners.forEach(function(fn){
+					fn.call(event.target, event);
+				});
+			}
+		}, false);
+	});
 	else {
 		document.addEventListener('DOMContentLoaded', function(event){
 			xtag.domready = true;
 			if (xtag.tagList[0]) xtag.query(document, xtag.tagList).forEach(function(element){
-				nodeInserted({ target: element, animationName: 'XTagNodeInserted' });
+				nodeInserted({ target: element });
 			});
 		}, false);
-		
-		document.addEventListener('DOMNodeInserted', function(event){
-			event.animationName = 'XTagNodeInserted';
-			nodeInserted(event);
-		}, false);
+		document.addEventListener('DOMNodeInserted', nodeInserted, false);
 	}
-	
-	head.appendChild(styles);
-	xtag.sheet = styles.sheet;
 	
 	var createElement = document.createElement;
 	document.createElement = function(tag){
