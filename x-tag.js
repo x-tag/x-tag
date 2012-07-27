@@ -354,7 +354,7 @@
 	}, false);
 	
 	if (prefix.keyframes) {
-		var duration = 'animation-duration: 0.001s;',
+		var duration = 'animation-duration: 0.01s;',
 			name = 'animation-name: XTagNodeInserted !important;';
 		prefix.properties = '{' + duration + name + prefix.css + duration + prefix.css + name + '}';
 		xtag.eventMap.animationstart.forEach(function(event){
