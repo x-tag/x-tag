@@ -35,7 +35,7 @@
 			}
 			return source;
 		},
-		keypseudo = function(fn, value, pseudo){
+		keypseudo = function(fn, pseudo, value){
 			return function(event){	
 				if (!!~value.match(/(\d+)/g).indexOf(String(event.keyCode)) == (pseudo == 'keypass')) fn.apply(this, xtag.toArray(arguments));
 			}
@@ -68,19 +68,14 @@
 			tap: [ 'ontouchend' in document ? 'touchend' : 'mouseup']
 		},
 		pseudos: {
-			delegate: function(fn, value, pseudo, event){
+			delegate: function(fn, pseudo, value, key, event){
 				var target = xtag.query(this, value).filter(function(node){
 					return node == event.target || node.contains ? node.contains(event.target) : false;
 				})[0];
-
-				return target ? function(){
-					fn.apply(target, xtag.toArray(arguments));
-				} : false;
+				return target ? fn.apply(target, xtag.toArray(arguments)) : false;
 			},
-			preventable: function(fn, value, pseudo){
-				return function(event){
-					if (!event.defaultPrevented) fn.apply(this, xtag.toArray(arguments));
-				}
+			preventable: function(fn, pseudo, value, key, event){
+				if (!event.defaultPrevented) fn.apply(this, xtag.toArray(arguments));
 			},
 			keystop: keypseudo,
 			keypass: keypseudo
@@ -266,24 +261,21 @@
 			return options;
 		},
 		
-		applyAccessor: function(element, pseudo, accessor, value){
-			var property = pseudo.split(':')[0];
-			xtag.applyPseudos(element, pseudo, function(){
-				xtag.defineProperty(element, property, accessor, value);
-			}, [property, element]);
+		applyAccessor: function(element, key, accessor, fn){
+			xtag.defineProperty(element, key.split(':')[0], accessor, xtag.applyPseudos(element, key, fn));
 		}, 
 		
-		applyPseudos: function(element, key, fn, args){
-			var	action = fn, args = xtag.toArray(args);
+		applyPseudos: function(element, key, fn){
+			var	action = fn;
 			if (key.match(':')) key.replace(/:(\w*)(?:\(([^\)]*)\))?/g, function(match, pseudo, value){
-				if (action){
-					var passed = xtag.toArray(args);
-						passed.unshift(action, value, pseudo);
-					var returned = xtag.pseudos[pseudo].apply(element, passed);
-					action = returned === false ? false : returned || fn;
+				var lastPseudo = action;
+				action = function(){
+					var passed = xtag.toArray(arguments);
+					passed.unshift(lastPseudo, pseudo, value, key);
+					if (xtag.pseudos[pseudo].apply(element, passed) === false) action = false;
 				}
 			});
-			if (action) action.apply(element, args);
+			return action;
 		},
 		
 		request: function(element, options){
@@ -361,9 +353,7 @@
 				eventMap = (map || xtag.eventMap || {})[eventKey] || [eventKey];
 				
 			eventMap.forEach(function(name){
-				element.addEventListener(name, function(event){
-					xtag.applyPseudos(element, type, fn, [event, element]);
-				}, !!~['focus', 'blur'].indexOf(name));
+				element.addEventListener(name, xtag.applyPseudos(element, type, fn, [element]), !!~['focus', 'blur'].indexOf(name));
 			});
 		},
 		
