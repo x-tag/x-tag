@@ -73,6 +73,7 @@
 					var target = xtag.query(this, pseudo.value).filter(function(node){
 						return node == args[0].target || node.contains ? node.contains(args[0].target) : false;
 					})[0];
+					args.splice(args.length, 0, this);
 					return target ? fn.apply(target, args) : false;
 				}
 			},
@@ -389,7 +390,7 @@
 	
 	var setAttribute = HTMLUnknownElement.prototype.setAttribute;
 	HTMLUnknownElement.prototype.setAttribute = function(attr, value, setter){
-		if (!setter) this[this.xtag.attributeSetters[attr]] = value;
+		if (!setter && this.xtag.attributeSetters) this[this.xtag.attributeSetters[attr]] = value;
 		setAttribute.call(this, attr, value);
 	};
 	
