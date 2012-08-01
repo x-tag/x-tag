@@ -35,9 +35,9 @@
 			}
 			return source;
 		},
-		keypseudo = function(fn, pseudo, value){
-			return function(event){	
-				if (!!~value.match(/(\d+)/g).indexOf(String(event.keyCode)) == (pseudo == 'keypass')) fn.apply(this, xtag.toArray(arguments));
+		keypseudo = {
+			listener: function(pseudo, fn, args){
+				if (!!~value.match(/(\d+)/g).indexOf(String(event.keyCode)) == (pseudo.name == 'keypass')) fn.apply(this, args);
 			}
 		};
 	
@@ -68,14 +68,28 @@
 			tap: [ 'ontouchend' in document ? 'touchend' : 'mouseup']
 		},
 		pseudos: {
-			delegate: function(fn, pseudo, value, key, event){
-				var target = xtag.query(this, value).filter(function(node){
-					return node == event.target || node.contains ? node.contains(event.target) : false;
-				})[0];
-				return target ? fn.apply(target, xtag.toArray(arguments)) : false;
+			delegate: {
+				listener: function(pseudo, fn, args){
+					var target = xtag.query(this, pseudo.value).filter(function(node){
+						return node == args[0].target || node.contains ? node.contains(args[0].target) : false;
+					})[0];
+					return target ? fn.apply(target, args) : false;
+				}
 			},
-			preventable: function(fn, pseudo, value, key, event){
-				if (!event.defaultPrevented) fn.apply(this, xtag.toArray(arguments));
+			preventable: { 
+				listener: function(pseudo, fn, args){
+					if (!args[0].defaultPrevented) fn.apply(this, args);
+				}
+			},
+			attribute: {
+				onAdd: function(pseudo){
+					this.xtag.attributeSetters = this.xtag.attributeSetters || {};
+					this.xtag.attributeSetters[pseudo.value] = pseudo.key.split(':')[0];
+				},
+				listener: function(pseudo, fn, args){
+					fn.call(this, args[0]);
+					this.setAttribute(pseudo.value, args[0], true);
+				}
 			},
 			keystop: keypseudo,
 			keypass: keypseudo
@@ -267,12 +281,17 @@
 		
 		applyPseudos: function(element, key, fn){
 			var	action = fn;
-			if (key.match(':')) key.replace(/:(\w*)(?:\(([^\)]*)\))?/g, function(match, pseudo, value){
-				var lastPseudo = action;
+			if (key.match(':')) key.replace(/:(\w*)(?:\(([^\)]*)\))?/g, function(match, name, value){
+				var lastPseudo = action,
+					pseudo = xtag.pseudos[name],
+					split = {
+						key: key, 
+						name: name,
+						value: value
+					};
+				if (pseudo.onAdd) pseudo.onAdd.call(element, split);
 				action = function(){
-					var passed = xtag.toArray(arguments);
-					passed.unshift(lastPseudo, pseudo, value, key);
-					if (xtag.pseudos[pseudo].apply(element, passed) === false) action = false;
+					return pseudo.listener.apply(element, [split, fn, xtag.toArray(arguments)]);
 				}
 			});
 			return action;
@@ -353,7 +372,7 @@
 				eventMap = (map || xtag.eventMap || {})[eventKey] || [eventKey];
 				
 			eventMap.forEach(function(name){
-				element.addEventListener(name, xtag.applyPseudos(element, type, fn, [element]), !!~['focus', 'blur'].indexOf(name));
+				element.addEventListener(name, xtag.applyPseudos(element, type, fn), !!~['focus', 'blur'].indexOf(name));
 			});
 		},
 		
@@ -367,7 +386,20 @@
 			element.dispatchEvent(xtag.merge(event, data));
 		}
 	};
-		
+	
+	var setAttribute = HTMLUnknownElement.prototype.setAttribute;
+	HTMLUnknownElement.prototype.setAttribute = function(attr, value, setter){
+		if (!setter) this[this.xtag.attributeSetters[attr]] = value;
+		setAttribute.call(this, attr, value);
+	};
+	
+	var createElement = document.createElement;
+	document.createElement = function(tag){
+		var element = createElement.call(this, tag);
+		if (xtag.tagCheck(element)) xtag.extendElement(element);
+		return element;
+	};
+	
 	document.addEventListener('DOMContentLoaded', function(event){
 		xtag.register('x-components-loaded', {});
 		document.body.appendChild(document.createElement('x-components-loaded'));
@@ -391,12 +423,5 @@
 		}, false);
 		document.addEventListener('DOMNodeInserted', nodeInserted, false);
 	}
-	
-	var createElement = document.createElement;
-	document.createElement = function(tag){
-		var element = createElement.call(this, tag);
-		if (xtag.tagCheck(element)) xtag.extendElement(element);
-		return element;
-	};
 	
 })();
