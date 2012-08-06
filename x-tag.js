@@ -1,27 +1,19 @@
 (function(){
 	
-	var keyframeEvents = {},
-		keyframeSelectors = {},
-		head = document.getElementsByTagName('head')[0],
-		selectorSheet = document.createElement('style'),
-		keyframeSheet = document.createElement('style'),
-		nodeInserted = function(event){
-			xtag.extendElement(event.target, true);
-			xtag.getOptions(event.target).onInsert.call(event.target);
+	var head = document.getElementsByTagName('head')[0],
+		nodeInserted = function(element){
+			xtag.extendElement(element, true);
+			xtag.getOptions(element).onInsert.call(element);
 		},
 		prefix = (function() {
 			var styles = window.getComputedStyle(document.documentElement, ''),
-				duration = 'animation-duration: 0.01s;',
-				name = 'animation-name: CSSEventKeyframe !important;',
 				pre = (Array.prototype.slice.call(styles).join('').match(/moz|webkit|ms/)||(styles.OLink===''&&['o']))[0],
 				dom = ('WebKit|Moz|MS|O').match(new RegExp('(' + pre + ')', 'i'))[1];
 			return {
 				dom: dom,
 				lowercase: pre,
 				css: '-' + pre + '-',
-				js: pre[0].toUpperCase() + pre.substr(1),
-				keyframes: !!(window.CSSKeyframesRule || window[dom + 'CSSKeyframesRule']),
-				properties: '{' + duration + name + '-' + pre + '-' + duration + '-' + pre + '-' + name + '}'
+				js: pre[0].toUpperCase() + pre.substr(1)
 			};
 		})(),
 		mergeOne = function(source, key, current){
@@ -40,11 +32,6 @@
 				if (!!~value.match(/(\d+)/g).indexOf(String(event.keyCode)) == (pseudo.name == 'keypass')) fn.apply(this, args);
 			}
 		};
-	
-	selectorSheet.type = "text/css";
-	keyframeSheet.type = "text/css";
-	head.appendChild(selectorSheet);
-	head.appendChild(keyframeSheet);
 	
 	xtag = {
 		tags: {},
@@ -204,49 +191,13 @@
 		register: function(tag, options){
 			xtag.tagList.push(tag);
 			xtag.tags[tag] = xtag.merge({ tagName: tag }, xtag.tagOptions, xtag.applyMixins(options));
-			if (prefix.keyframes) xtag.addCSSEvent(tag, nodeInserted, 'XTagNodeInserted');
-			else if (xtag.domready) xtag.query(document, tag).forEach(function(element){
-				nodeInserted({ target: element });
-			});
-		},
-		
-		addCSSEvent: function(selector, fn, name){
-			if (!keyframeSelectors[selector]) {
-				var index = selectorSheet.sheet.cssRules.length,
-					key = name || 'CSSEventKeyframe-' + index;
-				keyframeSelectors[selector] = key;
-				if (!keyframeEvents[key]){
-					keyframeEvents[key] = { index: index, listeners: [fn] };
-					keyframeSheet.appendChild(document.createTextNode('@' + (xtag.prefix.keyframes ? xtag.prefix.css : '') + 'keyframes ' + key + ' {'
-						+'from { clip: rect(1px, auto, auto, auto); } to { clip: rect(0px, auto, auto, auto); }'
-					+ '}'));
-				}
-				selectorSheet.sheet.insertRule(selector + xtag.prefix.properties.replace(/CSSEventKeyframe/g, key), index);
-			}
-			else keyframeEvents[keyframeSelectors[selector]].listeners.push(fn);
-		},
-		
-		removeCSSEvent: function(selector, fn){
-			var event = keyframeEvents[keyframeSelectors[selector]];
-			if (event){
-				event.listeners.splice(event.listeners.indexOf(fn), 1);
-				if (!event.listeners.length){
-					selectorSheet.sheet.deleteRule(event.index);
-					keyframeSheet.removeChild(keyframeSheet.childNodes[event.index]);
-				}
-			}
+			if (!xtag.mutation && xtag.domready) xtag.query(document, tag).forEach(nodeInserted);
 		},
 		
 		extendElement: function(element, insert){
 			if (!element.xtag){
-				var options = xtag.getOptions(element);
-				if (options.tagName == 'x-components-loaded'){
-					if (!insert) return false;
-					element.parentNode.removeChild(element);
-					xtag.fireEvent(document, 'DOMComponentsLoaded');
-					return false;
-				}
 				element.xtag = {};
+				var options = xtag.getOptions(element);
 				for (var z in options.methods) xtag.bindMethods(element, z, options.methods[z]);
 				for (var z in options.setters) xtag.applyAccessor(element, z, 'set', options.setters[z]);
 				for (var z in options.getters) xtag.applyAccessor(element, z, 'get', options.getters[z]);
@@ -370,8 +321,7 @@
 		
 		addEvent: function(element, type, fn, map){
 			var eventKey = type.split(':')[0],
-				eventMap = (map || xtag.eventMap || {})[eventKey] || [eventKey];
-				
+				eventMap = (map || xtag.eventMap || {})[eventKey] || [eventKey];	
 			eventMap.forEach(function(name){
 				element.addEventListener(name, xtag.applyPseudos(element, type, fn), !!~['focus', 'blur'].indexOf(name));
 			});
@@ -400,29 +350,31 @@
 		if (xtag.tagCheck(element)) xtag.extendElement(element);
 		return element;
 	};
-	
+		
 	document.addEventListener('DOMContentLoaded', function(event){
-		xtag.register('x-components-loaded', {});
-		document.body.appendChild(document.createElement('x-components-loaded'));
+		xtag.domready = true;
+		if (xtag.tagList[0]) xtag.query(document, xtag.tagList).forEach(nodeInserted);
+		xtag.fireEvent(document, 'DOMComponentsLoaded');
 	}, false);
 	
-	if (prefix.keyframes) xtag.eventMap.animationstart.forEach(function(name){
-		document.addEventListener(name, function(event){
-			if (keyframeEvents[event.animationName]){
-				keyframeEvents[event.animationName].listeners.forEach(function(fn){
-					fn.call(event.target, event);
-				});
-			}
-		}, false);
-	});
-	else {
-		document.addEventListener('DOMContentLoaded', function(event){
-			xtag.domready = true;
-			if (xtag.tagList[0]) xtag.query(document, xtag.tagList).forEach(function(element){
-				nodeInserted({ target: element });
+	xtag.mutation = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;
+	
+	if (xtag.mutation){
+		xtag.mutator = new xtag.mutation(function(mutations) {
+			mutations.forEach(function(record){
+				var nodes = record.addedNodes, length = nodes.length;
+				for (i = 0; i < length; i++) if (nodes[i].parentNode) nodeInserted(nodes[i]);
 			});
-		}, false);
-		document.addEventListener('DOMNodeInserted', nodeInserted, false);
+		});
+		xtag.mutator.observe(document.documentElement, {
+			subtree: true,
+			childList: true,
+			attributes: !true,
+			characterData: false
+		});
 	}
+	else document.addEventListener('DOMNodeInserted', function(){
+		nodeInserted(event.target);
+	}, false);
 	
 })();
