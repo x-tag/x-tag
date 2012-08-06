@@ -88,8 +88,8 @@
 					this.xtag.attributeSetters[pseudo.value] = pseudo.key.split(':')[0];
 				},
 				listener: function(pseudo, fn, args){
-					fn.call(this, args[0]);
-					this.setAttribute(pseudo.value, args[0], true);
+					var value = fn.call(this, args[0]) || args[0];
+					this.setAttribute(pseudo.value, value, true);
 				}
 			},
 			keystop: keypseudo,
