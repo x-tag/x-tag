@@ -241,6 +241,7 @@
 						name: name,
 						value: value
 					};
+				if (!pseudo) throw "Undefined pseudo: " + name;
 				if (pseudo.onAdd) pseudo.onAdd.call(element, split);
 				action = function(){
 					return pseudo.listener.apply(element, [split, fn, xtag.toArray(arguments)]);
