@@ -121,12 +121,16 @@
 		},
 
 		addClass: function(element, className){
-			if (!xtag.hasClass(element, className)) element.className = (element.className + ' ' + className);
+			if (!xtag.hasClass(element, className)){
+				var name = element.className;
+				element.className = name[name.length-1] == ' ' || name.length == 0 ?
+					name + className : name + " " + className;
+			} 
 			return element;
 		},
 
 		removeClass: function(element, className){
-			element.className = element.className.replace(new RegExp('(^|\\s)' + className + '(?:\\s|$)'), '$1');
+			element.className = element.className.replace(className,'');
 			return element;
 		},
 
