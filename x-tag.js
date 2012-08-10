@@ -3,7 +3,7 @@
 	var head = document.getElementsByTagName('head')[0],
 		nodeInserted = function(element){
 			xtag.extendElement(element, true);
-			xtag.getOptions(element).onInsert.call(element);
+			if (element.parentNode) xtag.getOptions(element).onInsert.call(element);
 		},
 		prefix = (function() {
 			var styles = window.getComputedStyle(document.documentElement, ''),
@@ -39,6 +39,7 @@
 		callbacks: {},
 		prefix: prefix,
 		anchor: document.createElement('a'),
+		mutation: window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver,
 		tagOptions: {
 			content: '',
 			mixins: [],
@@ -57,7 +58,9 @@
 		pseudos: {
 			delegate: {
 				listener: function(pseudo, fn, args){
-					var target = xtag.query(this, pseudo.value).filter(function(node){
+					var query = '';
+					if (pseudo.value[0] == '>') query = 'Children';
+					var target = xtag['query' + query](this, query ? pseudo.value.slice(1) : pseudo.value).filter(function(node){
 						return node == args[0].target || node.contains ? node.contains(args[0].target) : false;
 					})[0];
 					args.splice(args.length, 0, this);
@@ -136,6 +139,17 @@
 		
 		query: function(element, selector){
 			return xtag.toArray(element.querySelectorAll(selector));
+		},
+		
+		queryChildren: function(element, selector){	
+			var result = null,
+				id = 'x-' + new Date().getTime(),
+				attr = '[xtag-temp-id="' + id + '"] > ',
+				selector = attr + (selector + '').replace(',', ',' + attr, 'g');		
+			element.setAttribute('xtag-temp-id', id);
+			result = element.parentNode.querySelectorAll(selector);
+			element.removeAttribute('xtag-temp-id');
+			return xtag.toArray(result);
 		},
 		
 		defineProperty: function(element, property, accessor, value){
@@ -335,6 +349,27 @@
 			var event = document.createEvent('Event');
 			event.initEvent(type, true, true);
 			element.dispatchEvent(xtag.merge(event, data));
+		},
+		
+		observe: function(element, fn){
+			if (xtag.mutation){
+				xtag.mutator = new xtag.mutation(function(mutations) {
+					var added = [];
+					mutations.forEach(function(record){
+						var nodes = record.addedNodes, length = nodes.length;
+						for (i = 0; i < length && added.indexOf(nodes[i]) == -1; i++) fn(nodes[i]);
+					});
+				});
+				xtag.mutator.observe(element, {
+					subtree: true,
+					childList: true,
+					attributes: !true,
+					characterData: false
+				});
+			}
+			else element.addEventListener('DOMNodeInserted', function(event){
+				fn.call(event.target);
+			}, false);
 		}
 	};
 	
@@ -357,24 +392,6 @@
 		xtag.fireEvent(document, 'DOMComponentsLoaded');
 	}, false);
 	
-	xtag.mutation = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;
-	
-	if (xtag.mutation){
-		xtag.mutator = new xtag.mutation(function(mutations) {
-			mutations.forEach(function(record){
-				var nodes = record.addedNodes, length = nodes.length;
-				for (i = 0; i < length; i++) if (nodes[i].parentNode) nodeInserted(nodes[i]);
-			});
-		});
-		xtag.mutator.observe(document.documentElement, {
-			subtree: true,
-			childList: true,
-			attributes: !true,
-			characterData: false
-		});
-	}
-	else document.addEventListener('DOMNodeInserted', function(){
-		nodeInserted(event.target);
-	}, false);
+	xtag.observe(document.documentElement, nodeInserted);
 	
 })();
