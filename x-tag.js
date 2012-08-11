@@ -255,7 +255,6 @@
 						name: name,
 						value: value
 					};
-				if (!pseudo) throw "Undefined pseudo: " + name;
 				if (pseudo.onAdd) pseudo.onAdd.call(element, split);
 				action = function(){
 					return pseudo.listener.apply(element, [split, fn, xtag.toArray(arguments)]);
@@ -358,7 +357,10 @@
 					var added = [];
 					mutations.forEach(function(record){
 						var nodes = record.addedNodes, length = nodes.length;
-						for (i = 0; i < length && added.indexOf(nodes[i]) == -1; i++) fn(nodes[i]);
+						for (i = 0; i < length && added.indexOf(nodes[i]) == -1; i++){
+							added.push(nodes[i]);
+							fn(nodes[i]);
+						}
 					});
 				});
 				xtag.mutator.observe(element, {
