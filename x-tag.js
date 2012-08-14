@@ -33,9 +33,12 @@
 			}
 		},
 		touchMap = {
-			'mousedown': 'touchstart',
-			'mousemove': 'touchmove',
-			'mouseup': 'touchend'
+			mouseenter: 'touchenter',
+			mouseleave: 'touchleave',
+			mousedown: 'touchstart',
+			mousemove: 'touchmove',
+			mouseup: 'touchend',
+			click: 'touchend'
 		};
 	
 	xtag = {
