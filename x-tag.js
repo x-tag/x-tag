@@ -31,6 +31,11 @@
 			listener: function(pseudo, fn, args){
 				if (!!~value.match(/(\d+)/g).indexOf(String(event.keyCode)) == (pseudo.name == 'keypass')) fn.apply(this, args);
 			}
+		},
+		touchMap = {
+			'mousedown': 'touchstart',
+			'mousemove': 'touchmove',
+			'mouseup': 'touchend'
 		};
 	
 	xtag = {
@@ -58,9 +63,7 @@
 		pseudos: {
 			delegate: {
 				listener: function(pseudo, fn, args){
-					var query = '';
-					if (pseudo.value[0] == '>') query = 'Children';
-					var target = xtag['query' + query](this, query ? pseudo.value.slice(1) : pseudo.value).filter(function(node){
+					var target = xtag.query(this, pseudo.value).filter(function(node){
 						return node == args[0].target || node.contains ? node.contains(args[0].target) : false;
 					})[0];
 					args.splice(args.length, 0, this);
@@ -80,6 +83,18 @@
 				listener: function(pseudo, fn, args){
 					fn.call(this, args[0]);
 					this.setAttribute(pseudo.value, args[0], true);
+				}
+			},
+			touch: {
+				onAdd: function(pseudo, fn){
+					this.addEventListener(touchMap[pseudo.key.split(':')[0]], fn, false);
+				},
+				listener: function(pseudo, fn, args){
+					if (fn.touched && args[0].type.match('mouse')) fn.touched = false;
+					else {
+						if (args[0].type.match('touch')) fn.touched = true;
+						fn.apply(this, args);
+					}
 				}
 			},
 			keystop: keypseudo,
@@ -250,20 +265,23 @@
 		}, 
 		
 		applyPseudos: function(element, key, fn){
-			var	action = fn;
-			if (key.match(':')) key.replace(/:(\w*)(?:\(([^\)]*)\))?/g, function(match, name, value){
-				var lastPseudo = action,
-					pseudo = xtag.pseudos[name],
-					split = {
-						key: key, 
-						name: name,
-						value: value
-					};
-				if (pseudo.onAdd) pseudo.onAdd.call(element, split);
-				action = function(){
-					return pseudo.listener.apply(element, [split, fn, xtag.toArray(arguments)]);
-				}
-			});
+			var	action = fn, onAdd = {};
+			if (key.match(':')){
+				key.replace(/:(\w*)(?:\(([^\)]*)\))?/g, function(match, name, value){
+					var lastPseudo = action,
+						pseudo = xtag.pseudos[name],
+						split = {
+							key: key, 
+							name: name,
+							value: value
+						};
+					if (pseudo.onAdd) onAdd[name] = split;
+					action = function(){
+						return pseudo.listener.apply(element, [split, fn, xtag.toArray(arguments)]);
+					}
+				});
+				for (var z in onAdd) xtag.pseudos[z].onAdd.call(element, onAdd[z], action);
+			}
 			return action;
 		},
 		
@@ -357,17 +375,17 @@
 		
 		observe: function(element, fn){
 			if (xtag.mutation){
-				xtag.mutator = new xtag.mutation(function(mutations) {
+				var mutation = new xtag.mutation(function(mutations) {
 					var added = [];
 					mutations.forEach(function(record){
 						var nodes = record.addedNodes, length = nodes.length;
 						for (i = 0; i < length && added.indexOf(nodes[i]) == -1; i++){
 							added.push(nodes[i]);
-							fn(nodes[i]);
+							fn(nodes[i], record, mutations);
 						}
 					});
 				});
-				xtag.mutator.observe(element, {
+				mutation.observe(element, {
 					subtree: true,
 					childList: true,
 					attributes: !true,
@@ -375,14 +393,14 @@
 				});
 			}
 			else element.addEventListener('DOMNodeInserted', function(event){
-				fn.call(event.target);
+				fn(event.target, event);
 			}, false);
 		}
 	};
 	
-	var setAttribute = HTMLUnknownElement.prototype.setAttribute;
-	HTMLUnknownElement.prototype.setAttribute = function(attr, value, setter){
-		if (!setter && this.xtag.attributeSetters) this[this.xtag.attributeSetters[attr]] = value;
+	var setAttribute = HTMLElement.prototype.setAttribute;
+	HTMLElement.prototype.setAttribute = function(attr, value, setter){
+		if (!setter && this.xtag && this.xtag.attributeSetters) this[this.xtag.attributeSetters[attr]] = value;
 		setAttribute.call(this, attr, value);
 	};
 	
