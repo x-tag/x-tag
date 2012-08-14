@@ -29,7 +29,10 @@
 		},
 		keypseudo = {
 			listener: function(pseudo, fn, args){
-				if (!!~value.match(/(\d+)/g).indexOf(String(event.keyCode)) == (pseudo.name == 'keypass')) fn.apply(this, args);
+				if (!!~pseudo.value.match(/(\d+)/g).indexOf(String(event.keyCode)) == (pseudo.name == 'keypass')){
+					args.splice(args.length, 0, this);
+					fn.apply(this, args);
+				}
 			}
 		},
 		touchMap = {
