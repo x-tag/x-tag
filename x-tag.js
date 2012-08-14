@@ -93,8 +93,12 @@
 					if (fn.touched && args[0].type.match('mouse')) fn.touched = false;
 					else {
 						if (args[0].type.match('touch')) fn.touched = true;
+						args.splice(args.length, 0, this);
 						fn.apply(this, args);
 					}
+				}, 
+				onRemove: function(pseudo, fn){
+					this.removeEventListener(touchMap[pseudo.key.split(':')[0]], fn);
 				}
 			},
 			keystop: keypseudo,
@@ -284,6 +288,24 @@
 			}
 			return action;
 		},
+
+		removePseudos: function(element, key, fn){
+			
+			if (key.match(':')){
+				key.replace(/:(\w*)(?:\(([^\)]*)\))?/g, function(match, name, value){
+					var lastPseudo = action,
+						pseudo = xtag.pseudos[name],
+						split = {
+							key: key, 
+							name: name,
+							value: value
+						};
+					if (pseudo.onRemove) pseudo.onRemove.call(element, split, fn);
+					
+				});
+				
+			}
+		},
 		
 		request: function(element, options){
 			xtag.clearRequest(element);
@@ -358,13 +380,23 @@
 		addEvent: function(element, type, fn, map){
 			var eventKey = type.split(':')[0],
 				eventMap = (map || xtag.eventMap || {})[eventKey] || [eventKey];	
+			var wrapped = xtag.applyPseudos(element, type, fn);
 			eventMap.forEach(function(name){
-				element.addEventListener(name, xtag.applyPseudos(element, type, fn), !!~['focus', 'blur'].indexOf(name));
+				element.addEventListener(name, wrapped, !!~['focus', 'blur'].indexOf(name));
 			});
+			return wrapped;
 		},
 		
 		addEvents: function(element, events, map){
 			for (var z in events) xtag.addEvent(element, z, events[z], map);
+		},
+
+		removeEvent: function(element, type, fn){
+			var eventKey = type.split(':')[0],
+				eventMap = (xtag.eventMap || {})[eventKey] || [eventKey];	
+			eventMap.forEach(function(name){
+				element.removeEventListener(name, fn);
+			});
 		},
 		
 		fireEvent: function(element, type, data){
