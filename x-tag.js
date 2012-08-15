@@ -1,7 +1,8 @@
 (function(){
 	
 	var head = document.getElementsByTagName('head')[0],
-		nodeInserted = function(element){
+		nodeInserted = function(element, query){
+			if (query && element.querySelector) xtag.query(element, xtag.tagList).forEach(function(element){ nodeInserted(element) });
 			xtag.extendElement(element, true);
 			if (element.parentNode) xtag.getOptions(element).onInsert.call(element);
 		},
@@ -419,7 +420,7 @@
 						var nodes = record.addedNodes, length = nodes.length;
 						for (i = 0; i < length && added.indexOf(nodes[i]) == -1; i++){
 							added.push(nodes[i]);
-							fn(nodes[i], record, mutations);
+							fn(nodes[i], true);
 						}
 					});
 				});
@@ -431,7 +432,7 @@
 				});
 			}
 			else element.addEventListener('DOMNodeInserted', function(event){
-				fn(event.target, event);
+				fn(event.target);
 			}, false);
 		}
 	};
@@ -450,9 +451,11 @@
 	};
 		
 	document.addEventListener('DOMContentLoaded', function(event){
-		xtag.domready = true;
 		xtag.observe(document.documentElement, nodeInserted);
-		if (xtag.tagList[0]) xtag.query(document, xtag.tagList).forEach(nodeInserted);
+		if (xtag.tagList[0]) xtag.query(document, xtag.tagList).forEach(function(element){
+			nodeInserted(element);
+		});
+		xtag.domready = true;
 		xtag.fireEvent(document, 'DOMComponentsLoaded');
 	}, false);
 	
