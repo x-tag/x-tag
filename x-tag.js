@@ -234,7 +234,7 @@
 		register: function(tag, options){
 			xtag.tagList.push(tag);
 			xtag.tags[tag] = xtag.merge({ tagName: tag }, xtag.tagOptions, xtag.applyMixins(options));
-			if (!xtag.mutation && xtag.domready) xtag.query(document, tag).forEach(nodeInserted);
+			if (xtag.domready) xtag.query(document, tag).forEach(nodeInserted);
 		},
 		
 		extendElement: function(element, insert){
@@ -451,10 +451,9 @@
 		
 	document.addEventListener('DOMContentLoaded', function(event){
 		xtag.domready = true;
+		xtag.observe(document.documentElement, nodeInserted);
 		if (xtag.tagList[0]) xtag.query(document, xtag.tagList).forEach(nodeInserted);
 		xtag.fireEvent(document, 'DOMComponentsLoaded');
 	}, false);
-	
-	xtag.observe(document.documentElement, nodeInserted);
 	
 })();
