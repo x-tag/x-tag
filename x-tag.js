@@ -2,7 +2,7 @@
 	
 	var head = document.getElementsByTagName('head')[0],
 		nodeInserted = function(element, query){
-			if (query && element.querySelector) xtag.query(element, xtag.tagList).forEach(function(element){ nodeInserted(element) });
+			if (query && element.childNodes.length) xtag.query(element, xtag.tagList).forEach(function(element){ nodeInserted(element) });
 			xtag.extendElement(element, true);
 			if (element.parentNode) xtag.getOptions(element).onInsert.call(element);
 		},
