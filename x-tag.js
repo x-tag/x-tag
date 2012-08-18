@@ -248,8 +248,10 @@
 				for (var z in options.getters) xtag.applyAccessor(element, z, 'get', options.getters[z]);
 				xtag.addEvents(element, options.events, options.eventMap);
 				options.onCreate.call(element);
-				if (options.content) element.innerHTML = options.content;
-				options.onUpgrade.call(element);
+				if (options.content) {
+					element.innerHTML = options.content;
+					options.onUpgrade.call(element);
+				}
 			}
 		},
 		
