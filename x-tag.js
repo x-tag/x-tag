@@ -420,7 +420,7 @@
 					var added = [];
 					mutations.forEach(function(record){
 						var nodes = record.addedNodes, length = nodes.length;
-						for (i = 0; i < length && added.indexOf(nodes[i]) == -1; i++){
+						for (var i = 0; i < length && added.indexOf(nodes[i]) == -1; i++){
 							added.push(nodes[i]);
 							fn(nodes[i], true);
 						}
