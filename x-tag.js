@@ -60,7 +60,8 @@
 			getters: {}, 
 			setters: {},
 			onCreate: function(){},
-			onInsert: function(){}
+			onInsert: function(){},
+			onUpgrade: function(){}
 		},
 		eventMap: {
 			animationstart: ['animationstart', 'oAnimationStart', 'MSAnimationStart', 'webkitAnimationStart'],
@@ -246,8 +247,9 @@
 				for (var z in options.setters) xtag.applyAccessor(element, z, 'set', options.setters[z]);
 				for (var z in options.getters) xtag.applyAccessor(element, z, 'get', options.getters[z]);
 				xtag.addEvents(element, options.events, options.eventMap);
-				if (options.content) element.innerHTML = options.content;
 				options.onCreate.call(element);
+				if (options.content) element.innerHTML = options.content;
+				options.onUpgrade.call(element);
 			}
 		},
 		
