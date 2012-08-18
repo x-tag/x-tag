@@ -1,4 +1,6 @@
-(function(){
+(function(window){
+
+	"use strict";
 	
 	var head = document.getElementsByTagName('head')[0],
 		nodeInserted = function(element, query){
@@ -45,7 +47,7 @@
 			click: 'touchend'
 		};
 	
-	xtag = {
+	var xtag = window.xtag = {
 		tags: {},
 		tagList: [],
 		callbacks: {},
@@ -459,4 +461,4 @@
 		xtag.fireEvent(document, 'DOMComponentsLoaded');
 	}, false);
 	
-})();
+})(this);
