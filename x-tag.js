@@ -237,7 +237,14 @@
 		
 		register: function(tag, options){
 			xtag.tagList.push(tag);
-			options = xtag.tags[tag] = xtag.merge({ tagName: tag }, xtag.tagOptions, xtag.applyMixins(options || {}));
+
+			if (xtag.typeOf(options) !== 'object') {
+				options = {};
+			}
+
+			options = xtag.tags[tag]
+				= xtag.merge({ tagName: tag }, xtag.tagOptions, xtag.applyMixins(options));
+
 			xtag.attachBehavior(tag, options.styles);
 			if (xtag.domready) xtag.query(document, tag).forEach(nodeInserted);
 		},
