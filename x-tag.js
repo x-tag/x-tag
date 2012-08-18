@@ -1,4 +1,6 @@
-(function(){
+(function(window){
+
+	"use strict";
 	
 	var head = document.getElementsByTagName('head')[0],
 		nodeInserted = function(element, query){
@@ -45,7 +47,7 @@
 			click: 'touchend'
 		};
 	
-	xtag = {
+	var xtag = window.xtag = {
 		tags: {},
 		tagList: [],
 		callbacks: {},
@@ -418,7 +420,7 @@
 					var added = [];
 					mutations.forEach(function(record){
 						var nodes = record.addedNodes, length = nodes.length;
-						for (i = 0; i < length && added.indexOf(nodes[i]) == -1; i++){
+						for (var i = 0; i < length && added.indexOf(nodes[i]) == -1; i++){
 							added.push(nodes[i]);
 							fn(nodes[i], true);
 						}
@@ -459,4 +461,4 @@
 		xtag.fireEvent(document, 'DOMComponentsLoaded');
 	}, false);
 	
-})();
+})(this);
