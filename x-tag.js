@@ -234,7 +234,7 @@
 		
 		register: function(tag, options){
 			xtag.tagList.push(tag);
-			xtag.tags[tag] = xtag.merge({ tagName: tag }, xtag.tagOptions, xtag.applyMixins(options));
+			xtag.tags[tag] = xtag.merge({ tagName: tag }, xtag.tagOptions, xtag.applyMixins(options || {}));
 			if (xtag.domready) xtag.query(document, tag).forEach(nodeInserted);
 		},
 		
@@ -459,6 +459,6 @@
 		xtag.fireEvent(document, 'DOMComponentsLoaded');
 	}, false);
 	
-	if (define && define.amd) define(xtag);
+	if (typeof define == 'function' && define.amd) define(xtag);
 	
 })();
