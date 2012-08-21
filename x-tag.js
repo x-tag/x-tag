@@ -59,6 +59,9 @@
 			methods: {},
 			getters: {},
 			setters: {},
+			styles: {
+				display: 'block'
+			},
 			onCreate: function(){},
 			onInsert: function(){}
 		},
@@ -234,9 +237,29 @@
 		
 		register: function(tag, options){
 			xtag.tagList.push(tag);
-			xtag.tags[tag] = xtag.merge({ tagName: tag }, xtag.tagOptions, xtag.applyMixins(options));
+
+			if (xtag.typeOf(options) !== 'object') {
+				options = {};
+			}
+
+			options = xtag.tags[tag]
+				= xtag.merge({ tagName: tag }, xtag.tagOptions, xtag.applyMixins(options));
+
+			xtag.attachBehavior(tag, options.styles);
 			if (xtag.domready) xtag.query(document, tag).forEach(nodeInserted);
 		},
+
+		attachBehavior: function(tag, styles) {
+
+      var map = [],
+        sheet = styleSheet.sheet;
+
+      for (var rule in styles) {
+        map.push(rule + ':' + styles[rule]);
+      }
+
+      sheet.insertRule(tag + '{' + map.join(';') + '}', sheet.cssRules.length);
+    },
 		
 		extendElement: function(element, insert){
 			if (!element.xtag){
@@ -436,6 +459,9 @@
 			}, false);
 		}
 	};
+
+	var styleSheet = document.createElement('style');
+  head.appendChild(styleSheet);
 	
 	var setAttribute = HTMLElement.prototype.setAttribute;
 	HTMLElement.prototype.setAttribute = function(attr, value, setter){
