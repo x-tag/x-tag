@@ -57,7 +57,7 @@
 			mixins: [],
 			events: {},
 			methods: {},
-			getters: {}, 
+			getters: {},
 			setters: {},
 			onCreate: function(){},
 			onInsert: function(){}
@@ -458,5 +458,7 @@
 		xtag.domready = true;
 		xtag.fireEvent(document, 'DOMComponentsLoaded');
 	}, false);
+	
+	if (define && define.amd) define(xtag);
 	
 })();
