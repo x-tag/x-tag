@@ -20,3 +20,9 @@ clone the elements submodule:
     git clone --recursive https://github.com/mozilla/x-tag
 
 Open up demo.html in your browser to see how things work.
+
+#### Create your own X-Tags
+
+To get started making your own X-tags or to see a library of already available tags, check out the [X-Tag Registry](https://xtag-registry.vcap.mozillalabs.com/)
+
+You can submit your own x-tag repo directly following the [Adding x-tags step](https://github.com/pennyfx/x-tag-registry)
