@@ -1,58 +1,111 @@
 (function(){
   
-  var head = document.getElementsByTagName('head')[0],
-    nodeInserted = function(element, query){
-      if (query && element.childNodes.length){ 
-        xtag.query(element, xtag.tagList).forEach(function(element){ 
-          nodeInserted(element) 
-        });
-      }
-      xtag.extendElement(element, true);
-      if (element.parentNode) xtag.getOptions(element).onInsert.call(element);
-    },
-    prefix = (function() {
-      var styles = window.getComputedStyle(document.documentElement, ''),
-        pre = (Array.prototype.slice.call(styles).join('')
-          .match(/moz|webkit|ms/)||(styles.OLink===''&&['o']))[0],
-        dom = ('WebKit|Moz|MS|O').match(new RegExp('(' + pre + ')', 'i'))[1];
-      return {
-        dom: dom,
-        lowercase: pre,
-        css: '-' + pre + '-',
-        js: pre[0].toUpperCase() + pre.substr(1)
-      };
-    })(),
-    mergeOne = function(source, key, current){
-      switch (xtag.typeOf(current)){
-        case 'object':
-          if (xtag.typeOf(source[key]) == 'object'){
-            xtag.merge(source[key], current);
-          } else source[key] = xtag.clone(current);
-        break;
-        case 'array': source[key] = xtag.toArray(current); break;
-        default: source[key] = current;
-      }
-      return source;
-    },
-    keypseudo = {
-      listener: function(pseudo, fn, args){
-        if (!!~pseudo.value.match(/(\d+)/g).indexOf(String(args[0].keyCode)) 
-          == (pseudo.name == 'keypass')){
-          args.splice(args.length, 0, this);
-          fn.apply(this, args);
-        }
-      }
-    },
-    touchMap = {
-      mouseenter: 'touchenter',
-      mouseleave: 'touchleave',
-      mousedown: 'touchstart',
-      mousemove: 'touchmove',
-      mouseup: 'touchend',
-      click: 'touchend'
+  var head = document.getElementsByTagName('head')[0];
+
+  var nodeInserted = function(element, query){
+    if (query && element.childNodes.length){ 
+      xtag.query(element, xtag.tagList).forEach(function(element){ 
+        nodeInserted(element) 
+      });
+    }
+    xtag.extendElement(element, true);
+    if (element.parentNode) xtag.getOptions(element).onInsert.call(element);
+  };
+
+  /**
+  * Object containing various vendor specific details such as the CSS prefix
+  * to use for the current browser.
+  *
+  * The following keys are set in the object:
+  *
+  * * css: the CSS prefix
+  * * dom: the DOM prefix
+  * * js: the Javascript prefix 
+  * * lowercase: a lower cased version of the browser prefix
+  *
+  * An example of this object on Chromium is the following 
+  *
+  * {
+  * css: "-webkit-"
+  * dom: "WebKit"
+  * js: "Webkit"
+  * keyframes: true
+  * lowercase: "webkit"  
+  * }
+  */
+  var prefix = (function() {
+    var styles = window.getComputedStyle(document.documentElement, '');
+    
+    var pre = (
+        Array.prototype.slice
+        .call(styles)
+        .join('')
+        .match(/moz|webkit|ms/) || (styles.OLink===''&&['o'])
+      )[0];
+
+    var dom = ('WebKit|Moz|MS|O')
+        .match(new RegExp('(' + pre + ')', 'i'))[1];
+
+    return {
+      dom: dom,
+      lowercase: pre,
+      css: '-' + pre + '-',
+      js: pre[0].toUpperCase() + pre.substr(1)
     };
+  })();
+
+  /**
+  * Stores the value of `current` in `source` using the key specified in
+  * `key`.
+  *
+  * @param {object} source The object to store the value of the third
+  * parameter.
+  * @param {string} key The key under which to store the value.
+  * @param {object|array} current The value to store in the object
+  * specified in the `source` parameter.
+  * @return {object}
+  */
+  var  mergeOne = function(source, key, current){
+    switch (xtag.typeOf(current)){
+      case 'object':
+        if (xtag.typeOf(source[key]) == 'object'){
+          xtag.merge(source[key], current);
+        } else source[key] = xtag.clone(current);
+      break;
+      case 'array': source[key] = xtag.toArray(current); break;
+      default: source[key] = current;
+    }
+    return source;
+  };
+
+  /**
+  * Calls the function in `fn` when the string in `value` contains an event
+  * key code that matches a triggered event.
+  *
+  * @param {function} fn The function to call.
+  * @param {string} value String containing the event key code.
+  * @param {string} pseudo
+  */
+  var keypseudo = {
+    listener: function(pseudo, fn, args){
+      if (!!~pseudo.value.match(/(\d+)/g).indexOf(String(args[0].keyCode)) 
+        == (pseudo.name == 'keypass')){
+        args.splice(args.length, 0, this);
+        fn.apply(this, args);
+      }
+    }
+  };
+
+  var touchMap = {
+    mouseenter: 'touchenter',
+    mouseleave: 'touchleave',
+    mousedown: 'touchstart',
+    mousemove: 'touchmove',
+    mouseup: 'touchend',
+    click: 'touchend'
+  };
   
-  xtag = {
+  var xtag = {
     tags: {},
     tagList: [],
     callbacks: {},
@@ -71,11 +124,27 @@
       onCreate: function(){},
       onInsert: function(){}
     },
+    /**
+    * Calls the function in `fn` when the string in `value` contains an event
+    * key code that matches a triggered event.
+    *
+    * @param {function} fn The function to call.
+    * @param {string} value String containing the event key code.
+    * @param {string} pseudo
+    */
     eventMap: {
-      animationstart: ['animationstart', 'oAnimationStart', 
-        'MSAnimationStart', 'webkitAnimationStart'],
-      transitionend: ['transitionend', 'oTransitionEnd', 
-        'MSTransitionEnd', 'webkitTransitionEnd'], 
+      animationstart: [
+        'animationstart', 
+        'oAnimationStart', 
+        'MSAnimationStart', 
+        'webkitAnimationStart'
+      ],
+      transitionend: [
+        'transitionend', 
+        'oTransitionEnd', 
+        'MSTransitionEnd', 
+        'webkitTransitionEnd'
+      ], 
       tap: [ 'ontouchend' in document ? 'touchend' : 'mouseup']
     },
     pseudos: {
@@ -124,6 +193,18 @@
       keystop: keypseudo,
       keypass: keypseudo
     },
+
+    /**
+    * Object containing various mixins that can be used when creating
+    * custom tags.
+    *
+    * When registering a new tag you can specify these mixins as
+    * following:
+    *
+    * xtag.register('tag-name', {
+    * mixins: ['mixin1', 'mixin2', 'etc']
+    * });
+    */
     mixins: {
       request: {
         onInsert: function(){
@@ -151,19 +232,47 @@
       }
     },
     
+    /**
+    * Returns a lowercased string containing the type of the object.
+    *
+    * @param {object} obj The object of which to retrieve the type.
+    * @return {string}
+    */
     typeOf: function(obj) {
       return ({}).toString.call(obj).match(/\s([a-zA-Z]+)/)[1].toLowerCase();
     },
-    
+  
+    /**
+    * Converts the given object to an array.
+    *
+    * @param {object} obj The object to convert.
+    * @return {array}
+    */
     toArray: function(obj){
       var sliced = Array.prototype.slice.call(obj, 0);
       return sliced.hasOwnProperty ? sliced : [obj];
     },
 
+    /**
+    * Returns a boolean that indicates if the element has the specified
+    * class.
+    *
+    * @param {element} element The element for which to check the class.
+    * @param {string} className The name of the class to check for.
+    * @return {boolean}
+    */
     hasClass: function(element, className){
       return !!~element.className.split(' ').indexOf(className);
     },
 
+     /**
+    * Adds the class to the specified element, existing classes will not
+    * be overwritten.
+    *
+    * @param {element} element The element to add the class to.
+    * @param {string} className The class to add.
+    * @return {element}
+    */
     addClass: function(element, className){
       if (!xtag.hasClass(element, className)){
         var name = element.className;
@@ -173,16 +282,38 @@
       return element;
     },
 
+    /**
+    * Removes the given class from the element.
+    *
+    * @param {element} element The element from which to remove the class.
+    * @param {string} className The class to remove.
+    * @return {element}
+    */
     removeClass: function(element, className){
       element.className = element.className.replace(className,'');
       return element;
     },
 
+    /**
+    * Toggles the class on the element. If the class is added it's
+    * removed, if not it will be added instead.
+    *
+    * @param {element} element The element for which to toggle the class.
+    * @param {string} className The class to toggle.
+    * @return {element}
+    */
     toggleClass: function(element, className){
       return !xtag.hasClass(element, className) ? 
         xtag.addClass(element,className) : xtag.removeClass(element, className);
     },
     
+    /**
+    * Queries a set of child elements using a CSS selector.
+    *
+    * @param {element} element The element to query.
+    * @param {string} selector The CSS selector to use for the query.
+    * @return {array}
+    */
     query: function(element, selector){
       return xtag.toArray(element.querySelectorAll(selector));
     },
@@ -198,6 +329,15 @@
       return xtag.toArray(result);
     },
     
+    /**
+    * Function that can be used to define a property on an element.
+    *
+    * @param {element} element The element on which to define the
+    * property.
+    * @param {string} property The property to define.
+    * @param {string} accessor The accessor name.
+    * @param {string} value The value of the property.
+    */
     defineProperty: function(element, property, accessor, value){
       return document.documentElement.__defineGetter__ ? 
         function(element, property, accessor, value){
@@ -210,7 +350,15 @@
           Object.defineProperty(element, property, obj);
         };
     }(),
-    
+
+    /**
+    * Creates a new function and sets the prototype to the specified
+    * object.
+    *
+    * @param {object} obj The object to use as the prototype for the new
+    * function.
+    * @return {function}
+    */    
     clone: function(obj) {
       var F = function(){};
       F.prototype = obj;
@@ -243,14 +391,35 @@
       });
     },
     
+    /**
+    * Checks if the specified element is an x-tag element or a regular
+    * element.
+    *
+    * @param {element} element The element to check.
+    * @return {boolean}
+    */    
     tagCheck: function(element){
       return element.tagName ? xtag.tags[element.tagName.toLowerCase()] : false;
     },
     
+    /**
+    * Returns an object containing the options of an element.
+    *
+    * @param {element} element The element for which to retrieve the
+    * options.
+    * @return {object}
+    */
     getOptions: function(element){
       return xtag.tagCheck(element) || xtag.tagOptions;
     },
     
+    /**
+    * Registers a new x-tag object.
+    *
+    * @param {string} tag The name of the tag.
+    * @param {object} options An object containing custom configuration
+    * options to use for the tag.
+    */
     register: function(tag, options){
       xtag.tagList.push(tag);
       xtag.tags[tag] = xtag.merge({ tagName: tag }, xtag.tagOptions, 
@@ -258,6 +427,12 @@
       if (xtag.domready) xtag.query(document, tag).forEach(nodeInserted);
     },
     
+    /**
+    * Extends an element by adding various x-tag related getters, setters
+    * and other properties to it.
+    *
+    * @param {element} element The element to extend.
+    */
     extendElement: function(element, insert){
       if (!element.xtag){
         element.xtag = {};
@@ -276,7 +451,15 @@
         options.onCreate.call(element);
       }
     },
-    
+
+    /**
+    * Binds a method to the specified element under the given key.
+    *
+    * @param {element} element The element to bind the method to.
+    * @param {string} key The name of the key in which to store the
+    * method.
+    * @param {function} method The method/function to bind to the element.
+    */
     bindMethods: function(element, key, method){
       element.xtag[key] = function(){ 
         return method.apply(element, xtag.toArray(arguments)) 
