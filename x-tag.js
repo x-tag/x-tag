@@ -30,7 +30,7 @@
 		},
 		keypseudo = {
 			listener: function(pseudo, fn, args){
-				if (!!~pseudo.value.match(/(\d+)/g).indexOf(String(event.keyCode)) == (pseudo.name == 'keypass')){
+				if (!!~pseudo.value.match(/(\d+)/g).indexOf(String(args[0].keyCode)) == (pseudo.name == 'keypass')){
 					args.splice(args.length, 0, this);
 					fn.apply(this, args);
 				}
