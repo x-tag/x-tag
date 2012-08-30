@@ -105,7 +105,7 @@
     click: 'touchend'
   };
   
-  var xtag = {
+  xtag = {
     tags: {},
     tagList: [],
     callbacks: {},
