@@ -14,13 +14,17 @@ X-Tag (excluding third-party icons or images) is subject to the terms of the Moz
 Developers
 ==========
 
-To get started hacking on X-Tag, first check out the code and be sure you also
-clone the elements submodule:
+To get started hacking on X-Tag, first check out the code here:
 
-    git clone --recursive https://github.com/mozilla/x-tag
+    git clone https://github.com/mozilla/x-tag
 
-Open up demo.html in your browser to see how things work.
+If you're interested in exploring the tags we've already created, check out our x-tag-elements repository.
+
+	git clone --recursive https://github.com/mozilla/x-tag
+
 
 #### Create your own X-Tags
 
-To get started making your own X-tags visit [x-tags.org](http://x-tags.org) or to see a library of already available tags, check out the [X-Tag Registry](http://registry.x-tags.org/)
+To get started making your own X-Tags visit [x-tags.org](http://x-tags.org).  
+
+Share your tags by adding them to the offical [X-Tag Registry](http://registry.x-tags.org/).
