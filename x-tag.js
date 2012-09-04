@@ -435,7 +435,7 @@
     */
     extendElement: function(element, insert){
       if (!element.xtag){
-        element.xtag = {};
+        element.xtag = {}; // used as general storage
         var options = xtag.getOptions(element);
         for (var z in options.methods){
           xtag.bindMethods(element, z, options.methods[z]); 
@@ -461,7 +461,7 @@
     * @param {function} method The method/function to bind to the element.
     */
     bindMethods: function(element, key, method){
-      element.xtag[key] = function(){ 
+      element[key] = function(){ 
         return method.apply(element, xtag.toArray(arguments)) 
       };
     },
