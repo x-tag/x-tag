@@ -633,9 +633,10 @@
       });
     },
     
-    fireEvent: function(element, type, data){
-      var event = document.createEvent('Event');
-      event.initEvent(type, true, true);
+    fireEvent: function(element, type, data, options){
+      var options = options || {},
+	    event = document.createEvent('Event');
+      event.initEvent(type, 'bubbles' in options ? options.bubbles : true, 'cancelable' in options ? options.cancelable : true);
       element.dispatchEvent(xtag.merge(event, data));
     },
     
