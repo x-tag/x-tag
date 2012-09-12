@@ -20,7 +20,7 @@ To get started hacking on X-Tag, first check out the code here:
 
 If you're interested in exploring the tags we've already created, check out our x-tag-elements repository.
 
-	git clone --recursive https://github.com/mozilla/x-tag
+	git clone --recursive https://github.com/mozilla/x-tag-elements
 
 
 #### Create your own X-Tags
