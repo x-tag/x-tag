@@ -689,6 +689,7 @@
     }
     xtag.domready = true;
     xtag.fireEvent(document, 'DOMComponentsLoaded');
+    xtag.fireEvent(document, '__DOMComponentsLoaded__');
   }, false);
   
   if (typeof define == 'function' && define.amd) define(xtag);
