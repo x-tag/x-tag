@@ -438,7 +438,7 @@
         element.xtag = {}; // used as general storage
         var options = xtag.getOptions(element);
         for (var z in options.methods){
-          xtag.bindMethods(element, z, options.methods[z]); 
+          xtag.bindMethod(element, z, options.methods[z]); 
         }
         for (var z in options.setters){
           xtag.applyAccessor(element, z, 'set', options.setters[z]);
@@ -460,7 +460,7 @@
     * method.
     * @param {function} method The method/function to bind to the element.
     */
-    bindMethods: function(element, key, method){
+    bindMethod: function(element, key, method){
       element[key] = function(){ 
         return method.apply(element, xtag.toArray(arguments)) 
       };
@@ -666,7 +666,7 @@
   };
   
   var setAttribute = HTMLElement.prototype.setAttribute;
-  HTMLElement.prototype.setAttribute = function(attr, value, setter){
+  (HTMLUnknownElement || HTMLElement).prototype.setAttribute = function(attr, value, setter){
     if (!setter && this.xtag && this.xtag.attributeSetters){ 
       this[this.xtag.attributeSetters[attr]] = value;
     }
