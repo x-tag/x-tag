@@ -3,7 +3,7 @@
   var head = document.getElementsByTagName('head')[0];
 
   var nodeInserted = function(element, query){
-    if (query && element.childNodes.length){ 
+    if (query && xtag.tagList.length && element.childNodes.length){ 
       xtag.query(element, xtag.tagList).forEach(function(element){ 
         nodeInserted(element) 
       });
@@ -675,7 +675,7 @@
     
   document.addEventListener('DOMContentLoaded', function(event){
     xtag.observe(document.documentElement, nodeInserted);
-    if (xtag.tagList[0]){ 
+    if (xtag.tagList.length){
       xtag.query(document, xtag.tagList).forEach(function(element){
         nodeInserted(element);
       });
