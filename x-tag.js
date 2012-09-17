@@ -124,14 +124,7 @@
       onCreate: function(){},
       onInsert: function(){}
     },
-    /**
-    * Calls the function in `fn` when the string in `value` contains an event
-    * key code that matches a triggered event.
-    *
-    * @param {function} fn The function to call.
-    * @param {string} value String containing the event key code.
-    * @param {string} pseudo
-    */
+
     eventMap: {
       animationstart: [
         'animationstart', 
@@ -438,7 +431,7 @@
         element.xtag = {}; // used as general storage
         var options = xtag.getOptions(element);
         for (var z in options.methods){
-          xtag.bindMethods(element, z, options.methods[z]); 
+          xtag.bindMethod(element, z, options.methods[z]); 
         }
         for (var z in options.setters){
           xtag.applyAccessor(element, z, 'set', options.setters[z]);
@@ -446,7 +439,7 @@
         for (var z in options.getters){
           xtag.applyAccessor(element, z, 'get', options.getters[z]);
         }
-        xtag.addEvents(element, options.events, options.eventMap);
+        xtag.addEvents(element, options.events);
         if (options.content) element.innerHTML = options.content;
         options.onCreate.call(element);
       }
@@ -460,7 +453,7 @@
     * method.
     * @param {function} method The method/function to bind to the element.
     */
-    bindMethods: function(element, key, method){
+    bindMethod: function(element, key, method){
       element[key] = function(){ 
         return method.apply(element, xtag.toArray(arguments)) 
       };
@@ -609,10 +602,10 @@
       }
       else if (req.abort) req.abort();
     },
-    
-    addEvent: function(element, type, fn, map){
+	
+    addEvent: function(element, type, fn){
       var eventKey = type.split(':')[0],
-        eventMap = (map || xtag.eventMap || {})[eventKey] || [eventKey];    
+        eventMap = xtag.eventMap[eventKey] || [eventKey];
       var wrapped = xtag.applyPseudos(element, type, fn);
       eventMap.forEach(function(name){
         element.addEventListener(name, 
@@ -621,19 +614,19 @@
       return wrapped;
     },
     
-    addEvents: function(element, events, map){
-      for (var z in events) xtag.addEvent(element, z, events[z], map);
+    addEvents: function(element, events){
+      for (var z in events) xtag.addEvent(element, z, events[z]);
     },
-
-    removeEvent: function(element, type, fn){
+	
+	removeEvent: function(element, type, fn){
       var eventKey = type.split(':')[0],
-        eventMap = (xtag.eventMap || {})[eventKey] || [eventKey];   
+        eventMap = xtag.eventMap[eventKey] || [eventKey];   
       eventMap.forEach(function(name){
         element.removeEventListener(name, fn);
       });
     },
-    
-    fireEvent: function(element, type, data, options){
+	
+	fireEvent: function(element, type, data, options){
       var options = options || {},
 	    event = document.createEvent('Event');
       event.initEvent(type, 'bubbles' in options ? options.bubbles : true, 'cancelable' in options ? options.cancelable : true);
@@ -666,7 +659,7 @@
   };
   
   var setAttribute = HTMLElement.prototype.setAttribute;
-  HTMLElement.prototype.setAttribute = function(attr, value, setter){
+  (HTMLUnknownElement || HTMLElement).prototype.setAttribute = function(attr, value, setter){
     if (!setter && this.xtag && this.xtag.attributeSetters){ 
       this[this.xtag.attributeSetters[attr]] = value;
     }
