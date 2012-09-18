@@ -258,7 +258,7 @@
       return !!~element.className.split(' ').indexOf(className);
     },
 
-     /**
+    /**
     * Adds the class to the specified element, existing classes will not
     * be overwritten.
     *
@@ -672,8 +672,8 @@
     if (xtag.tagCheck(element)) xtag.extendElement(element);
     return element;
   };
-    
-  document.addEventListener('DOMContentLoaded', function(event){
+  
+  function init(){
     xtag.observe(document.documentElement, nodeInserted);
     if (xtag.tagList.length){
       xtag.query(document, xtag.tagList).forEach(function(element){
@@ -683,7 +683,14 @@
     xtag.domready = true;
     xtag.fireEvent(document, 'DOMComponentsLoaded');
     xtag.fireEvent(document, '__DOMComponentsLoaded__');
-  }, false);
+  }
+
+  if (document.readyState === 'complete') init();
+  else {
+    document.addEventListener('DOMContentLoaded', function(event){
+      init();
+    }, false);
+  }
   
   if (typeof define == 'function' && define.amd) define(xtag);
   
