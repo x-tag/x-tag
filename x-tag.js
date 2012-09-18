@@ -268,9 +268,10 @@
     */
     addClass: function(element, className){
       if (!xtag.hasClass(element, className)){
-        var name = element.className;
-        element.className = name[name.length-1] == ' ' || name.length == 0 ?
-          name + className : name + " " + className;
+        var names = element.className.split(' ')
+          .filter(function(item){ return item != "" });
+        names.push(className);
+        element.className = names.join(' ');
       } 
       return element;
     },
@@ -283,7 +284,11 @@
     * @return {element}
     */
     removeClass: function(element, className){
-      element.className = element.className.replace(className,'');
+      var names = element.className.split(' ')
+        .filter(function(item){ return item != "" }),
+        idx = names.indexOf(className);
+      names.splice(idx,1);
+      element.className = names.join(' ');
       return element;
     },
 
@@ -659,7 +664,7 @@
   };
   
   var setAttribute = HTMLElement.prototype.setAttribute;
-  (HTMLUnknownElement || HTMLElement).prototype.setAttribute = function(attr, value, setter){
+  (window.HTMLUnknownElement || HTMLElement).prototype.setAttribute = function(attr, value, setter){
     if (!setter && this.xtag && this.xtag.attributeSetters){ 
       this[this.xtag.attributeSetters[attr]] = value;
     }
