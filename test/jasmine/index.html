@@ -9,9 +9,6 @@
   <script type="text/javascript" src="lib/jasmine-1.2.0/jasmine.js"></script>
   <script type="text/javascript" src="lib/jasmine-1.2.0/jasmine-html.js"></script>
 
-  <!-- X-Tag source include -->
-  <script type="text/javascript" src="../../x-tag.js"></script>
-
   <!-- Specs for test -->
   <script type="text/javascript" src="spec/tests.js"></script>
 
@@ -34,18 +31,15 @@
         if (currentWindowOnload) {
           currentWindowOnload();
         }
-        execJasmine();
+        jasmineEnv.execute();
       };
 
-      function execJasmine() {
-        jasmineEnv.execute();
-      }
 
     })();
   </script>
-
 </head>
 
 <body>
+  <div id="testbox"></div>
 </body>
 </html>
