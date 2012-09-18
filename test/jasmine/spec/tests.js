@@ -168,10 +168,8 @@ describe("x-tag ", function() {
 				expect(xtag.hasClass(body, 'bar')).toEqual(true);
 				expect('foo bar').toEqual(body.getAttribute('class'));
 				expect(2).toEqual(body.getAttribute('class').split(' ').length);
-
 				xtag.addClass(body,'biz red');
-				expect('foo bar biz red').toEqual(body.getAttribute('class'));
-				
+				expect('foo bar biz red').toEqual(body.getAttribute('class'));				
 				//does not prevent dups
 				xtag.addClass(body,'foo red');
 				expect('foo bar biz red foo red').toEqual(body.getAttribute('class'));
@@ -189,7 +187,6 @@ describe("x-tag ", function() {
 				xtag.removeClass(body,'baz');
 				expect('').toEqual(body.getAttribute('class'));
 				xtag.removeClass(body,'random');
-
 				body.setAttribute('class','  foo  bar baz   red   ');
 				xtag.removeClass(body,'bar');
 				expect('foo baz red').toEqual(body.getAttribute('class'));
