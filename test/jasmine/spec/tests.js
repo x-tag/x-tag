@@ -9,7 +9,7 @@ describe("x-tag ", function() {
 		runs(function(){
 			var script = document.createElement('script');
 			script.type = 'text/javascript';
-			script.src = '../../x-tag.js';
+			script.src = '../../x-tag.js?d=' + new Date().getTime();
 			document.getElementsByTagName('head')[0].appendChild(script);
 		});
 
@@ -48,7 +48,7 @@ describe("x-tag ", function() {
 
 	describe('using testbox', function(){
 		var testBox;
-		
+
 		beforeEach(function(){
 			testBox = document.getElementById('testbox');
 		});
@@ -77,6 +77,142 @@ describe("x-tag ", function() {
 
 			runs(function(){
 				expect(onInsertFired).toEqual(true);
+			});
+		});
+
+		it('should parse new tag as soon as it\'s registered', function(){
+			var foo = document.createElement('x-foo2');
+			testbox.appendChild(foo);
+
+			expect(foo.xtag).toBeUndefined();
+
+			xtag.register('x-foo2', {});
+
+			expect(foo.xtag).toBeDefined();
+		});
+
+		it('should register methods for element', function(){
+
+			xtag.register('x-foo', {
+				methods: {
+					baz: function(){ }
+				}
+			});
+
+			var foo = document.createElement('x-foo');
+			testbox.appendChild(foo);
+
+			expect(foo.baz).toBeDefined();
+
+		});
+
+		it('should register getters for element', function(){
+
+			xtag.register('x-foo', {
+				getters: {
+					name: function(){ 
+						return this.nodeName;
+					}
+				}
+			});
+
+			var foo = document.createElement('x-foo');
+			testbox.appendChild(foo);
+
+			expect(foo.name).toEqual('X-FOO');
+
+		});
+
+		it('should register setters for element', function(){
+
+			xtag.register('x-foo', {
+				setters: {
+					name: function(value){ 
+						this.setAttribute('name', value);
+					}
+				}
+			});
+
+			var foo = document.createElement('x-foo');
+			testbox.appendChild(foo);
+			foo.name = 'pizza';
+
+			expect(foo.getAttribute('name')).toEqual('pizza');
+
+		});
+	});
+
+	describe('helper methods', function(){
+		describe('class', function(){
+			var body;
+
+			beforeEach(function(){
+				body = document.body;
+			});
+
+			afterEach(function(){
+				body.removeAttribute('class');
+			});
+
+			it('hasClass', function(){
+				expect(xtag.hasClass(body, 'foo')).toEqual(false);
+				body.setAttribute('class', 'foo');
+				expect(xtag.hasClass(body, 'foo')).toEqual(true);
+			});
+
+			it('addClass', function(){
+				expect(xtag.hasClass(body, 'foo')).toEqual(false);
+				xtag.addClass(body,'foo');
+				expect(xtag.hasClass(body, 'foo')).toEqual(true);
+				xtag.addClass(body,'bar');
+				expect(xtag.hasClass(body, 'bar')).toEqual(true);
+				expect('foo bar').toEqual(body.getAttribute('class'));
+				expect(2).toEqual(body.getAttribute('class').split(' ').length);
+
+				xtag.addClass(body,'biz red');
+				expect('foo bar biz red').toEqual(body.getAttribute('class'));
+				
+				//does not prevent dups
+				xtag.addClass(body,'foo red');
+				expect('foo bar biz red foo red').toEqual(body.getAttribute('class'));
+			});
+
+			it('removeClass', function(){				
+				xtag.addClass(body,'foo');
+				xtag.addClass(body,'bar');
+				xtag.addClass(body,'baz');
+				expect('foo bar baz').toEqual(body.getAttribute('class'));
+				xtag.removeClass(body,'bar');
+				expect('foo baz').toEqual(body.getAttribute('class'));
+				xtag.removeClass(body,'foo');
+				expect('baz').toEqual(body.getAttribute('class'));
+				xtag.removeClass(body,'baz');
+				expect('').toEqual(body.getAttribute('class'));
+				xtag.removeClass(body,'random');
+
+				body.setAttribute('class','  foo  bar baz   red   ');
+				xtag.removeClass(body,'bar');
+				expect('foo baz red').toEqual(body.getAttribute('class'));
+			});
+
+			it('toggleClass', function(){
+				xtag.toggleClass(body, 'foo');
+				expect('foo').toEqual(body.getAttribute('class'));
+				xtag.toggleClass(body, 'foo');
+				expect('').toEqual(body.getAttribute('class'));
+			});
+		});
+
+		describe('utils', function(){
+			it('typeOf', function(){
+				expect('object').toEqual(xtag.typeOf({}));
+				expect('array').toEqual(xtag.typeOf([]));
+				expect('string').toEqual(xtag.typeOf('d'));
+				expect('number').toEqual(xtag.typeOf(42));
+			});
+
+			it('toArray', function(){
+				expect([]).toEqual(xtag.toArray({}));
 			});
 		});
 	});
