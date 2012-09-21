@@ -520,14 +520,12 @@
     removePseudos: function(element, key, fn){
       if (key.match(':')){
         key.replace(/:(\w*)(?:\(([^\)]*)\))?/g, function(match, name, value){
-          var lastPseudo = action,
-            pseudo = xtag.pseudos[name],
-            split = {
+          var pseudo = xtag.pseudos[name];
+          if (pseudo.onRemove) pseudo.onRemove.call(element, {
               key: key, 
               name: name,
               value: value
-            };
-          if (pseudo.onRemove) pseudo.onRemove.call(element, split, fn);
+            }, fn);
           
         });
       }
