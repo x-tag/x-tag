@@ -1,6 +1,8 @@
 (function(){
   
-  var head = document.getElementsByTagName('head')[0];
+  var doc = document,
+  	win = window,
+  	head = doc.getElementsByTagName('head')[0];
 
   var nodeInserted = function(element, query){
     if (query && element.childNodes.length){ 
@@ -34,7 +36,7 @@
   * }
   */
   var prefix = (function() {
-    var styles = window.getComputedStyle(document.documentElement, '');
+    var styles = win.getComputedStyle(doc.docElement, '');
     
     var pre = (
         Array.prototype.slice
@@ -65,7 +67,7 @@
   * specified in the `source` parameter.
   * @return {object}
   */
-  var  mergeOne = function(source, key, current){
+  var mergeOne = function(source, key, current){
     switch (xtag.typeOf(current)){
       case 'object':
         if (xtag.typeOf(source[key]) == 'object'){
@@ -110,10 +112,10 @@
     tagList: [],
     callbacks: {},
     prefix: prefix,
-    anchor: document.createElement('a'),
-    mutation: window.MutationObserver || 
-      window.WebKitMutationObserver || 
-      window.MozMutationObserver,
+    anchor: doc.createElement('a'),
+    mutation: win.MutationObserver || 
+      win.WebKitMutationObserver || 
+      win.MozMutationObserver,
     tagOptions: {
       content: '',
       mixins: [],
@@ -145,7 +147,7 @@
         'MSTransitionEnd', 
         'webkitTransitionEnd'
       ], 
-      tap: [ 'ontouchend' in document ? 'touchend' : 'mouseup']
+      tap: [ 'ontouchend' in doc ? 'touchend' : 'mouseup']
     },
     pseudos: {
       delegate: {
@@ -223,9 +225,11 @@
             }
           },
           dataready: function(fn){
-            this.xtag.dataready = fn;
-            if (this.xtag.request && this.xtag.request.readyState == 4){
-              fn.call(this, this.xtag.request);
+          	var xtag = this.xtag,
+          		request = xtag.request;
+            xtag.dataready = fn;
+            if (request && request.readyState == 4){
+              fn.call(this, request);
             }
           }
         }
@@ -339,7 +343,7 @@
     * @param {string} value The value of the property.
     */
     defineProperty: function(element, property, accessor, value){
-      return document.documentElement.__defineGetter__ ? 
+      return doc.docElement.__defineGetter__ ? 
         function(element, property, accessor, value){
           element['__define' + accessor[0].toUpperCase() + 
             'etter__'](property, value);
@@ -424,7 +428,7 @@
       xtag.tagList.push(tag);
       xtag.tags[tag] = xtag.merge({ tagName: tag }, xtag.tagOptions, 
         xtag.applyMixins(options || {}));
-      if (xtag.domready) xtag.query(document, tag).forEach(nodeInserted);
+      if (xtag.domready) xtag.query(doc, tag).forEach(nodeInserted);
     },
     
     /**
@@ -549,7 +553,7 @@
       }
       element.setAttribute('src', element.xtag.request.url);
       xtag.anchor.href = options.url;
-      if (xtag.anchor.hostname == window.location.hostname) {
+      if (xtag.anchor.hostname == win.location.hostname) {
         request = xtag.merge(new XMLHttpRequest(), request);
         request.onreadystatechange = function(){
           element.setAttribute('data-readystate', request.readyState);
@@ -579,16 +583,16 @@
           delete xtag.callbacks[callbackID];
           xtag.clearRequest(element);
         }
-        request.script = document.createElement('script');
-        request.script.type = 'text/javascript';
-        request.script.src = options.url = options.url + 
+        var script = request.script = doc.createElement('script');
+        script.type = 'text/javascript';
+        script.src = options.url = options.url + 
           (~options.url.indexOf('?') ? '&' : '?') + callbackKey + callbackID;
-        request.script.onerror = function(error){
+        script.onerror = function(error){
           element.setAttribute('data-readystate', request.readyState = 4);
           element.setAttribute('data-requeststatus', request.status = 400);
           xtag.fireEvent(element, 'error', error);
         }
-        head.appendChild(request.script);
+        head.appendChild(script);
       }
       element.xtag.request = request;
     },
@@ -635,7 +639,7 @@
     
     fireEvent: function(element, type, data, options){
       var options = options || {},
-	    event = document.createEvent('Event');
+	    event = doc.createEvent('Event');
       event.initEvent(type, 'bubbles' in options ? options.bubbles : true, 'cancelable' in options ? options.cancelable : true);
       element.dispatchEvent(xtag.merge(event, data));
     },
@@ -673,23 +677,23 @@
     setAttribute.call(this, attr, value);
   };
   
-  var createElement = document.createElement;
-  document.createElement = function(tag){
+  var createElement = doc.createElement;
+  doc.createElement = function(tag){
     var element = createElement.call(this, tag);
     if (xtag.tagCheck(element)) xtag.extendElement(element);
     return element;
   };
     
-  document.addEventListener('DOMContentLoaded', function(event){
-    xtag.observe(document.documentElement, nodeInserted);
+  doc.addEventListener('DOMContentLoaded', function(event){
+    xtag.observe(doc.docElement, nodeInserted);
     if (xtag.tagList[0]){ 
-      xtag.query(document, xtag.tagList).forEach(function(element){
+      xtag.query(doc, xtag.tagList).forEach(function(element){
         nodeInserted(element);
       });
     }
     xtag.domready = true;
-    xtag.fireEvent(document, 'DOMComponentsLoaded');
-    xtag.fireEvent(document, '__DOMComponentsLoaded__');
+    xtag.fireEvent(doc, 'DOMComponentsLoaded');
+    xtag.fireEvent(doc, '__DOMComponentsLoaded__');
   }, false);
   
   if (typeof define == 'function' && define.amd) define(xtag);
