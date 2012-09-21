@@ -1,6 +1,8 @@
 (function(){
   
-  var head = document.getElementsByTagName('head')[0];
+  var doc = document,
+  	win = window,
+  	head = doc.getElementsByTagName('head')[0];
 
   var nodeInserted = function(element, query){
     if (query && xtag.tagList.length && element.childNodes.length){ 
@@ -34,7 +36,7 @@
   * }
   */
   var prefix = (function() {
-    var styles = window.getComputedStyle(document.documentElement, '');
+    var styles = win.getComputedStyle(doc.documentElement, '');
     
     var pre = (
         Array.prototype.slice
@@ -110,10 +112,10 @@
     tagList: [],
     callbacks: {},
     prefix: prefix,
-    anchor: document.createElement('a'),
-    mutation: window.MutationObserver || 
-      window.WebKitMutationObserver || 
-      window.MozMutationObserver,
+    anchor: doc.createElement('a'),
+    mutation: win.MutationObserver || 
+      win.WebKitMutationObserver || 
+      win.MozMutationObserver,
     tagOptions: {
       content: '',
       mixins: [],
@@ -138,7 +140,7 @@
         'MSTransitionEnd', 
         'webkitTransitionEnd'
       ], 
-      tap: [ 'ontouchend' in document ? 'touchend' : 'mouseup']
+      tap: [ 'ontouchend' in doc ? 'touchend' : 'mouseup']
     },
     pseudos: {
       delegate: {
@@ -337,7 +339,7 @@
     * @param {string} value The value of the property.
     */
     defineProperty: function(element, property, accessor, value){
-      return document.documentElement.__defineGetter__ ? 
+      return doc.documentElement.__defineGetter__ ? 
         function(element, property, accessor, value){
           element['__define' + accessor[0].toUpperCase() + 
             'etter__'](property, value);
@@ -422,7 +424,7 @@
       xtag.tagList.push(tag);
       xtag.tags[tag] = xtag.merge({ tagName: tag }, xtag.tagOptions, 
         xtag.applyMixins(options || {}));
-      if (xtag.domready) xtag.query(document, tag).forEach(nodeInserted);
+      if (xtag.domready) xtag.query(doc, tag).forEach(nodeInserted);
     },
     
     /**
@@ -547,7 +549,7 @@
       }
       element.setAttribute('src', element.xtag.request.url);
       xtag.anchor.href = options.url;
-      if (xtag.anchor.hostname == window.location.hostname) {
+      if (xtag.anchor.hostname == win.location.hostname) {
         request = xtag.merge(new XMLHttpRequest(), request);
         request.onreadystatechange = function(){
           element.setAttribute('data-readystate', request.readyState);
@@ -577,7 +579,7 @@
           delete xtag.callbacks[callbackID];
           xtag.clearRequest(element);
         }
-        request.script = document.createElement('script');
+        request.script = doc.createElement('script');
         request.script.type = 'text/javascript';
         request.script.src = options.url = options.url + 
           (~options.url.indexOf('?') ? '&' : '?') + callbackKey + callbackID;
@@ -633,7 +635,7 @@
 	
 	fireEvent: function(element, type, data, options){
       var options = options || {},
-	    event = document.createEvent('Event');
+	    event = doc.createEvent('Event');
       event.initEvent(type, 'bubbles' in options ? options.bubbles : true, 'cancelable' in options ? options.cancelable : true);
       element.dispatchEvent(xtag.merge(event, data));
     },
@@ -664,35 +666,35 @@
   };
   
   var setAttribute = HTMLElement.prototype.setAttribute;
-  (window.HTMLUnknownElement || HTMLElement).prototype.setAttribute = function(attr, value, setter){
+  (win.HTMLUnknownElement || HTMLElement).prototype.setAttribute = function(attr, value, setter){
     if (!setter && this.xtag && this.xtag.attributeSetters){
       this[this.xtag.attributeSetters[attr]] = value;
     }
     setAttribute.call(this, attr, value);
   };
   
-  var createElement = document.createElement;
-  document.createElement = function(tag){
+  var createElement = doc.createElement;
+  doc.createElement = function(tag){
     var element = createElement.call(this, tag);
     if (xtag.tagCheck(element)) xtag.extendElement(element);
     return element;
   };
   
   function init(){
-    xtag.observe(document.documentElement, nodeInserted);
+    xtag.observe(doc.documentElement, nodeInserted);
     if (xtag.tagList.length){
-      xtag.query(document, xtag.tagList).forEach(function(element){
+      xtag.query(doc, xtag.tagList).forEach(function(element){
         nodeInserted(element);
       });
     }
     xtag.domready = true;
-    xtag.fireEvent(document, 'DOMComponentsLoaded');
-    xtag.fireEvent(document, '__DOMComponentsLoaded__');
+    xtag.fireEvent(doc, 'DOMComponentsLoaded');
+    xtag.fireEvent(doc, '__DOMComponentsLoaded__');
   }
 
-  if (document.readyState === 'complete') init();
+  if (doc.readyState === 'complete') init();
   else {
-    document.addEventListener('DOMContentLoaded', function(event){
+    doc.addEventListener('DOMContentLoaded', function(event){
       init();
     }, false);
   }
