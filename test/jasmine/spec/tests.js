@@ -6,6 +6,7 @@ describe("x-tag ", function() {
 		document.addEventListener('DOMComponentsLoaded', function(){
 			componentsLoaded = true;
 		});
+
 		runs(function(){
 			var script = document.createElement('script');
 			script.type = 'text/javascript';
@@ -46,11 +47,13 @@ describe("x-tag ", function() {
 		});
 	});
 
+	
+
 	describe('using testbox', function(){
 		var testBox;
 
 		beforeEach(function(){
-			testBox = document.getElementById('testbox');
+			testBox = document.getElementById('testbox');			
 		});
 
 		afterEach(function(){
@@ -59,6 +62,32 @@ describe("x-tag ", function() {
 
 		it('testbox should exist', function(){
 			expect(testBox).toBeDefined();
+		});
+
+		it('should fire onInsert when tag is added to innerHTML', function(){
+			var onInsertFired = false;
+			xtag.register('x-foo', {
+				onInsert: function(){
+					onInsertFired = true;
+				}, 
+				methods: {
+					bar: function(){
+						return true;
+					}
+				}
+			});
+
+			testBox.innerHTML = '<x-foo id="foo"></x-foo>';
+
+			waitsFor(function(){
+				return onInsertFired;
+			}, "new tag onInsertFired should fire", 1000);
+
+			runs(function(){				
+				var fooElement = document.getElementById('foo');				
+				expect(onInsertFired).toEqual(true);
+				expect(fooElement.bar()).toEqual(true);
+			});
 		});
 
 		it('should fire onInsert when injected into the DOM', function(){
