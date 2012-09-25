@@ -678,7 +678,7 @@
     return element;
   };
   
-  function init(){
+  function init(){   
     xtag.observe(doc.documentElement, nodeInserted);
     if (xtag.tagList.length){
       xtag.query(doc, xtag.tagList).forEach(function(element){
@@ -690,7 +690,9 @@
     xtag.fireEvent(doc, '__DOMComponentsLoaded__');
   }
 
-  if (doc.readyState === 'complete') init();
+  if (doc.readyState == 'complete' || doc.readyState == 'interactive'){
+    init();
+  } 
   else {
     doc.addEventListener('DOMContentLoaded', function(event){
       init();
@@ -698,6 +700,7 @@
   }
   
   if (typeof define == 'function' && define.amd) {
+      win.xtag = xtag;
       define(xtag);
   } else {
       win.xtag = xtag;
