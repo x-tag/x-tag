@@ -193,15 +193,18 @@ describe("x-tag ", function() {
 				expect(xtag.hasClass(body, 'foo')).toEqual(false);
 				xtag.addClass(body,'foo');
 				expect(xtag.hasClass(body, 'foo')).toEqual(true);
+				
 				xtag.addClass(body,'bar');
 				expect(xtag.hasClass(body, 'bar')).toEqual(true);
 				expect('foo bar').toEqual(body.getAttribute('class'));
 				expect(2).toEqual(body.getAttribute('class').split(' ').length);
+				
 				xtag.addClass(body,'biz red');
 				expect('foo bar biz red').toEqual(body.getAttribute('class'));				
+				
 				//does not prevent dups
 				xtag.addClass(body,'foo red');
-				expect('foo bar biz red foo red').toEqual(body.getAttribute('class'));
+				expect('foo bar biz red foo red').toEqual(body.getAttribute('class'));				
 			});
 
 			it('removeClass', function(){				
@@ -209,23 +212,58 @@ describe("x-tag ", function() {
 				xtag.addClass(body,'bar');
 				xtag.addClass(body,'baz');
 				expect('foo bar baz').toEqual(body.getAttribute('class'));
+				
 				xtag.removeClass(body,'bar');
 				expect('foo baz').toEqual(body.getAttribute('class'));
+
+				xtag.addClass(body,'bar');
+				expect('foo baz bar').toEqual(body.getAttribute('class'));
+				
 				xtag.removeClass(body,'foo');
-				expect('baz').toEqual(body.getAttribute('class'));
+				expect('baz bar').toEqual(body.getAttribute('class'));
+				
 				xtag.removeClass(body,'baz');
-				expect('').toEqual(body.getAttribute('class'));
+				expect('bar').toEqual(body.getAttribute('class'));
+				
 				xtag.removeClass(body,'random');
 				body.setAttribute('class','  foo  bar baz   red   ');
+				
 				xtag.removeClass(body,'bar');
 				expect('foo baz red').toEqual(body.getAttribute('class'));
 			});
 
 			it('toggleClass', function(){
+				
 				xtag.toggleClass(body, 'foo');
 				expect('foo').toEqual(body.getAttribute('class'));
+				
 				xtag.toggleClass(body, 'foo');
 				expect('').toEqual(body.getAttribute('class'));
+				
+				xtag.addClass(body, 'baz');
+				xtag.toggleClass(body, 'baz');
+				expect('').toEqual(body.getAttribute('class'));
+
+			});
+
+			it('Random combination of Class tests', function(){
+				body.setAttribute('class', 'flex-stack');
+				xtag.addClass(body, 'small_desktop');
+				expect('flex-stack small_desktop').toEqual(body.getAttribute('class'));
+
+				body.setAttribute('class', 'flex-stack');
+				xtag.addClass(body, 'small_desktop');
+				xtag.removeClass(body, 'small_desktop');
+				expect('flex-stack').toEqual(body.getAttribute('class'));
+
+				body.setAttribute('class', 'small_desktop flex-stack');
+				xtag.removeClass(body, 'small_desktop');
+				expect('flex-stack').toEqual(body.getAttribute('class'));
+
+				body.setAttribute('class', 'small_desktop flex-stack');
+				xtag.removeClass(body, 'small_desktop');
+				xtag.removeClass(body, 'large_desktop');
+				expect('flex-stack').toEqual(body.getAttribute('class'));
 			});
 		});
 

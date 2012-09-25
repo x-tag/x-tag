@@ -1,8 +1,8 @@
 (function(){
   
   var doc = document,
-  	win = window,
-  	head = doc.getElementsByTagName('head')[0];
+    win = window,
+    head = doc.getElementsByTagName('head')[0];
 
   var nodeInserted = function(element, query){
     if (query && xtag.tagList.length && element.childNodes.length){ 
@@ -289,7 +289,7 @@
       var names = element.className.split(' ')
         .filter(function(item){ return item != "" }),
         idx = names.indexOf(className);
-      names.splice(idx,1);
+      if (idx>=0) names.splice(idx,1);
       element.className = names.join(' ');
       return element;
     },
@@ -607,7 +607,7 @@
       }
       else if (req.abort) req.abort();
     },
-	
+  
     addEvent: function(element, type, fn){
       var eventKey = type.split(':')[0],
         eventMap = xtag.eventMap[eventKey] || [eventKey];
@@ -622,18 +622,18 @@
     addEvents: function(element, events){
       for (var z in events) xtag.addEvent(element, z, events[z]);
     },
-	
-	removeEvent: function(element, type, fn){
+  
+  removeEvent: function(element, type, fn){
       var eventKey = type.split(':')[0],
         eventMap = xtag.eventMap[eventKey] || [eventKey];   
       eventMap.forEach(function(name){
         element.removeEventListener(name, fn);
       });
     },
-	
-	fireEvent: function(element, type, data, options){
+  
+  fireEvent: function(element, type, data, options){
       var options = options || {},
-	    event = doc.createEvent('Event');
+      event = doc.createEvent('Event');
       event.initEvent(type, 'bubbles' in options ? options.bubbles : true, 'cancelable' in options ? options.cancelable : true);
       element.dispatchEvent(xtag.merge(event, data));
     },
