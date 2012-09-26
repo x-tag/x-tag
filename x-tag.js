@@ -3,10 +3,6 @@
   var doc = document,
     win = window,
     head = doc.getElementsByTagName('head')[0];
-    
-  doc.addEventListener('__xtagnodeinserted__', function(e){
-    xtag.getOptions(e.target).onInsert.call(e.target); 
-  });
 
   function nodeInserted(element, extendChildren){
     if (extendChildren && xtag.tagList.length && element.childNodes.length){
@@ -16,7 +12,9 @@
     }
     if (xtag.tagCheck(element)){
       xtag.extendElement(element);
-      xtag.fireEvent(element,'__xtagnodeinserted__');
+      if (doc.documentElement.contains(element)){
+        xtag.getOptions(element).onInsert.call(element);
+      } 
     }
   };
 
