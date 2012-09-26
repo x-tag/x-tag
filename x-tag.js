@@ -4,7 +4,7 @@
     win = window,
     head = doc.getElementsByTagName('head')[0];
 
-  var nodeInserted = function(element, extendChildren){
+  function nodeInserted(element, extendChildren){
     if (extendChildren && xtag.tagList.length && element.childNodes.length){ 
       xtag.query(element, xtag.tagList).forEach(function(element){ 
         nodeInserted(element);
@@ -67,7 +67,7 @@
   * specified in the `source` parameter.
   * @return {object}
   */
-  var  mergeOne = function(source, key, current){
+  function mergeOne(source, key, current){
     switch (xtag.typeOf(current)){
       case 'object':
         if (xtag.typeOf(source[key]) == 'object'){
@@ -454,6 +454,13 @@
       }
     },
 
+    /**
+    * Helper method to ensure x-tags that are inserted via innerHTML
+    * are inflated.  
+    *
+    * @param {element} element The element.
+    * @param {html} element The html to insert.
+    */
     innerHTML: function(element, html){
       element.innerHTML = html;
       nodeInserted(element, true);
@@ -671,7 +678,6 @@
   };
 
 
-  
   var setAttribute = HTMLElement.prototype.setAttribute;
   (win.HTMLUnknownElement || HTMLElement).prototype.setAttribute = function(attr, value, setter){
     if (!setter && this.xtag && this.xtag.attributeSetters){
