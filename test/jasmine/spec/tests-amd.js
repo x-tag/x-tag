@@ -47,15 +47,18 @@ require(['../../x-tag.js'], function(xtag){
 			var onInsertFired = false;
 			xtag.register('x-foo', {
 				onCreate: function(){
-					console.log("onCreate");
 				},
 				onInsert: function(){
-					console.log("onInsert");
 					onInsertFired = true;
 				}, 
 				methods: {
 					bar: function(){
 						return true;
+					}
+				}, 
+				setters:{
+					pizza: function(value){						
+						this.dataset.pizza = value;
 					}
 				}
 			});
@@ -70,7 +73,10 @@ require(['../../x-tag.js'], function(xtag){
 				var fooElement = document.getElementById('foo');				
 				expect(onInsertFired).toEqual(true);
 				expect(fooElement.bar()).toEqual(true);
+				fooElement.pizza = 'cheese';
+				expect('cheese').toEqual(fooElement.dataset.pizza);
 			});
 		});
 	});	
+
 });

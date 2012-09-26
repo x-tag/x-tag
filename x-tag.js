@@ -4,10 +4,10 @@
     win = window,
     head = doc.getElementsByTagName('head')[0];
 
-  var nodeInserted = function(element, query){
-    if (query && xtag.tagList.length && element.childNodes.length){ 
+  var nodeInserted = function(element, extendChildren){
+    if (extendChildren && xtag.tagList.length && element.childNodes.length){ 
       xtag.query(element, xtag.tagList).forEach(function(element){ 
-        nodeInserted(element) 
+        nodeInserted(element);
       });
     }
     xtag.extendElement(element, true);
@@ -424,7 +424,9 @@
       xtag.tagList.push(tag);
       xtag.tags[tag] = xtag.merge({ tagName: tag }, xtag.tagOptions, 
         xtag.applyMixins(options || {}));
-      if (xtag.domready) xtag.query(doc, tag).forEach(nodeInserted);
+      if (xtag.domready) xtag.query(doc, tag).forEach(function(element){
+        nodeInserted(element);
+      });
     },
     
     /**
@@ -450,6 +452,11 @@
         if (options.content) element.innerHTML = options.content;
         options.onCreate.call(element);
       }
+    },
+
+    innerHTML: function(element, html){
+      element.innerHTML = html;
+      nodeInserted(element, true);
     },
 
     /**
@@ -623,15 +630,15 @@
       for (var z in events) xtag.addEvent(element, z, events[z]);
     },
   
-  removeEvent: function(element, type, fn){
+    removeEvent: function(element, type, fn){
       var eventKey = type.split(':')[0],
         eventMap = xtag.eventMap[eventKey] || [eventKey];   
       eventMap.forEach(function(name){
         element.removeEventListener(name, fn);
       });
     },
-  
-  fireEvent: function(element, type, data, options){
+    
+    fireEvent: function(element, type, data, options){
       var options = options || {},
       event = doc.createEvent('Event');
       event.initEvent(type, 'bubbles' in options ? options.bubbles : true, 'cancelable' in options ? options.cancelable : true);
@@ -662,6 +669,8 @@
       }, false);
     }
   };
+
+
   
   var setAttribute = HTMLElement.prototype.setAttribute;
   (win.HTMLUnknownElement || HTMLElement).prototype.setAttribute = function(attr, value, setter){
@@ -685,14 +694,19 @@
         nodeInserted(element);
       });
     }
-    xtag.domready = true;
+    xtag.domready = true;    
     xtag.fireEvent(doc, 'DOMComponentsLoaded');
-    xtag.fireEvent(doc, '__DOMComponentsLoaded__');
+    xtag.fireEvent(doc, '__DOMComponentsLoaded__');    
   }
+  
 
-  if (doc.readyState == 'complete' || doc.readyState == 'interactive'){
-    init();
-  } 
+  if (doc.readyState == 'complete'){
+      init();
+  } else if (doc.readyState == 'interactive'){
+      doc.addEventListener('readystatechange', function(e){
+        init();
+      }); 
+  }
   else {
     doc.addEventListener('DOMContentLoaded', function(event){
       init();

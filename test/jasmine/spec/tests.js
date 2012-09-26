@@ -169,6 +169,20 @@ describe("x-tag ", function() {
 			expect(foo.getAttribute('name')).toEqual('pizza');
 
 		});
+
+		it('xtag.innerHTML should instantiate x-tags in innerHTML', function(){
+			xtag.register('x-foo', {
+				setters: {
+					name: function(value){ 
+						this.setAttribute('name', value);
+					}
+				}
+			});
+			xtag.innerHTML(testbox, '<x-foo id="foo"></x-foo>');
+			var foo = document.getElementById('foo');
+			foo.name = "Bob";
+			expect(foo.getAttribute('name')).toEqual('Bob');
+		});
 	});
 
 	describe('helper methods', function(){
@@ -278,6 +292,7 @@ describe("x-tag ", function() {
 			it('toArray', function(){
 				expect([]).toEqual(xtag.toArray({}));
 			});
+
 		});
 	});
 });
