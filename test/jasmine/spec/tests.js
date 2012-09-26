@@ -183,6 +183,28 @@ describe("x-tag ", function() {
 			foo.name = "Bob";
 			expect(foo.getAttribute('name')).toEqual('Bob');
 		});
+		
+		it('should only fire onInsert when inserted into the DOM', function(){
+			var inserted = false;
+			xtag.register('x-foo', {
+				onInsert: function(){
+					inserted = !inserted;
+				}
+			});
+			var temp = document.createElement('div');
+			temp.appendChild(document.createElement('x-foo'));
+			expect(inserted).toEqual(false);
+
+			testbox.appendChild(temp);
+
+			waitsFor(function(){
+				return inserted;
+			}, "new tag onInsert should fire", 1000);
+			
+			runs(function(){
+				expect(inserted).toEqual(true);
+			});			
+		});
 	});
 
 	describe('helper methods', function(){

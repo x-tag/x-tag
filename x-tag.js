@@ -3,15 +3,21 @@
   var doc = document,
     win = window,
     head = doc.getElementsByTagName('head')[0];
+    
+  doc.addEventListener('__xtagnodeinserted__', function(e){
+    xtag.getOptions(e.target).onInsert.call(e.target); 
+  });
 
   function nodeInserted(element, extendChildren){
-    if (extendChildren && xtag.tagList.length && element.childNodes.length){ 
-      xtag.query(element, xtag.tagList).forEach(function(element){ 
+    if (extendChildren && xtag.tagList.length && element.childNodes.length){
+        xtag.query(element, xtag.tagList).forEach(function(element){
         nodeInserted(element);
       });
     }
-    xtag.extendElement(element, true);
-    if (element.parentNode) xtag.getOptions(element).onInsert.call(element);
+    if (xtag.tagCheck(element)){
+      xtag.extendElement(element);
+      xtag.fireEvent(element,'__xtagnodeinserted__');
+    }
   };
 
   /**
@@ -37,7 +43,6 @@
   */
   var prefix = (function() {
     var styles = win.getComputedStyle(doc.documentElement, '');
-    
     var pre = (
         Array.prototype.slice
         .call(styles)
@@ -399,7 +404,7 @@
     * @return {boolean}
     */    
     tagCheck: function(element){
-      return element.tagName ? xtag.tags[element.tagName.toLowerCase()] : false;
+      return element.nodeName ? xtag.tags[element.nodeName.toLowerCase()] : false;
     },
     
     /**
@@ -435,8 +440,8 @@
     *
     * @param {element} element The element to extend.
     */
-    extendElement: function(element, insert){
-      if (!element.xtag){
+    extendElement: function(element){
+      if (!element.xtag && xtag.tagCheck(element)){
         element.xtag = {}; // used as general storage
         var options = xtag.getOptions(element);
         for (var z in options.methods){
@@ -463,7 +468,12 @@
     */
     innerHTML: function(element, html){
       element.innerHTML = html;
-      nodeInserted(element, true);
+      if (xtag.observer){
+        xtag.parseMutations(xtag.observer.takeRecords(), nodeInserted);
+      }
+      else {
+        nodeInserted(element);
+      }
     },
 
     /**
@@ -651,30 +661,36 @@
       event.initEvent(type, 'bubbles' in options ? options.bubbles : true, 'cancelable' in options ? options.cancelable : true);
       element.dispatchEvent(xtag.merge(event, data));
     },
+
+    parseMutations: function(mutations, fn) {
+      var added = [];
+      mutations.forEach(function(record){
+        var nodes = record.addedNodes, length = nodes.length;
+        for (i = 0; i < length && added.indexOf(nodes[i]) == -1; i++){
+          added.push(nodes[i]);
+          fn(nodes[i], true);
+        }
+      });
+    },
     
     observe: function(element, fn){
       if (xtag.mutation){
-        var mutation = new xtag.mutation(function(mutations) {
-          var added = [];
-          mutations.forEach(function(record){
-            var nodes = record.addedNodes, length = nodes.length;
-            for (i = 0; i < length && added.indexOf(nodes[i]) == -1; i++){
-              added.push(nodes[i]);
-              fn(nodes[i], true);
-            }
-          });
+        var observer = new xtag.mutation(function(mutations) {
+          xtag.parseMutations(mutations, fn);
         });
-        mutation.observe(element, {
+        observer.observe(element, {
           subtree: true,
           childList: true,
           attributes: !true,
           characterData: false
         });
+        xtag.observer = observer;
       }
       else element.addEventListener('DOMNodeInserted', function(event){
-        fn(event.target);
+        fn(event.target, true);
       }, false);
     }
+
   };
 
 
@@ -689,7 +705,7 @@
   var createElement = doc.createElement;
   doc.createElement = function(tag){
     var element = createElement.call(this, tag);
-    if (xtag.tagCheck(element)) xtag.extendElement(element);
+    xtag.extendElement(element);
     return element;
   };
   
