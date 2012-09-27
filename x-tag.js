@@ -722,7 +722,8 @@
 
   if (doc.readyState == 'complete'){
       init();
-  } else if (doc.readyState == 'interactive'){
+  } 
+  else if (doc.readyState == 'interactive'){
       doc.addEventListener('readystatechange', function(e){
         init();
       }); 
@@ -734,9 +735,9 @@
   }
   
   if (typeof define == 'function' && define.amd) {
-      win.xtag = xtag;
       define(xtag);
-  } else {
+  } 
+  else {
       win.xtag = xtag;
   }
   
