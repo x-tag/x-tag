@@ -4,6 +4,7 @@
     win = window,
     head = doc.getElementsByTagName('head')[0];
 
+
   function nodeInserted(element, extendChildren){
     if (extendChildren && xtag.tagList.length && element.childNodes.length){
         xtag.query(element, xtag.tagList).forEach(function(element){
@@ -119,6 +120,9 @@
     mutation: win.MutationObserver || 
       win.WebKitMutationObserver || 
       win.MozMutationObserver,
+	_matchSelector: document.documentElement.matchesSelector ||
+	  document.documentElement.mozMatchesSelector || 
+      document.documentElement.webkitMatchesSelector, 
     tagOptions: {
       content: '',
       mixins: [],
@@ -148,11 +152,11 @@
     pseudos: {
       delegate: {
         listener: function(pseudo, fn, args){
-          var target = xtag.query(this, pseudo.value).filter(function(node){
-            return node == args[0].target || 
-              node.contains ? node.contains(args[0].target) : false;
-          })[0];
-          return target ? fn.apply(target, args) : false;
+		  var target = args[0].target,
+		      delegate = xtag.query(this.parentNode || this, pseudo.value).filter(function(node){
+	            return node == target || node.contains ? node.contains(target) : false;
+	          })[0];
+          return delegate ? fn.apply(delegate, args) : false;
         }
       },
       preventable: { 
@@ -309,6 +313,10 @@
         xtag.addClass(element,className) : xtag.removeClass(element, className);
     },
     
+	matchSelector: function(element, selector){
+		return xtag._matchSelector.call(element, selector);
+	},
+	
     /**
     * Queries a set of child elements using a CSS selector.
     *
@@ -437,10 +445,11 @@
     *
     * @param {element} element The element to extend.
     */
+
     extendElement: function(element){
       if (!element.xtag && xtag.tagCheck(element)){
         element.xtag = {}; // used as general storage
-        var options = xtag.getOptions(element);
+        var options = options || xtag.getOptions(element);
         for (var z in options.methods){
           xtag.bindMethod(element, z, options.methods[z]);
         }
