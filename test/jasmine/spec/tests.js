@@ -205,6 +205,144 @@ describe("x-tag ", function() {
 				expect(inserted).toEqual(true);
 			});			
 		});
+
+		it('delegate event pseudo should pass the custom element as second param', function(){
+			
+			var delegateElem = null;
+
+			xtag.register('x-foo', {
+				onCreate: function(){
+					this.innerHTML = '<div></div>';
+				},				
+				events: {
+					'click:delegate(div)': function(e, elem){						
+						delegateElem = elem;
+					}
+				}
+			});
+
+			var foo = document.createElement('x-foo');
+			testbox.appendChild(foo);
+
+			xtag.fireEvent(xtag.query(foo,'div')[0],'click');
+
+			expect(foo).toEqual(delegateElem);
+			
+		});
+
+		it('delegate event pseudo should catch click from inner element', function(){
+			
+			var clicked = false;
+
+			xtag.register('x-foo', {
+				onCreate: function(){
+					this.innerHTML = '<div></div>';
+				},				
+				events: {
+					'click:delegate(div)': function(e, elem){
+						clicked = true;
+					}
+				}
+			});
+
+			var foo = document.createElement('x-foo');
+			testbox.appendChild(foo);
+
+			xtag.fireEvent(xtag.query(foo,'div')[0],'click');
+
+			expect(clicked).toEqual(true);
+		});
+
+		it('delegate event pseudo "this" should be the element filtered by pseudo', function(){
+			
+			var clickThis = null;
+
+			xtag.register('x-foo', {
+				onCreate: function(){
+					this.innerHTML = '<div></div>';
+				},				
+				events: {
+					'click:delegate(div)': function(e, elem){
+						clickThis = this;
+					}
+				}
+			});
+
+			var foo = document.createElement('x-foo');
+			testbox.appendChild(foo);
+
+			var innerDiv = xtag.query(foo,'div')[0];
+			xtag.fireEvent(innerDiv,'click');
+
+			expect(innerDiv).toEqual(clickThis);
+
+		});
+
+		it('delegate event pseudo should support chaining', function(){
+			
+			var clickThis = null;
+
+			xtag.register('x-foo', {
+				onCreate: function(){
+					this.innerHTML = '<div><foo><bazz></bazz></foo></div>';
+				},				
+				events: {
+					'click:delegate(div):delegate(bazz)': function(e, elem){
+						clickThis = this;
+					}
+				}
+			});
+
+			var foo = document.createElement('x-foo');
+			testbox.appendChild(foo);
+
+			var innerDiv = xtag.query(foo,'bazz')[0];
+			xtag.fireEvent(innerDiv,'click');
+
+			expect(innerDiv).toEqual(clickThis);
+
+		});
+
+
+		it('custom event pseudo should fire', function(){
+		
+			var pseudoFired = false, 
+				clickThis = null;
+
+			xtag.pseudos.blah = {
+				listener: function(pseudo, fn, args){
+					console.log("firing blah", this);
+					pseudoFired = true;
+					args[0].foo = this;
+					fn.apply(this, args);
+				}
+			}
+
+			xtag.register('x-foo', {
+				onCreate: function(){
+					this.innerHTML = '<div><foo><bazz></bazz></foo></div>';
+				},				
+				events: {
+					'click:delegate(div):blah:delegate(bazz)': function(e, elem){
+						clickThis = this;
+						console.log("FINAL THIS", this, e.foo);
+					}
+				}
+			});
+
+			var foo = document.createElement('x-foo');
+			testbox.appendChild(foo);
+
+			var innerDiv = xtag.query(foo,'bazz')[0];
+			xtag.fireEvent(innerDiv,'click');
+
+			expect(pseudoFired).toEqual(true);
+
+			expect(innerDiv).toEqual(clickThis);
+
+			
+
+		});
 	});
 
 	describe('helper methods', function(){

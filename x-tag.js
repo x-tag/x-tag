@@ -152,7 +152,6 @@
             return node == args[0].target || 
               node.contains ? node.contains(args[0].target) : false;
           })[0];
-          args.splice(args.length, 0, this);
           return target ? fn.apply(target, args) : false;
         }
       },
@@ -518,20 +517,31 @@
     applyPseudos: function(element, key, fn){
       var action = fn, onAdd = {};
       if (key.match(':')){
-        key.replace(/:(\w*)(?:\(([^\)]*)\))?/g, function(match, name, value){
-          var lastPseudo = action,
+
+        var split = key.split(':');
+        for (var i = split.length - 1; i > 0; i--) {
+
+          split[i].replace(/(\w*)(?:\(([^\)]*)\))?/, function(match, name, value){
+            var lastPseudo = action,
             pseudo = xtag.pseudos[name],
             split = {
               key: key, 
               name: name,
               value: value
             };
-          if (pseudo.onAdd) onAdd[name] = split;
-          action = function(){
-            return pseudo.listener.apply(element, 
-              [split, fn, xtag.toArray(arguments)]);
-          }
-        });
+
+            if (pseudo.onAdd) onAdd[name] = split;
+            action = function(e){
+              e.customElement = element;              
+              var args = xtag.toArray(arguments);
+              args[1] = element;
+              return pseudo.listener.apply(this, 
+                [split, lastPseudo, args]);
+            }
+          });
+
+        }
+
         for (var z in onAdd){
           xtag.pseudos[z].onAdd.call(element, onAdd[z], action);
         }
@@ -542,12 +552,14 @@
     removePseudos: function(element, key, fn){
       if (key.match(':')){
         key.replace(/:(\w*)(?:\(([^\)]*)\))?/g, function(match, name, value){
-          var pseudo = xtag.pseudos[name];
-          if (pseudo.onRemove) pseudo.onRemove.call(element, {
+          var lastPseudo = action,
+            pseudo = xtag.pseudos[name],
+            split = {
               key: key, 
               name: name,
               value: value
-            }, fn);
+            };
+          if (pseudo.onRemove) pseudo.onRemove.call(element, split, lastPseudo);
           
         });
       }
