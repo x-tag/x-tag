@@ -109,7 +109,7 @@ describe("x-tag ", function() {
 			});
 		});
 
-		it('should parse new tag as soon as it\'s registered', function(){
+		it('should parse new tag as soon as it is registered', function(){
 			var foo = document.createElement('x-foo2');
 			testbox.appendChild(foo);
 
@@ -204,6 +204,84 @@ describe("x-tag ", function() {
 			runs(function(){
 				expect(inserted).toEqual(true);
 			});			
+		});
+
+		it("should create a mixin, fire onCreate", function(){
+			var onCreateFired = false;
+			xtag.mixins.test = {
+				onCreate: function(){
+					onCreateFired = true;
+				}
+			}
+
+			xtag.register('x-foo', {
+				mixins: ['test']
+			});
+
+			var foo = document.createElement('x-foo');
+			expect(true).toEqual(onCreateFired);
+		});
+
+		it("should create a mixin, fire onInsert", function(){
+			var onInsertFired = false;
+			xtag.mixins.test = {
+				onInsert: function(){
+					onInsertFired = true;
+				}
+			}
+
+			xtag.register('x-foo', {
+				mixins: ['test']
+			});
+
+			var foo = document.createElement('x-foo');
+			testbox.appendChild(foo);
+
+			waitsFor(function(){
+				return onInsertFired;
+			}, "new tag mixin onInsert should fire", 1000);
+			
+			runs(function(){
+				expect(true).toEqual(onInsertFired);
+			});	
+
+			
+		});
+
+		it("should allow mixins to create getters", function(){
+			xtag.mixins.test = {
+				getters: {
+					foo: function(){
+						return "barr";
+					}
+				}
+			}
+
+			xtag.register('x-foo', {
+				mixins: ['test']
+			});
+
+			var foo = document.createElement('x-foo');
+			expect('barr').toEqual(foo.foo);
+		});
+
+		it("should allow mixins to create setters", function(){
+			xtag.mixins.test = {
+				setters: {
+					foo: function(value){
+						this.setAttribute('foo', value);
+					}
+				}
+			}
+
+			xtag.register('x-foo', {
+				mixins: ['test']
+			});
+
+			var foo = document.createElement('x-foo');
+			foo.foo = 'barr';
+
+			expect('barr').toEqual(foo.getAttribute('foo'));
 		});
 
 		it('delegate event pseudo should pass the custom element as second param', function(){
@@ -311,7 +389,6 @@ describe("x-tag ", function() {
 
 			xtag.pseudos.blah = {
 				listener: function(pseudo, fn, args){
-					console.log("firing blah", this);
 					pseudoFired = true;
 					args[0].foo = this;
 					fn.apply(this, args);
@@ -325,7 +402,6 @@ describe("x-tag ", function() {
 				events: {
 					'click:delegate(div):blah:delegate(bazz)': function(e, elem){
 						clickThis = this;
-						console.log("FINAL THIS", this, e.foo);
 					}
 				}
 			});
@@ -340,9 +416,9 @@ describe("x-tag ", function() {
 
 			expect(innerDiv).toEqual(clickThis);
 
-			
-
 		});
+
+		
 	});
 
 	describe('helper methods', function(){

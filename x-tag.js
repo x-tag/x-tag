@@ -532,7 +532,7 @@
 
             if (pseudo.onAdd) onAdd[name] = split;
             action = function(e){
-              e.customElement = element;              
+              if (e) e.customElement = element;              
               var args = xtag.toArray(arguments);
               args[1] = element;
               return pseudo.listener.apply(this, 
