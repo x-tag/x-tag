@@ -518,7 +518,7 @@
       var action = fn, onAdd = {};
       if (key.match(':')){
 
-        var split = key.split(':');
+        var split = key.match(/(\w+(?:\([^\)]+\))?)/g);
         for (var i = split.length - 1; i > 0; i--) {
 
           split[i].replace(/(\w*)(?:\(([^\)]*)\))?/, function(match, name, value){

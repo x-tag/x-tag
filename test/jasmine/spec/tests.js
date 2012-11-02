@@ -381,6 +381,31 @@ describe("x-tag ", function() {
 
 		});
 
+		it('x-tag pseudos should allow css pseudos', function(){
+			
+			var clickThis = null;
+
+			xtag.register('x-foo', {
+				onCreate: function(){
+					this.innerHTML = '<div><foo><bazz><button></button></bazz></foo></div>';
+				},				
+				events: {
+					'click:delegate(div):delegate(bazz:first-child)': function(e, elem){
+						clickThis = this;
+					}
+				}
+			});
+
+			var foo = document.createElement('x-foo');
+			testbox.appendChild(foo);
+
+			var button = xtag.query(foo,'button')[0];
+			xtag.fireEvent(button,'click');
+
+			expect(button).toEqual(clickThis.childNodes[0]);
+
+		});
+
 
 		it('custom event pseudo should fire', function(){
 		
