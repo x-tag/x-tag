@@ -119,6 +119,9 @@
     mutation: win.MutationObserver || 
       win.WebKitMutationObserver || 
       win.MozMutationObserver,
+    _matchSelector: document.documentElement.matchesSelector ||
+      document.documentElement.mozMatchesSelector ||
+      document.documentElement.webkitMatchesSelector,
     tagOptions: {
       content: '',
       mixins: [],
@@ -307,6 +310,17 @@
     toggleClass: function(element, className){
       return !xtag.hasClass(element, className) ? 
         xtag.addClass(element,className) : xtag.removeClass(element, className);
+    },
+
+    /**
+    * matchSelector helper
+    *
+    * @param {element} element The element to test.
+    * @param {string} selector The CSS selector to use for the test.
+    * @return {boolean}
+    */
+    matchSelector: function(element, selector){
+      return xtag._matchSelector.call(element, selector);
     },
     
     /**
