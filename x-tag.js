@@ -535,7 +535,7 @@
         var split = key.match(/(\w+(?:\([^\)]+\))?)/g);
         for (var i = split.length - 1; i > 0; i--) {
 
-          split[i].replace(/(\w*)(?:\(([^\)]*)\))?/, function(match, name, value){
+          split[i].replace(/(\w*)(?:\(([^\)]*)\))?/, function(match, name, value){            
             var lastPseudo = action,
             pseudo = xtag.pseudos[name],
             split = {
@@ -543,7 +543,7 @@
               name: name,
               value: value
             };
-
+            if (!pseudo) throw "pseudo not found: " + name;
             if (pseudo.onAdd) onAdd[name] = split;
             action = function(e){
               if (e) e.customElement = element;              
