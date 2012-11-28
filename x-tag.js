@@ -45,8 +45,8 @@
         Array.prototype.slice
         .call(styles)
         .join('')
-        .match(/moz|webkit|ms/) || (styles.OLink===''&&['o'])
-      )[0];
+        .match(/-(moz|webkit|ms)-/) || (styles.OLink==='' && ['','o'])
+      )[1];
 
     var dom = ('WebKit|Moz|MS|O')
         .match(new RegExp('(' + pre + ')', 'i'))[1];
