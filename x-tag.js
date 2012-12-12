@@ -212,6 +212,9 @@
           this.src = this.getAttribute('src');
         },
         getters: {
+		  src: function(){
+		    return this.getAttribute('src');
+		  },
           dataready: function(){
             return this.xtag.dataready;
           }
@@ -584,7 +587,7 @@
       var last = element.xtag.request || {};
         element.xtag.request = options;
       var request = element.xtag.request,
-        callbackKey = element.getAttribute('data-callback-key') ||
+        callbackKey = element.getAttribute('callback-key') ||
           'callback' + '=xtag.callbacks.';
       if (xtag.fireEvent(element, 'beforerequest') === false) return false;
       if (last.url && !options.update && 
@@ -598,7 +601,7 @@
       if (xtag.anchor.hostname == win.location.hostname) {
         request = xtag.merge(new XMLHttpRequest(), request);
         request.onreadystatechange = function(){
-          element.setAttribute('data-readystate', request.readyState);
+          element.setAttribute('readystate', request.readyState);
           if (request.readyState == 4 && request.status < 400){
             xtag.requestCallback(element, request);
           }
@@ -616,7 +619,7 @@
       }
       else {
         var callbackID = request.callbackID = 'x' + new Date().getTime();
-        element.setAttribute('data-readystate', request.readyState = 0);
+        element.setAttribute('readystate', request.readyState = 0);
         xtag.callbacks[callbackID] = function(data){
           request.status = 200;
           request.readyState = 4;
@@ -630,8 +633,8 @@
         request.script.src = options.url = options.url + 
           (~options.url.indexOf('?') ? '&' : '?') + callbackKey + callbackID;
         request.script.onerror = function(error){
-          element.setAttribute('data-readystate', request.readyState = 4);
-          element.setAttribute('data-requeststatus', request.status = 400);
+          element.setAttribute('readystate', request.readyState = 4);
+          element.setAttribute('requeststatus', request.status = 400);
           xtag.fireEvent(element, 'error', error);
         }
         head.appendChild(request.script);
@@ -641,8 +644,8 @@
     
     requestCallback: function(element, request){
       if (request != element.xtag.request) return xtag;
-      element.setAttribute('data-readystate', request.readyState);
-      element.setAttribute('data-requeststatus', request.status);         
+      element.setAttribute('readystate', request.readyState);
+      element.setAttribute('requeststatus', request.status);         
       xtag.fireEvent(element, 'dataready', { request: request });
       if (element.dataready) element.dataready.call(element, request);
     },
