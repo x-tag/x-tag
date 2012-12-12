@@ -216,9 +216,8 @@
           }
         },
         setters: {
-          src: function(src){
-            if (src){
-              this.setAttribute('src', src);
+          'src:attribute': function(src){
+            if (src){              
               xtag.request(this, { url: src, method: 'GET' });
             }
           },
