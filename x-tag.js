@@ -119,9 +119,9 @@
     mutation: win.MutationObserver || 
       win.WebKitMutationObserver || 
       win.MozMutationObserver,
-    _matchSelector: document.documentElement.matchesSelector ||
-      document.documentElement.mozMatchesSelector ||
-      document.documentElement.webkitMatchesSelector,
+    _matchSelector: doc.documentElement.matchesSelector ||
+      doc.documentElement.mozMatchesSelector ||
+      doc.documentElement.webkitMatchesSelector,
     tagOptions: {
       content: '',
       mixins: [],
