@@ -166,6 +166,7 @@
       attribute: {
         onAdd: function(pseudo){
           this.xtag.attributeSetters = this.xtag.attributeSetters || {};
+          pseudo.value = pseudo.value || pseudo.key.split(':')[0];
           this.xtag.attributeSetters[pseudo.value] = pseudo.key.split(':')[0];
         },
         listener: function(pseudo, fn, args){
