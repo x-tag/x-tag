@@ -122,6 +122,7 @@
     _matchSelector: doc.documentElement.matchesSelector ||
       doc.documentElement.mozMatchesSelector ||
       doc.documentElement.webkitMatchesSelector,
+    _register: doc.register,
     tagOptions: {
       content: '',
       mixins: [],
@@ -130,6 +131,7 @@
       getters: {},
       setters: {},
       onCreate: function(){},
+      onUpgrade: function(){},
       onInsert: function(){}
     },
 
@@ -470,6 +472,8 @@
         xtag.addEvents(element, options.events);
         if (options.content) element.innerHTML = options.content;
         options.onCreate.call(element);
+        options.onUpgrade.call(element);
+        if (!xtag._register) xtag.fireEvent(element, 'elementupgrade');
       }
     },
 
