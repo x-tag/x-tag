@@ -255,7 +255,7 @@
     */
     toArray: function(obj){
       var sliced = Array.prototype.slice.call(obj, 0);
-      return sliced.hasOwnProperty ? sliced : [obj];
+      return ['number', 'string', 'function'].indexOf(typeof obj) == -1 ? sliced : [obj];
     },
 
     /**

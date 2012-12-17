@@ -552,6 +552,11 @@ describe("x-tag ", function() {
 
 			it('toArray', function(){
 				expect([]).toEqual(xtag.toArray({}));
+				expect(["42"]).toEqual(xtag.toArray("42"));
+				expect([42]).toEqual(xtag.toArray(42));
+				expect([2,3]).toEqual(xtag.toArray([2,3]));
+				var fn = function(){};
+				expect([fn]).toEqual(xtag.toArray(fn));
 			});
 
 		});
