@@ -35,7 +35,6 @@
   * css: "-webkit-"
   * dom: "WebKit"
   * js: "Webkit"
-  * keyframes: true
   * lowercase: "webkit"  
   * }
   */
@@ -110,6 +109,19 @@
     click: 'touchend'
   };
   
+  var flowEvent = function(type){
+    var flow = type == 'over';
+    return {
+    base: 'OverflowEvent' in window ? 'overflowchanged' : type + 'flow',
+    condition: function(event){
+      return event.type == (type + 'flow') ||
+              ((event.orient == 0 && event.horizontalOverflow == flow) || 
+              (event.orient == 1 && event.verticalOverflow == flow) || 
+              (event.orient == 2 && event.horizontalOverflow == flow && event.verticalOverflow == flow));
+    }
+  }
+  };
+  
   var xtag = {
     tags: {},
     tagList: [],
@@ -122,7 +134,7 @@
     _matchSelector: doc.documentElement.matchesSelector ||
       doc.documentElement.mozMatchesSelector ||
       doc.documentElement.webkitMatchesSelector,
-    _register: doc.register,
+  _register: doc.register,
     tagOptions: {
       content: '',
       mixins: [],
@@ -135,20 +147,25 @@
       onInsert: function(){}
     },
 
-    eventMap: {
-      animationstart: [
-        'animationstart', 
-        'oAnimationStart', 
-        'MSAnimationStart', 
-        'webkitAnimationStart'
-      ],
-      transitionend: [
-        'transitionend', 
-        'oTransitionEnd', 
-        'MSTransitionEnd', 
-        'webkitTransitionEnd'
-      ], 
-      tap: [ 'ontouchend' in doc ? 'touchend' : 'mouseup']
+    customEvents: {
+      animationstart: {
+        base: [
+          'animationstart', 
+          'oAnimationStart', 
+          'MSAnimationStart', 
+          'webkitAnimationStart'
+        ]
+      },
+      transitionend: {
+        base: [
+          'transitionend', 
+          'oTransitionEnd', 
+          'MSTransitionEnd', 
+          'webkitTransitionEnd'
+        ]
+      },
+      overflow: flowEvent('over'),
+      underflow: flowEvent('under'),
     },
     pseudos: {
       delegate: {
@@ -177,14 +194,16 @@
         }
       },
       touch: {
-        onAdd: function(pseudo, fn){
+        onAdd: function(pseudo, fn){          
           this.addEventListener(touchMap[pseudo.key.split(':')[0]], fn, false);
         },
         listener: function(pseudo, fn, args){
-          if (fn.touched && args[0].type.match('mouse')){
+          if (fn.touched){
             fn.touched = false;
           } else {
-            if (args[0].type.match('touch')) fn.touched = true;
+            if (args[0].type.match('touch')){ 
+              fn.touched = true;
+            }
             args.splice(args.length, 0, this);
             fn.apply(this, args);
           }
@@ -209,14 +228,11 @@
     * });
     */
     mixins: {
-      request: {
-        onInsert: function(){
-          this.src = this.getAttribute('src');
-        },
+      request: {        
         getters: {
-		  src: function(){
-		    return this.getAttribute('src');
-		  },
+          src: function(){            
+            return this.getAttribute('src');
+          },
           dataready: function(){
             return this.xtag.dataready;
           }
@@ -472,8 +488,8 @@
         xtag.addEvents(element, options.events);
         if (options.content) element.innerHTML = options.content;
         options.onCreate.call(element);
-        options.onUpgrade.call(element);
-        if (!xtag._register) xtag.fireEvent(element, 'elementupgrade');
+    options.onUpgrade.call(element);
+    if (!xtag._register) xtag.fireEvent(element, 'elementupgrade');
       }
     },
 
@@ -538,11 +554,9 @@
     applyPseudos: function(element, key, fn){
       var action = fn, onAdd = {};
       if (key.match(':')){
-
         var split = key.match(/(\w+(?:\([^\)]+\))?)/g);
         for (var i = split.length - 1; i > 0; i--) {
-
-          split[i].replace(/(\w*)(?:\(([^\)]*)\))?/, function(match, name, value){            
+          split[i].replace(/(\w*)(?:\(([^\)]*)\))?/, function(match, name, value){
             var lastPseudo = action,
             pseudo = xtag.pseudos[name],
             split = {
@@ -560,9 +574,7 @@
                 [split, lastPseudo, args]);
             }
           });
-
         }
-
         for (var z in onAdd){
           xtag.pseudos[z].onAdd.call(element, onAdd[z], action);
         }
@@ -581,7 +593,6 @@
               value: value
             };
           if (pseudo.onRemove) pseudo.onRemove.call(element, split, lastPseudo);
-          
         });
       }
     },
@@ -662,14 +673,32 @@
       }
       else if (req.abort) req.abort();
     },
+
+    parseEvent: function(type){
+      var pseudos = type.split(':'),
+          key = pseudos.shift(),
+          event = xtag.merge({
+              base: key,
+              pseudos: '',
+              onAdd: function(){},
+              onRemove: function(){},
+              condition: function(){},
+          }, xtag.customEvents[key] || {});
+      event.type = key + (event.pseudos.length ? ':' + event.pseudos : '') + (pseudos.length ? ':' + pseudos.join(':') : '');
+      return event;
+    },
   
     addEvent: function(element, type, fn){
-      var eventKey = type.split(':')[0],
-        eventMap = xtag.eventMap[eventKey] || [eventKey];
-      var wrapped = xtag.applyPseudos(element, type, fn);
-      eventMap.forEach(function(name){
-        element.addEventListener(name, 
-          wrapped, !!~['focus', 'blur'].indexOf(name));
+      var event = xtag.parseEvent(type),
+        chained = xtag.applyPseudos(element, event.type, fn),
+        wrapped = function(){
+          var args = xtag.toArray(arguments);
+          if (event.condition.apply(this, args) === false) return false;
+          return chained.apply(this, args);
+        };
+      event.onAdd.call(element, event, wrapped);
+      xtag.toArray(event.base).forEach(function(name){
+        element.addEventListener(name, wrapped, !!~['focus', 'blur'].indexOf(name));
       });
       return wrapped;
     },
@@ -679,9 +708,10 @@
     },
   
     removeEvent: function(element, type, fn){
-      var eventKey = type.split(':')[0],
-        eventMap = xtag.eventMap[eventKey] || [eventKey];   
-      eventMap.forEach(function(name){
+      var event = xtag.parseEvent(type);
+      event.onRemove.call(element, event, fn);
+      xtag.removePseudos(element, event.type, fn);
+      xtag.toArray(event.base).forEach(function(name){
         element.removeEventListener(name, fn);
       });
     },
