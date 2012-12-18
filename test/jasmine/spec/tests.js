@@ -206,6 +206,121 @@ describe("x-tag ", function() {
 			});			
 		});
 
+		it('should replace innerHTML with content', function(){
+			var inserted = false;
+			var temp = document.createElement('x-foo3');
+			temp.innerHTML = "<li>raw</li><li>raw2</li>";
+			testbox.appendChild(temp);
+
+			xtag.register('x-foo3', {
+				content: '<ul><content></content></ul>',
+				onInsert: function(){
+					inserted = true;
+				}
+			});
+
+			waitsFor(function(){
+				return inserted;
+			}, "inserted", 1000);
+
+			runs(function(){
+				expect('<ul><li>raw</li><li>raw2</li></ul>').toEqual(temp.innerHTML);	
+			});
+			
+		});
+
+		it('should replace innerHTML with content using select attribute', function(){
+			var inserted = false;
+			var temp = document.createElement('x-foo4');
+			temp.innerHTML = "<li>raw</li><li>raw2</li>";
+			testbox.appendChild(temp);
+
+			xtag.register('x-foo4', {
+				content: '<ul><content select="li"></content></ul>',
+				onInsert: function(){
+					inserted = true;
+				}
+			});
+
+			waitsFor(function(){
+				return inserted;
+			}, "inserted", 1000);
+
+			runs(function(){
+				expect('<ul><li>raw</li><li>raw2</li></ul>').toEqual(temp.innerHTML);	
+			});
+			
+		});
+
+		it('should replace innerHTML with content and throw away any non-matching children', function(){
+			var inserted = false;
+			var temp = document.createElement('x-foo5');
+			temp.innerHTML = "<li>raw</li><li>raw2</li><blah>k</blah>";
+			testbox.appendChild(temp);
+
+			xtag.register('x-foo5', {
+				content: '<ul><content select="li"></content></ul>',
+				onInsert: function(){
+					inserted = true;
+				}
+			});
+
+			waitsFor(function(){
+				return inserted;
+			}, "inserted", 1000);
+
+			runs(function(){
+				expect('<ul><li>raw</li><li>raw2</li></ul>').toEqual(temp.innerHTML);	
+			});
+			
+		});
+
+		it('should replace innerHTML with content using multiple content nodes with a catch all', function(){
+			var inserted = false;
+			var temp = document.createElement('x-foo6');
+			temp.innerHTML = "<li>raw</li><li>raw2</li><blah>k</blah>";
+			testbox.appendChild(temp);
+
+			xtag.register('x-foo6', {
+				content: '<ul><content select="li"></content></ul><ul><content></content></ul>',
+				onInsert: function(){
+					inserted = true;
+				}
+			});
+
+			waitsFor(function(){
+				return inserted;
+			}, "inserted", 1000);
+
+			runs(function(){
+				expect('<ul><li>raw</li><li>raw2</li></ul><ul><blah>k</blah></ul>').toEqual(temp.innerHTML);	
+			});
+			
+		});
+
+		it('should replace innerHTML with content using multiple content nodes', function(){
+			var inserted = false;
+			var temp = document.createElement('x-foo7');
+			temp.innerHTML = "<li>raw</li><li>raw2</li><blah>k</blah>";
+			testbox.appendChild(temp);
+
+			xtag.register('x-foo7', {
+				content: '<ul><content select="li"></content></ul><ul><content select="blah"></content></ul>',
+				onInsert: function(){
+					inserted = true;
+				}
+			});
+
+			waitsFor(function(){
+				return inserted;
+			}, "inserted", 1000);
+
+			runs(function(){
+				expect('<ul><li>raw</li><li>raw2</li></ul><ul><blah>k</blah></ul>').toEqual(temp.innerHTML);	
+			});
+			
+		});
+
 		it("should create a mixin, fire onCreate", function(){
 			var onCreateFired = false;
 			xtag.mixins.test = {
