@@ -54,7 +54,7 @@
       dom: dom,
       lowercase: pre,
       css: '-' + pre + '-',
-      js: pre[0].toUpperCase() + pre.substr(1)
+      js: pre != 'ms' ? pre[0].toUpperCase() + pre.substr(1) : 'ms'
     };
   })();
 
@@ -652,7 +652,8 @@
         return false;
       }
       element.setAttribute('src', element.xtag.request.url);
-      xtag.anchor.href = options.url;
+      xtag.anchor.href = options.url[0] == "/" ? 
+        win.location.protocol + "//" + win.location.hostname + options.url : options.url;
       if (xtag.anchor.hostname == win.location.hostname) {
         request = xtag.merge(new XMLHttpRequest(), request);
         request.onreadystatechange = function(){
