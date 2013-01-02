@@ -297,7 +297,7 @@
     addClass: function(element, className){
       if (!xtag.hasClass(element, className)){
         var names = element.className.split(' ')
-          .filter(function(item){ return item != "" });
+          .filter(function(item){ return item != '' });
         names.push(className);
         element.className = names.join(' ');
       } 
@@ -313,7 +313,7 @@
     */
     removeClass: function(element, className){
       var names = element.className.split(' ')
-        .filter(function(item){ return item != "" }),
+        .filter(function(item){ return item != '' }),
         idx = names.indexOf(className);
       if (idx>=0) names.splice(idx,1);
       element.className = names.join(' ');
@@ -604,7 +604,7 @@
               name: name,
               value: value
             };
-            if (!pseudo) throw "pseudo not found: " + name;
+            if (!pseudo) throw 'pseudo not found: ' + name;
             if (pseudo.onAdd) onAdd[name] = split;
             action = function(e){
               if (e) e.customElement = element;              
