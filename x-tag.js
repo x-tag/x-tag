@@ -112,7 +112,7 @@
   var flowEvent = function(type){
     var flow = type == 'over';
     return {
-    base: 'OverflowEvent' in window ? 'overflowchanged' : type + 'flow',
+    base: 'OverflowEvent' in win ? 'overflowchanged' : type + 'flow',
     condition: function(event){
       return event.type == (type + 'flow') ||
               ((event.orient == 0 && event.horizontalOverflow == flow) || 
