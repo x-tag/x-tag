@@ -22,10 +22,10 @@ To get started hacking on X-Tag, first check out the code from our *new* reposit
 If you are simply looking to download the library and try it in your own project download it [here](http://x-tag.org/lib/x-tag-core.min.js).  Or if you heart the command line:
 	
 	// Uncompressed
-	$ curl http://x-tag.org/lib/x-tag-core.js   
+	$ curl http://x-tags.org/lib/x-tag-core.js   
 
 	// Compressed
-	$ curl http://x-tag.org/lib/x-tag-core.min.js
+	$ curl http://x-tags.org/lib/x-tag-core.min.js
 	
 
 If you are interested in the Custom Elements polyfill of document.register, check out this repo.
