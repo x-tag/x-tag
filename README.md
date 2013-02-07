@@ -13,7 +13,7 @@ X-Tag (excluding third-party icons or images) is subject to the terms of the Moz
 
 ## Developers
 
-To get started hacking on X-Tag, first check out the code from our *new* repository and follow the README:
+To get started hacking on X-Tag, first check out the code from our [*new* repository](https://github.com/x-tag/core) and follow the README:
         
     $ git clone https://github.com/x-tag/core x-tag-core
     
