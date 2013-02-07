@@ -14,24 +14,21 @@ X-Tag (excluding third-party icons or images) is subject to the terms of the Moz
 ## Developers
 
 To get started hacking on X-Tag, first check out the code from our *new* repository and follow the README:
-    
-    ```
+        
     $ git clone https://github.com/x-tag/core x-tag-core
-    ```
+    
 
 
 If you are simply looking to download the library and try it in your own project download it [here](http://x-tag.org/lib/x-tag-core.min.js).  Or if you heart the command line:
-
-	```
+	
 	// Uncompressed
 	$ curl http://x-tag.org/lib/x-tag-core.js   
 
 	// Compressed
 	$ curl http://x-tag.org/lib/x-tag-core.min.js
+	
 
-	```
-
-If you are interested in the Custom Elements polyfill of document.register visit our new repo.
+If you are interested in the Custom Elements polyfill of document.register, check out this repo.
 
 	https://github.com/mozilla/web-components
 
