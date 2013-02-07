@@ -28,9 +28,8 @@ If you are simply looking to download the library and try it in your own project
 	$ curl http://x-tags.org/lib/x-tag-core.min.js
 	
 
-If you are interested in the Custom Elements polyfill of document.register, check out this repo.
+If you are interested in the Custom Elements polyfill of document.register, check out this [repo](https://github.com/mozilla/web-components).
 
-	https://github.com/mozilla/web-components
 
 #### Create your own X-Tags
 
