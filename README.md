@@ -31,6 +31,10 @@ If you are simply looking to download the library and try it in your own project
 
 	```
 
+If you are interested in the Custom Elements polyfill of document.register visit our new repo.
+
+	https://github.com/mozilla/web-components
+
 #### Create your own X-Tags
 
 For documentation and the latest news on X-Tag visit [x-tags.org](http://x-tags.org).
