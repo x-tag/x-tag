@@ -1,6 +1,6 @@
 {
-  "name": "x-tag-core",
-  "description": "X-Tags core library",
+  "name": "x-tag-dev",
+  "description": "X-Tags Dev Library",
   "version": "0.0.0",
   "homepage": "https://www.x-tags.org",
   "repository": {
@@ -8,9 +8,12 @@
     "url": "git://github.com/x-tag/core.git"
   },
   "devDependencies": {
-    "grunt": "~0.4.0rc5",    
-    "grunt-contrib-concat": "~0.1.2rc6",
-    "grunt-contrib-uglify": "~0.1.1rc6"
+    "bower": "0.7.0",
+    "grunt": "~0.4.1",
+    "grunt-contrib-jshint": "0.1.1",
+    "grunt-contrib-concat": "~0.1.2",
+    "grunt-contrib-uglify": "~0.1.1",
+    "grunt-smush-components": "~0.1.6"
   },
   "dependencies": {}
 }

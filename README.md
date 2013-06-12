@@ -1,6 +1,5 @@
 # X-Tag - Custom Elements for Modern Browsers
 
-
 Based on the current W3 Web Components [draft][1], X-Tag enables the custom element portion of the proposal.
 Custom elements let you register new tags/elements with the parser so they are recognized and inflated with
 special abilities you define.
@@ -11,27 +10,20 @@ X-Tag (excluding third-party icons or images) is subject to the terms of the Moz
 
   [1]: https://dvcs.w3.org/hg/webcomponents/raw-file/tip/explainer/index.html       "W3 Web Components Spec (Draft)"
 
-## Developers
+# Developers
 
 To get started hacking on X-Tag, first check out the code from our [*new* repository](https://github.com/x-tag/core) and follow the README:
-        
-    $ git clone https://github.com/x-tag/core x-tag-core
-    
+
+    $ git clone --recurse https://github.com/x-tag/x-tag
 
 
-If you are simply looking to download the library and try it in your own project get it [here](http://x-tags.org/lib/x-tag-core.min.js).  Or if you heart the command line:
-	
+
+If you are simply looking to download the library and try it in your own project get it [here](http://x-tags.org/).  Or if you heart the command line:
+
 	$ wget -O x-tag-core.zip http://packager.x-tags.org/?packages=x-tag-core
 
-	
-	
-	
-
-If you are interested in the Custom Elements polyfill of document.register, check out this [repo](https://github.com/mozilla/web-components).
 
 
-#### Create your own X-Tags
+## Create your own X-Tags
 
 For documentation and the latest news on X-Tag visit [x-tags.org](http://x-tags.org).
-
-Share your tags by adding them to the offical [X-Tag Registry](http://registry.x-tags.org/).

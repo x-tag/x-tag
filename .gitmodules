@@ -1,0 +1,6 @@
+[submodule "src/core"]
+	path = src/core
+	url = git@github.com:x-tag/core.git
+[submodule "src/accordion"]
+	path = src/accordion
+	url = git@github.com:x-tag/accordion.git
