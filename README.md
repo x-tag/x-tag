@@ -10,7 +10,7 @@ X-Tag (excluding third-party icons or images) is subject to the terms of the Moz
 
 # Developers
 
-To get started hacking on X-Tag, first check out the code from our [*new* repository](https://github.com/x-tag/core) and follow the README:
+To start hacking on X-Tag, you can clone this repository, which contains submodules to all the components we're currently working on.  Many of the components are a work in progress.  If you find a bug or have a feature request, please file it with the corresponding repository.
 
     $ git clone --recurse https://github.com/x-tag/x-tag
 
