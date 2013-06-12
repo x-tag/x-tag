@@ -1,0 +1,85 @@
+
+x-accordion, x-accordion > *  {
+  display: block;
+  display: box;
+  display: -o-box;
+  display: -ms-box;
+  display: -moz-box;
+  display: -webkit-box;
+  display: flex;
+  display: -o-flex;
+  display: -ms-flex;
+  display: -moz-flex;
+  display: -webkit-flex;
+  box-orient: vertical;
+  -o-box-orient: vertical;
+  -ms-box-orient: vertical;
+  -moz-box-orient: vertical;
+  -webkit-box-orient: vertical;
+  flex-direction: column;
+  -o-flex-direction: column;
+  -ms-flex-direction: column;
+  -moz-flex-direction: column;
+  -webkit-flex-direction: column;
+  box-flex: 0;
+  -o-box-flex: 0;
+  -ms-box-flex: 0;
+  -moz-box-flex: 0;
+  -webkit-box-flex: 0;
+  flex: 0;
+  -o-flex: 0;
+  -ms-flex: 0;
+  -moz-flex: 0;
+  -webkit-flex: 0;
+}
+
+x-accordion > *:not(section) {
+  margin: 0;
+  cursor: pointer;
+}
+
+x-accordion > [selected] {
+  text-decoration: underline;
+}
+
+x-accordion > section {
+  display: none;
+}
+
+x-accordion > [selected] + section {
+  height: auto;
+  display: block;
+  display: box;
+  display: -o-box;
+  display: -ms-box;
+  display: -moz-box;
+  display: -webkit-box;
+  display: flex;
+  display: -o-flex;
+  display: -ms-flex;
+  display: -moz-flex;
+  display: -webkit-flex;
+  box-flex: 1;
+  -o-box-flex: 1;
+  -ms-box-flex: 1;
+  -moz-box-flex: 1;
+  -webkit-box-flex: 1;
+  flex: 1;
+  -o-flex: 1;
+  -ms-flex: 1;
+  -moz-flex: 1;
+  -webkit-flex: 1;
+}
+
+x-accordion[data-orient="horizontal"] {
+  box-orient: horizontal;
+  -o-box-orient: horizontal;
+  -ms-box-orient: horizontal;
+  -moz-box-orient: horizontal;
+  -webkit-box-orient: horizontal;
+  flex-direction: row;
+  -o-flex-direction: row;
+  -ms-flex-direction: row;
+  -moz-flex-direction: row;
+  -webkit-flex-direction: row;
+}
