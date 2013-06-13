@@ -15,7 +15,7 @@ module.exports = function(grunt) {
       'src/accordion/src/accordion.css',
       'src/accordion/src/accordion.js'
     ],
-    themems = [
+    themes = [
 
     ];
 
