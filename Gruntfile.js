@@ -9,6 +9,12 @@ module.exports = function(grunt) {
           css: 'dist/x-tag-components.css'
         }
       }
+    },
+    bumpup: ['bower.json', 'package.json'],
+    tagrelease: {
+      file: 'package.json',
+      prefix: '',
+      commit: true
     }
   });
 

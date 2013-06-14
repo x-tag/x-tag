@@ -1,32 +1,13 @@
 {
-  "name": "stub",
+  "name": "x-tag-components-release",
   "description": "",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "keywords": [
     "web-components",
     "x-tag"
   ],
   "main": [],
-
   "dependencies": {
-    "x-tag-core": "*",
-    "x-tag-code-prism": "*",
-    "x-tag-slidebox": "*",
-    "x-tag-shiftbox": "*",
-    "x-tag-growbox": "*",
-    "x-tag-switch": "*",
-    "x-tag-panel": "*",
-    "x-tag-appbar": "*",
-    "x-tag-modal": "*",
-    "x-tag-spinner": "*",
-    "x-tag-accordion": "*",
-    "x-tag-toggle": "*",
-    "x-tag-leaflet-map": "*",
-    "x-tag-mediaquery": "*",
-    "x-tag-template": "*",
-    "x-tag-flipbox": "*",
-    "x-tag-pseudo-queue": "*",
-    "x-tag-dragbox": "*",
-    "x-tag-input": "*"
+    "x-tag-core": "0.7.0"
   }
 }
