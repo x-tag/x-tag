@@ -8,6 +8,19 @@
   ],
   "main": [],
   "dependencies": {
-    "x-tag-core": "0.7.0"
+    "x-tag-accordion": "0.2.0",
+    "x-tag-appbar": "0.2.0",
+    "x-tag-code-prism": "0.2.0",
+    "x-tag-core": "0.7.0",
+    "x-tag-flipbox": "0.2.0",
+    "x-tag-leaflet-map": "0.2.0",
+    "x-tag-mediaquery": "0.2.0",
+    "x-tag-modal": "0.2.0",
+    "x-tag-panel": "0.2.0",
+    "x-tag-shiftbox": "0.2.0",
+    "x-tag-slidebox": "0.2.0",
+    "x-tag-spinner": "0.2.0",
+    "x-tag-switch": "0.2.0",
+    "x-tag-toggle": "0.2.0"
   }
 }
