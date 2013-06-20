@@ -20,7 +20,7 @@ Included Components:
 * x-tag-switch https://github.com/x-tag/switch
 * x-tag-toggle https://github.com/x-tag/toggle
 
-More components are available on [bower](https://github.com/bower/bower).
+More components are available on [Bower](https://github.com/bower/bower).
 
 ```
   $ bower search x-tag
