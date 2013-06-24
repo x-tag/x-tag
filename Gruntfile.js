@@ -20,7 +20,10 @@ module.exports = function(grunt) {
 
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-smush-components');
+  grunt.loadNpmTasks('grunt-bumpup');
+  grunt.loadNpmTasks('grunt-tagrelease');
 
   grunt.registerTask('build', ['smush-components']);
+  grunt.registerTask('bump:patch', ['bumpup:patch', 'tagrelease']);
 
 };
