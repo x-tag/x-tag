@@ -13,8 +13,8 @@ x-switch[disabled] {
 }
 
 x-switch > div {
-	display: table;
 	overflow: hidden;
+    height: 100%;
 }
 
 x-switch > div > div {
