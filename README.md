@@ -12,6 +12,7 @@ Included Components:
 * x-tag-growbox https://github.com/x-tag/growbox
 * x-tag-leaflet-map https://github.com/x-tag/map
 * x-tag-mediaquery https://github.com/x-tag/mediaquery
+* x-tag-mixin-request https://github.com/pennyfx/mixin-request
 * x-tag-modal https://github.com/x-tag/modal
 * x-tag-panel https://github.com/x-tag/panel
 * x-tag-shiftbox https://github.com/x-tag/shiftbox
