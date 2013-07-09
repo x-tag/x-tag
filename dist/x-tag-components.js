@@ -2,6 +2,91 @@
 
 window.Platform = {};
 var logFlags = {};
+
+
+// DOMTokenList polyfill fir IE9
+(function () {
+
+if (typeof window.Element === "undefined" || "classList" in document.documentElement) return;
+
+var prototype = Array.prototype,
+    indexOf = prototype.indexOf,
+    slice = prototype.slice,
+    push = prototype.push,
+    splice = prototype.splice,
+    join = prototype.join;
+
+function DOMTokenList(el) {
+  this._element = el;
+  if (el.className != this._classCache) {
+    this._classCache = el.className;
+
+    if (!this._classCache) return;
+
+      // The className needs to be trimmed and split on whitespace
+      // to retrieve a list of classes.
+      var classes = this._classCache.replace(/^\s+|\s+$/g,'').split(/\s+/),
+        i;
+    for (i = 0; i < classes.length; i++) {
+      push.call(this, classes[i]);
+    }
+  }
+};
+
+function setToClassName(el, classes) {
+  el.className = classes.join(' ');
+}
+
+DOMTokenList.prototype = {
+  add: function(token) {
+    if(this.contains(token)) return;
+    push.call(this, token);
+    setToClassName(this._element, slice.call(this, 0));
+  },
+  contains: function(token) {
+    return indexOf.call(this, token) !== -1;
+  },
+  item: function(index) {
+    return this[index] || null;
+  },
+  remove: function(token) {
+    var i = indexOf.call(this, token);
+     if (i === -1) {
+       return;
+     }
+    splice.call(this, i, 1);
+    setToClassName(this._element, slice.call(this, 0));
+  },
+  toString: function() {
+    return join.call(this, ' ');
+  },
+  toggle: function(token) {
+    if (indexOf.call(this, token) === -1) {
+      this.add(token);
+    } else {
+      this.remove(token);
+    }
+  }
+};
+
+window.DOMTokenList = DOMTokenList;
+
+function defineElementGetter (obj, prop, getter) {
+  if (Object.defineProperty) {
+    Object.defineProperty(obj, prop,{
+      get : getter
+    })
+  } else {
+    obj.__defineGetter__(prop, getter);
+  }
+}
+
+defineElementGetter(Element.prototype, 'classList', function () {
+  return new DOMTokenList(this);
+});
+
+})();
+
 /*
  * Copyright 2012 The Polymer Authors. All rights reserved.
  * Use of this source code is goverened by a BSD-style
@@ -3330,7 +3415,7 @@ xtag.callbacks = {};
     }
     element.setAttribute('src', element.xtag.request.url);
     anchor.href = options.url;
-    if (anchor.hostname == window.location.hostname) {
+    if (~anchor.href.indexOf(window.location.hostname)) {
       request = xtag.merge(new XMLHttpRequest(), request);
       request.onreadystatechange = function(){
         element.setAttribute('data-readystate', request.readyState);
@@ -3728,7 +3813,7 @@ xtag.callbacks = {};
 
 (function(){
 
-  var template =  '<input type="checkbox" />' +
+  var template =  '<input type="hidden" />' +
   '<div>' +
     '<div class="x-switch-text" ontext="ON" offtext="OFF"></div>' +
     '<div><div class="x-switch-knob"><br/></div></div>' +
@@ -3745,7 +3830,8 @@ xtag.callbacks = {};
     return {
       attribute: { name: state + 'text' },
       get: function(){
-        return this.getAttribute(state + 'text') || state;
+        var attrValue = this.getAttribute(state + 'text');
+        return attrValue !== null ? attrValue : state;
       },
       set: function(text){
         xtag.query(this, '[' + state + 'text]').forEach(function(el){
@@ -3758,6 +3844,7 @@ xtag.callbacks = {};
   xtag.register('x-switch', {
     lifecycle: {
       created: function(){
+        this.setAttribute('tabindex', this.getAttribute('tabindex') || 0);
         this.innerHTML = template;
         this.onText = this.onText;
         this.offText = this.offText;
@@ -3771,9 +3858,15 @@ xtag.callbacks = {};
       }
     },
     events:{
-      'change': function(e){
-        e.target.focus();
-        this.checked = this.checked;
+      'tapend:preventable:delegate(div)': function(e){
+        if (!e.currentTarget.disabled){
+          e.currentTarget.checked = !e.currentTarget.checked;
+        }
+      },
+      'keydown:preventable:keypass(32)': function(){
+        if (!this.disabled){
+          this.checked = !this.checked;
+        }
       }
     },
     accessors: {
@@ -3781,12 +3874,12 @@ xtag.callbacks = {};
       offText: textSetter('off'),
       checked: {
         attribute: { boolean: true },
-        get: function(){
-          return this.firstElementChild.checked;
-        },
         set: function(state){
-          this.firstElementChild.checked = state;
+          this.firstElementChild.value = !!state;
         }
+      },
+      disabled: {
+        attribute: { boolean: true, selector: 'input' }
       },
       formName: {
         attribute: { name: 'formname' },
@@ -3801,6 +3894,7 @@ xtag.callbacks = {};
   });
 
 })();
+
 (function(){
 
   function setScope(toggle){
