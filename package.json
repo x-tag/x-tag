@@ -1,6 +1,6 @@
 {
   "name": "x-tag-components-release",
-  "version": "0.9.4",
+  "version": "0.9.5",
   "dependencies": {},
   "devDependencies": {
     "bower": "~1.2.0",
