@@ -1,6 +1,9 @@
-# X-Tag Components
+# X-Tag Components 
+#### V1
 
-Get the latest X-Tag core library and components.
+V1 components made from X-Tag's core library. 
+Currently V2 is working on alpha, hopes are high that V2 components will be here soon.
+If you would like to see some please check for the `V2-Components` branch.
 
 Included Components:
 
