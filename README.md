@@ -1,5 +1,5 @@
-# X-Tag Components 
-#### V1
+# X-Tag Components  
+### V1.5.11
 
 V1 components made from X-Tag's core library. 
 Currently V2 is working on alpha, hopes are high that V2 components will be here soon.
